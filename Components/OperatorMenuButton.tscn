@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/OperatorMenuButton.gd" type="Script" id=1]
+
+[node name="MenuButton" type="MenuButton"]
+margin_left = 148.0
+margin_right = 176.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 25 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

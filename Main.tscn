@@ -1,0 +1,292 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://App.gd" type="Script" id=1]
+[ext_resource path="res://CertaFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Components/DialInfoPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Components/ConfigPanel/ConfigPanel.tscn" type="PackedScene" id=5]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_right = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolbarPanel" type="Panel" parent="MainVBox"]
+margin_right = 1592.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 0, 34 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainVBox/ToolbarPanel"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 2.0
+margin_top = -14.0
+margin_right = -1.99988
+margin_bottom = 16.0
+rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddBranchButton" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_right = 43.0
+margin_bottom = 30.0
+text = "Add"
+
+[node name="LineEdit3" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 47.0
+margin_right = 197.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 150, 0 )
+placeholder_text = "NPC Name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+modulate = Color( 0.396078, 0.396078, 0.396078, 1 )
+margin_left = 201.0
+margin_top = 5.0
+margin_right = 301.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "Auto branch:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit5" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 305.0
+margin_right = 385.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 389.0
+margin_right = 804.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 808.0
+margin_right = 870.0
+margin_bottom = 30.0
+text = "Config"
+
+[node name="PathInput" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 874.0
+margin_right = 1374.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 500, 28 )
+editable = false
+
+[node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1378.0
+margin_right = 1452.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 64, 0 )
+text = "New file"
+
+[node name="OpenBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1456.0
+margin_right = 1520.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 64, 0 )
+text = "Open"
+
+[node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1524.0
+margin_right = 1588.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 64, 0 )
+text = "Save"
+
+[node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
+margin_top = 38.0
+margin_right = 1592.0
+margin_bottom = 866.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BranchesScroll" type="ScrollContainer" parent="MainVBox/MainHBox"]
+margin_right = 794.0
+margin_bottom = 828.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BranchesList" type="VBoxContainer" parent="MainVBox/MainHBox/BranchesScroll"]
+margin_right = 794.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoScroll" type="ScrollContainer" parent="MainVBox/MainHBox"]
+margin_left = 798.0
+margin_right = 1592.0
+margin_bottom = 828.0
+size_flags_horizontal = 3
+scroll_horizontal_enabled = false
+
+[node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/InfoScroll"]
+margin_right = 794.0
+margin_bottom = 828.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" parent="MainVBox/MainHBox/InfoScroll/InfoContainer" instance=ExtResource( 3 )]
+margin_bottom = 254.0
+
+[node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/InfoScroll/InfoContainer/Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = -30.0
+margin_right = 154.0
+margin_bottom = -1.99997
+rect_min_size = Vector2( 150, 28 )
+text = "Add phrase"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/InfoScroll/InfoContainer"]
+margin_top = 258.0
+margin_right = 794.0
+margin_bottom = 828.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="PhrasesVBox" type="VBoxContainer" parent="MainVBox/MainHBox/InfoScroll/InfoContainer/ScrollContainer"]
+margin_right = 794.0
+size_flags_horizontal = 3
+
+[node name="Panel2" type="Panel" parent="MainVBox"]
+margin_top = 870.0
+margin_right = 1592.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/Godot_DialTool"
+current_path = "/Godot/Godot_DialTool/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/Godot_DialTool"
+current_file = "Dialog_new"
+current_path = "/Godot/Godot_DialTool/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/Godot_DialTool"
+current_path = "/Godot/Godot_DialTool/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/Godot_DialTool"
+current_file = "Config_new"
+current_path = "/Godot/Godot_DialTool/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfigPanel" parent="Panel" instance=ExtResource( 5 )]
+margin_left = -540.0
+margin_right = 540.0
+rect_min_size = Vector2( 1080, 600 )
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
+[connection signal="pressed" from="MainVBox/MainHBox/InfoScroll/InfoContainer/Panel/AddPhrase" to="." method="_on_AddPhraseButton_pressed"]
+[connection signal="file_selected" from="OpenDialog" to="." method="_on_OpenDialog_file_selected"]
+[connection signal="file_selected" from="CreateDialog" to="." method="_on_CreateDialog_file_selected"]
+[connection signal="file_selected" from="OpenConfig" to="." method="_on_Config_file_selected"]
+[connection signal="file_selected" from="CreateConfig" to="." method="_on_Config_file_selected"]
+[connection signal="new_config_dialog" from="Panel/ConfigPanel" to="." method="_on_ConfigPanel_new_config_dialog"]
+[connection signal="open_config_dialog" from="Panel/ConfigPanel" to="." method="_on_ConfigPanel_open_config_dialog"]

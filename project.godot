@@ -1,0 +1,63 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Control",
+"class": "AppWin",
+"language": "GDScript",
+"path": "res://App.gd"
+}, {
+"base": "ColorRect",
+"class": "BranchCell",
+"language": "GDScript",
+"path": "res://LineCell.gd"
+}, {
+"base": "TextEdit",
+"class": "ExpandableTextEdit",
+"language": "GDScript",
+"path": "res://Scripts/ExpandableTextEdit.gd"
+}, {
+"base": "Node",
+"class": "UUID",
+"language": "GDScript",
+"path": "res://Scripts/uuid.gd"
+} ]
+_global_script_class_icons={
+"AppWin": "",
+"BranchCell": "",
+"ExpandableTextEdit": "",
+"UUID": ""
+}
+
+[application]
+
+config/name="Godot_DialTool"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+AppInstance="*res://AppInstance.gd"
+
+[display]
+
+window/size/width=1600
+window/size/height=900
+
+[gui]
+
+theme/custom_font="res://CertaFont.tres"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"

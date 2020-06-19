@@ -1,0 +1,885 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Panel
+
+
+# Declare member variables here. Examples:
+var _content: Dictionary
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func update_content(content: Dictionary):
+	_content = content
+	
+	# Upper panel
+	$HBoxContainer/HiddenCheck.pressed = content[\"hidden\"]
+	$HBoxContainer/ClosedCheck.pressed = content[\"closed\"]
+	$HBoxContainer/HideSelfCheck.pressed = content[\"hide_self\"]
+	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
+	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
+	$HBoxContainer/Control/SignalText.text = content[\"extern_signal\"]
+	
+
+	# Hide branches info
+	var arr_len = content[\"hide\"].size() 
+	for ind in range(0,  6):
+		var item = $VBoxContainer2/Panel/VBoxContainer.get_child(ind)
+		if (arr_len > ind):
+			item.text = content[\"hide\"][ind]
+			item.self_modulate.a = 1
+		else:
+			item.text = \"none\"
+			item.self_modulate.a = 0.33
+	
+	# Show branches info
+	arr_len = content[\"show\"].size() 
+	for ind in range(0,  6):
+		var item = $VBoxContainer2/Panel4/VBoxContainer.get_child(ind)
+		if (arr_len > ind):
+			item.text = content[\"show\"][ind]
+			item.self_modulate.a = 1
+		else:
+			item.text = \"none\"
+			item.self_modulate.a = 0.33
+	
+	# Vars info
+	arr_len = content[\"vars\"].size() 
+	for ind in range(0,  5):
+		var item = $VBoxContainer2/Panel2/VBoxContainer2.get_child(ind)
+		if (arr_len > ind):
+			item.get_child(0).text = content[\"vars\"][ind][\"key\"]
+			item.get_child(1).text = content[\"vars\"][ind][\"op\"]
+			item.get_child(2).text = content[\"vars\"][ind][\"value\"]
+		else:
+			item.get_child(0).text = \"\"
+			item.get_child(1).text = \"=\"
+			item.get_child(2).text = \"\"
+	
+	# If info
+	arr_len = content[\"if\"].size() 
+	for ind in range(0,  5):
+		var item = $VBoxContainer2/Panel3/VBoxContainer2.get_child(ind)
+		if (arr_len > ind):
+			item.get_child(0).text = content[\"if\"][ind][\"key\"]
+			item.get_child(1).text = content[\"if\"][ind][\"op\"]
+			item.get_child(2).text = content[\"if\"][ind][\"value\"]
+		else:
+			item.get_child(0).text = \"\"
+			item.get_child(1).text = \"==\"
+			item.get_child(2).text = \"\"
+
+func _on_HiddenCheck_toggled(button_pressed):
+	_content[\"hidden\"] = button_pressed
+
+
+func _on_ClosedCheck_toggled(button_pressed):
+	_content[\"closed\"] = button_pressed
+
+func _on_HideSelfCheck_toggled(button_pressed):
+	_content[\"hide_self\"] = button_pressed
+
+func _on_ChoiceCheckBox_toggled(button_pressed):
+	_content[\"choice\"] = button_pressed
+	
+func _on_OrCheckBox_toggled(button_pressed):
+	_content[\"or_cond\"] = button_pressed
+	
+func _on_SignalText_text_changed(new_text):
+	_content[\"extern_signal\"] = new_text
+
+
+func _on_HideBranch_change_value():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel/VBoxContainer.get_children():
+		if (item.text != \"none\"):
+			arr.append(item.text)
+	_content[\"hide\"] = arr
+	AppInstance.app_win.update_branch_states()
+
+
+func _on_ShowBranch_change_value():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel4/VBoxContainer.get_children():
+		if (item.text != \"none\"):
+			arr.append(item.text)
+	_content[\"show\"] = arr
+	AppInstance.app_win.update_branch_states()
+
+
+func _on_Var_text_changed(new_text):
+	save_vars_info()
+
+func save_vars_info():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel2/VBoxContainer2.get_children():
+		if (item.get_child(0).text != \"\"):
+			arr.append({\"key\": item.get_child(0).text, \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+	_content[\"vars\"] = arr
+
+func _on_if_text_changed(new_text):
+	save_if_info()
+
+func save_if_info():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel3/VBoxContainer2.get_children():
+		if (item.get_child(0).text != \"\"):
+			arr.append({\"key\": item.get_child(0).text, \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+	_content[\"if\"] = arr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends MenuButton
+
+signal change_value
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	get_popup().connect(\"id_pressed\", self, \"_on_item_pressed\")
+
+func _on_item_pressed(id: int):
+	var item_text: String = get_popup().get_item_text(id)
+	if (text != item_text):
+		text = item_text
+		emit_signal(\"change_value\")
+
+	if (id == 0):
+		self_modulate.a = 0.33
+	else:
+		self_modulate.a = 1
+
+func _on_LineEdit_pressed():
+	get_popup().clear()
+	update_popup_list()
+
+func update_popup_list():
+	for item in AppInstance.exist_branches:
+		get_popup().add_item(item)
+"
+
+[node name="Panel" type="Panel"]
+margin_right = 794.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 0, 254 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_left = 2.0
+margin_right = 2.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HiddenCheck" type="CheckBox" parent="HBoxContainer"]
+self_modulate = Color( 0.560784, 0.560784, 0.560784, 1 )
+margin_right = 150.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "Hidden default"
+
+[node name="ClosedCheck" type="CheckBox" parent="HBoxContainer"]
+self_modulate = Color( 0.776471, 0.803922, 0.533333, 1 )
+margin_left = 154.0
+margin_right = 304.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "Closed dialog"
+
+[node name="HideSelfCheck" type="CheckBox" parent="HBoxContainer"]
+self_modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
+margin_left = 308.0
+margin_right = 549.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Hide self"
+
+[node name="Control" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 553.0
+margin_right = 794.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/Control"]
+self_modulate = Color( 0.407843, 0.819608, 0.54902, 1 )
+margin_top = 6.0
+margin_right = 63.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 1 )
+text = "SIGNAL:"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignalText" type="LineEdit" parent="HBoxContainer/Control"]
+margin_left = 67.0
+margin_right = 241.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 120, 28 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+placeholder_text = "Signal name"
+caret_blink = true
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+rect_min_size = Vector2( 0, 190 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer2"]
+self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
+margin_right = 150.0
+margin_bottom = 190.0
+rect_min_size = Vector2( 150, 0 )
+
+[node name="Label" type="Label" parent="VBoxContainer2/Panel"]
+modulate = Color( 0.905882, 0.690196, 0.690196, 1 )
+anchor_right = 1.0
+margin_left = 4.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 1 )
+text = "Hide branches:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel"]
+anchor_right = 1.0
+margin_top = 20.0
+margin_bottom = 116.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HideBranchText1" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_right = 150.0
+margin_bottom = 25.0
+script = SubResource( 2 )
+
+[node name="HideBranchText2" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 29.0
+margin_right = 150.0
+margin_bottom = 54.0
+script = SubResource( 2 )
+
+[node name="HideBranchText3" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 58.0
+margin_right = 150.0
+margin_bottom = 83.0
+script = SubResource( 2 )
+
+[node name="HideBranchText4" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 87.0
+margin_right = 150.0
+margin_bottom = 112.0
+script = SubResource( 2 )
+
+[node name="HideBranchText5" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 116.0
+margin_right = 150.0
+margin_bottom = 141.0
+script = SubResource( 2 )
+
+[node name="HideBranchText6" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 145.0
+margin_right = 150.0
+margin_bottom = 170.0
+script = SubResource( 2 )
+
+[node name="Panel4" type="Panel" parent="VBoxContainer2"]
+self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
+margin_left = 154.0
+margin_right = 304.0
+margin_bottom = 190.0
+rect_min_size = Vector2( 150, 0 )
+
+[node name="Label" type="Label" parent="VBoxContainer2/Panel4"]
+modulate = Color( 0.576471, 0.823529, 0.662745, 1 )
+anchor_right = 1.0
+margin_left = 4.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 1 )
+text = "Show branches:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel4"]
+anchor_right = 1.0
+margin_top = 20.0
+margin_bottom = 116.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowBranchText1" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_right = 150.0
+margin_bottom = 25.0
+script = SubResource( 2 )
+
+[node name="ShowBranchText2" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 29.0
+margin_right = 150.0
+margin_bottom = 54.0
+script = SubResource( 2 )
+
+[node name="ShowBranchText3" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 58.0
+margin_right = 150.0
+margin_bottom = 83.0
+script = SubResource( 2 )
+
+[node name="ShowBranchText4" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 87.0
+margin_right = 150.0
+margin_bottom = 112.0
+script = SubResource( 2 )
+
+[node name="ShowBranchText5" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 116.0
+margin_right = 150.0
+margin_bottom = 141.0
+script = SubResource( 2 )
+
+[node name="ShowBranchText6" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 145.0
+margin_right = 150.0
+margin_bottom = 170.0
+script = SubResource( 2 )
+
+[node name="ChoiceCheckBox" type="CheckBox" parent="VBoxContainer2/Panel4"]
+modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
+margin_top = 194.0
+margin_right = 150.0
+margin_bottom = 221.0
+text = "Show choice"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer2"]
+self_modulate = Color( 0.227451, 0.227451, 0.227451, 1 )
+margin_left = 308.0
+margin_right = 545.0
+margin_bottom = 190.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer2/Panel2"]
+modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
+anchor_right = 1.0
+margin_left = 4.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 1 )
+text = "Change variables:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel2"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = 20.0
+margin_right = -2.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
+margin_right = 117.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "none"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 29.0
+text = "="
+is_compare = false
+
+[node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
+margin_left = 153.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_top = 33.0
+margin_right = 233.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VarKeyText2" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
+margin_right = 117.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "none"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton2" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 29.0
+text = "="
+is_compare = false
+
+[node name="VarValueText2" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
+margin_left = 153.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_top = 66.0
+margin_right = 233.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VarKeyText3" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
+margin_right = 117.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "none"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton3" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 29.0
+text = "="
+is_compare = false
+
+[node name="VarValueText3" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
+margin_left = 153.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_top = 99.0
+margin_right = 233.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VarKeyText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
+margin_right = 117.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "none"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton4" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 29.0
+text = "="
+is_compare = false
+
+[node name="VarValueText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
+margin_left = 153.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_top = 132.0
+margin_right = 233.0
+margin_bottom = 161.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VarKeyText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
+margin_right = 117.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "none"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton5" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 29.0
+text = "="
+is_compare = false
+
+[node name="VarValueText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
+margin_left = 153.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel3" type="Panel" parent="VBoxContainer2"]
+self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
+margin_left = 549.0
+margin_right = 786.0
+margin_bottom = 190.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer2/Panel3"]
+modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
+anchor_right = 1.0
+margin_left = 4.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 1 )
+text = "Check enter conditions:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OrCheckBox" type="CheckBox" parent="VBoxContainer2/Panel3"]
+modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "OR condition"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel3"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = 20.0
+margin_right = -2.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
+margin_right = 127.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "Variable name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 131.0
+margin_right = 159.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
+margin_left = 163.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
+margin_top = 33.0
+margin_right = 233.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
+margin_right = 127.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "Variable name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
+margin_left = 131.0
+margin_right = 159.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
+margin_left = 163.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
+margin_top = 66.0
+margin_right = 233.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
+margin_right = 127.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "Variable name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
+margin_left = 131.0
+margin_right = 159.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
+margin_left = 163.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
+margin_top = 99.0
+margin_right = 233.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
+margin_right = 127.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "Variable name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
+margin_left = 131.0
+margin_right = 159.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
+margin_left = 163.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
+margin_top = 132.0
+margin_right = 233.0
+margin_bottom = 161.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
+margin_right = 127.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+placeholder_text = "Variable name"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
+margin_left = 131.0
+margin_right = 159.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
+margin_left = 163.0
+margin_right = 233.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="toggled" from="HBoxContainer/HiddenCheck" to="." method="_on_HiddenCheck_toggled"]
+[connection signal="toggled" from="HBoxContainer/ClosedCheck" to="." method="_on_ClosedCheck_toggled"]
+[connection signal="toggled" from="HBoxContainer/HideSelfCheck" to="." method="_on_HideSelfCheck_toggled"]
+[connection signal="text_changed" from="HBoxContainer/Control/SignalText" to="." method="_on_SignalText_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText1" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText2" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText3" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText4" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText5" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText6" to="." method="_on_HideBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText1" to="." method="_on_ShowBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText2" to="." method="_on_ShowBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText3" to="." method="_on_ShowBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText4" to="." method="_on_ShowBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText5" to="." method="_on_ShowBranch_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText6" to="." method="_on_ShowBranch_change_value"]
+[connection signal="toggled" from="VBoxContainer2/Panel4/ChoiceCheckBox" to="." method="_on_ChoiceCheckBox_toggled"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/VarKeyText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarKeyText2" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/MenuButton2" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarValueText2" to="." method="_on_Var_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarKeyText3" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/MenuButton3" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarValueText3" to="." method="_on_Var_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarKeyText4" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/MenuButton4" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarValueText4" to="." method="_on_Var_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarKeyText4" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/MenuButton5" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarValueText4" to="." method="_on_Var_text_changed"]
+[connection signal="toggled" from="VBoxContainer2/Panel3/OrCheckBox" to="." method="_on_OrCheckBox_toggled"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_if_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarValueText1" to="." method="_on_if_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/MenuButton" to="." method="save_if_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/CheckVarValueText1" to="." method="_on_if_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/MenuButton" to="." method="save_if_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/CheckVarValueText1" to="." method="_on_if_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/MenuButton" to="." method="save_if_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/CheckVarValueText1" to="." method="_on_if_text_changed"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/MenuButton" to="." method="save_if_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/CheckVarValueText1" to="." method="_on_if_text_changed"]

@@ -1,0 +1,163 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/ConfigPanel.gd" type="Script" id=2]
+
+[node name="Panel" type="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -300.0
+margin_right = 400.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 800, 600 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+rect_min_size = Vector2( 0, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewConfigBtn" type="Button" parent="Control"]
+margin_right = 98.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 1 )
+text = "New config"
+
+[node name="OpenBtn" type="Button" parent="Control"]
+margin_left = 102.0
+margin_right = 155.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 1 )
+text = "Open"
+
+[node name="Control" type="Control" parent="Control"]
+margin_left = 159.0
+margin_right = 756.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+
+[node name="CloseBtn" type="Button" parent="Control"]
+margin_left = 760.0
+margin_right = 792.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 0 )
+text = "X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 50.0
+margin_right = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharactersList" type="ColorRect" parent="HBoxContainer"]
+margin_right = 394.0
+margin_bottom = 550.0
+size_flags_horizontal = 3
+color = Color( 0.0784314, 0.156863, 0.313726, 0.156863 )
+
+[node name="Panel" type="HBoxContainer" parent="HBoxContainer/CharactersList"]
+margin_right = 394.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer/CharactersList/Panel"]
+margin_top = 4.0
+margin_right = 118.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 1 )
+text = "Characters list:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddBtn" type="Button" parent="HBoxContainer/CharactersList/Panel"]
+margin_left = 122.0
+margin_right = 165.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Add"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/CharactersList"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 32.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChanactersVBox" type="VBoxContainer" parent="HBoxContainer/CharactersList/ScrollContainer"]
+margin_right = 394.0
+margin_bottom = 518.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VariablesList" type="ColorRect" parent="HBoxContainer"]
+margin_left = 398.0
+margin_right = 792.0
+margin_bottom = 550.0
+size_flags_horizontal = 3
+color = Color( 0.0784314, 0.313726, 0.156863, 0.156863 )
+
+[node name="Panel" type="HBoxContainer" parent="HBoxContainer/VariablesList"]
+margin_right = 394.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer/VariablesList/Panel"]
+margin_top = 4.0
+margin_right = 104.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 1 )
+text = "Variables list:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
+margin_left = 108.0
+margin_right = 151.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Add"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 32.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VariablesVBox" type="VBoxContainer" parent="HBoxContainer/VariablesList/ScrollContainer"]
+margin_right = 394.0
+margin_bottom = 518.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+[connection signal="pressed" from="Control/NewConfigBtn" to="." method="_on_NewConfigBtn_pressed"]
+[connection signal="pressed" from="Control/OpenBtn" to="." method="_on_OpenBtn_pressed"]
+[connection signal="pressed" from="Control/CloseBtn" to="." method="_on_CloseBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/CharactersList/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddBtn" to="." method="_on_AddVarBtn_pressed"]
