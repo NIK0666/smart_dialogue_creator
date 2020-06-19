@@ -24,6 +24,7 @@ func _on_Button_pressed():
 
 func _on_PhraseText_text_changed(new_text):
 	_content["phrase"] = new_text
+	AppInstance.app_win.change_selected_branch_text(new_text)
 
 func _on_NameText_text_changed(new_text):
 	_content["name"] = new_text

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/VariablesBtn.gd" type="Script" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Panel
@@ -57,11 +58,11 @@ func update_content(content: Dictionary):
 	for ind in range(0,  5):
 		var item = $VBoxContainer2/Panel2/VBoxContainer2.get_child(ind)
 		if (arr_len > ind):
-			item.get_child(0).text = content[\"vars\"][ind][\"key\"]
+			item.get_child(0).set_text(content[\"vars\"][ind][\"key\"])
 			item.get_child(1).text = content[\"vars\"][ind][\"op\"]
 			item.get_child(2).text = content[\"vars\"][ind][\"value\"]
 		else:
-			item.get_child(0).text = \"\"
+			item.get_child(0).set_text(\"\")
 			item.get_child(1).text = \"=\"
 			item.get_child(2).text = \"\"
 	
@@ -70,11 +71,11 @@ func update_content(content: Dictionary):
 	for ind in range(0,  5):
 		var item = $VBoxContainer2/Panel3/VBoxContainer2.get_child(ind)
 		if (arr_len > ind):
-			item.get_child(0).text = content[\"if\"][ind][\"key\"]
+			item.get_child(0).set_text(content[\"if\"][ind][\"key\"])
 			item.get_child(1).text = content[\"if\"][ind][\"op\"]
 			item.get_child(2).text = content[\"if\"][ind][\"value\"]
 		else:
-			item.get_child(0).text = \"\"
+			item.get_child(0).set_text(\"\")
 			item.get_child(1).text = \"==\"
 			item.get_child(2).text = \"\"
 
@@ -122,8 +123,8 @@ func _on_Var_text_changed(new_text):
 func save_vars_info():
 	var arr: Array = []
 	for item in $VBoxContainer2/Panel2/VBoxContainer2.get_children():
-		if (item.get_child(0).text != \"\"):
-			arr.append({\"key\": item.get_child(0).text, \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+		if (item.get_child(0).get_text() != \"\"):
+			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
 	_content[\"vars\"] = arr
 
 func _on_if_text_changed(new_text):
@@ -132,8 +133,8 @@ func _on_if_text_changed(new_text):
 func save_if_info():
 	var arr: Array = []
 	for item in $VBoxContainer2/Panel3/VBoxContainer2.get_children():
-		if (item.get_child(0).text != \"\"):
-			arr.append({\"key\": item.get_child(0).text, \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+		if (item.get_child(0).get_text() != \"\"):
+			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
 	_content[\"if\"] = arr
 
 
@@ -266,16 +267,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="VBoxContainer2"]
+[node name="Panel" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
-margin_right = 150.0
-margin_bottom = 190.0
-rect_min_size = Vector2( 150, 0 )
+margin_right = 125.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 125, 0 )
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel"]
 modulate = Color( 0.905882, 0.690196, 0.690196, 1 )
-anchor_right = 1.0
-margin_left = 4.0
+margin_right = 125.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "Hide branches:"
@@ -284,59 +284,64 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel"]
-anchor_right = 1.0
-margin_top = 20.0
-margin_bottom = 116.0
+margin_top = 23.0
+margin_right = 125.0
+margin_bottom = 193.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HideBranchText1" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 25.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
 [node name="HideBranchText2" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 29.0
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 54.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
 [node name="HideBranchText3" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 58.0
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 83.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
 [node name="HideBranchText4" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 87.0
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 112.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
 [node name="HideBranchText5" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 116.0
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 141.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
 [node name="HideBranchText6" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 145.0
-margin_right = 150.0
+margin_right = 125.0
 margin_bottom = 170.0
+custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 script = SubResource( 2 )
 
-[node name="Panel4" type="Panel" parent="VBoxContainer2"]
+[node name="Panel4" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
-margin_left = 154.0
-margin_right = 304.0
-margin_bottom = 190.0
-rect_min_size = Vector2( 150, 0 )
+margin_left = 129.0
+margin_right = 257.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.576471, 0.823529, 0.662745, 1 )
-anchor_right = 1.0
-margin_left = 4.0
+margin_right = 128.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "Show branches:"
@@ -345,69 +350,74 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel4"]
-anchor_right = 1.0
-margin_top = 20.0
-margin_bottom = 116.0
+margin_top = 23.0
+margin_right = 128.0
+margin_bottom = 193.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ShowBranchText1" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 25.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ShowBranchText2" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 29.0
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 54.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ShowBranchText3" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 58.0
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 83.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ShowBranchText4" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 87.0
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 112.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ShowBranchText5" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 116.0
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 141.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ShowBranchText6" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 145.0
-margin_right = 150.0
+margin_right = 128.0
 margin_bottom = 170.0
+custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 script = SubResource( 2 )
 
 [node name="ChoiceCheckBox" type="CheckBox" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
-margin_top = 194.0
-margin_right = 150.0
-margin_bottom = 221.0
+margin_top = 197.0
+margin_right = 128.0
+margin_bottom = 224.0
 text = "Show choice"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="VBoxContainer2"]
+[node name="Panel2" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.227451, 0.227451, 0.227451, 1 )
-margin_left = 308.0
-margin_right = 545.0
-margin_bottom = 190.0
+margin_left = 261.0
+margin_right = 521.0
+margin_bottom = 224.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel2"]
 modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
-anchor_right = 1.0
-margin_left = 4.0
+margin_right = 260.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "Change variables:"
@@ -416,44 +426,39 @@ __meta__ = {
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel2"]
-anchor_right = 1.0
-margin_left = 2.0
-margin_top = 20.0
-margin_right = -2.0
-margin_bottom = 24.0
+margin_top = 23.0
+margin_right = 260.0
+margin_bottom = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
-margin_right = 233.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
-size_flags_horizontal = 3
+size_flags_horizontal = 9
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
-margin_right = 117.0
+[node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
+margin_right = 144.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "none"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+placeholder = "[Set var]"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 121.0
-margin_right = 149.0
 margin_bottom = 29.0
 text = "="
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
-margin_left = 153.0
-margin_right = 233.0
+margin_left = 180.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "Value"
@@ -464,34 +469,31 @@ __meta__ = {
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 33.0
-margin_right = 233.0
+margin_right = 260.0
 margin_bottom = 62.0
 rect_min_size = Vector2( 0, 24 )
-size_flags_horizontal = 3
+size_flags_horizontal = 9
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VarKeyText2" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
-margin_right = 117.0
+[node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
+margin_right = 144.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "none"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+placeholder = "[Set var]"
 
-[node name="MenuButton2" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
-margin_left = 121.0
-margin_right = 149.0
+[node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
 margin_bottom = 29.0
 text = "="
 is_compare = false
 
-[node name="VarValueText2" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
-margin_left = 153.0
-margin_right = 233.0
+[node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
+margin_left = 180.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "Value"
@@ -502,34 +504,30 @@ __meta__ = {
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 66.0
-margin_right = 233.0
+margin_right = 260.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 24 )
-size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VarKeyText3" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
-margin_right = 117.0
+[node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
+margin_right = 144.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "none"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+placeholder = "[Set var]"
 
-[node name="MenuButton3" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
-margin_left = 121.0
-margin_right = 149.0
+[node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
 margin_bottom = 29.0
 text = "="
 is_compare = false
 
-[node name="VarValueText3" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
-margin_left = 153.0
-margin_right = 233.0
+[node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
+margin_left = 180.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "Value"
@@ -540,34 +538,30 @@ __meta__ = {
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 99.0
-margin_right = 233.0
+margin_right = 260.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 0, 24 )
-size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VarKeyText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
-margin_right = 117.0
+[node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
+margin_right = 144.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "none"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+placeholder = "[Set var]"
 
-[node name="MenuButton4" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
-margin_left = 121.0
-margin_right = 149.0
+[node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
 margin_bottom = 29.0
 text = "="
 is_compare = false
 
-[node name="VarValueText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
-margin_left = 153.0
-margin_right = 233.0
+[node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
+margin_left = 180.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "Value"
@@ -578,34 +572,30 @@ __meta__ = {
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 132.0
-margin_right = 233.0
+margin_right = 260.0
 margin_bottom = 161.0
 rect_min_size = Vector2( 0, 24 )
-size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VarKeyText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
-margin_right = 117.0
+[node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
+margin_right = 144.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "none"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+placeholder = "[Set var]"
 
-[node name="MenuButton5" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
-margin_left = 121.0
-margin_right = 149.0
+[node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
 margin_bottom = 29.0
 text = "="
 is_compare = false
 
-[node name="VarValueText4" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
-margin_left = 153.0
-margin_right = 233.0
+[node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
+margin_left = 180.0
+margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "Value"
@@ -614,17 +604,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel3" type="Panel" parent="VBoxContainer2"]
+[node name="Panel3" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
-margin_left = 549.0
+margin_left = 525.0
 margin_right = 786.0
-margin_bottom = 190.0
+margin_bottom = 224.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel3"]
 modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
-anchor_right = 1.0
-margin_left = 4.0
+margin_right = 261.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "Check enter conditions:"
@@ -632,28 +621,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OrCheckBox" type="CheckBox" parent="VBoxContainer2/Panel3"]
-modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "OR condition"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel3"]
-anchor_right = 1.0
-margin_left = 2.0
-margin_top = 20.0
-margin_right = -2.0
-margin_bottom = 24.0
+margin_top = 23.0
+margin_right = 261.0
+margin_bottom = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
-margin_right = 233.0
+margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -661,25 +638,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
-margin_right = 127.0
+[node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
+margin_right = 155.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Variable name"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 131.0
-margin_right = 159.0
+margin_left = 159.0
+margin_right = 187.0
 margin_bottom = 29.0
 text = "=="
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
-margin_left = 163.0
-margin_right = 233.0
+margin_left = 191.0
+margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "Value"
@@ -690,7 +665,7 @@ __meta__ = {
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 33.0
-margin_right = 233.0
+margin_right = 261.0
 margin_bottom = 62.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -698,25 +673,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
-margin_right = 127.0
+[node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
+margin_right = 155.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Variable name"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
-margin_left = 131.0
-margin_right = 159.0
+margin_left = 159.0
+margin_right = 187.0
 margin_bottom = 29.0
 text = "=="
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
-margin_left = 163.0
-margin_right = 233.0
+margin_left = 191.0
+margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "Value"
@@ -727,7 +700,7 @@ __meta__ = {
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 66.0
-margin_right = 233.0
+margin_right = 261.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -735,25 +708,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
-margin_right = 127.0
+[node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
+margin_right = 155.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Variable name"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
-margin_left = 131.0
-margin_right = 159.0
+margin_left = 159.0
+margin_right = 187.0
 margin_bottom = 29.0
 text = "=="
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
-margin_left = 163.0
-margin_right = 233.0
+margin_left = 191.0
+margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "Value"
@@ -764,7 +735,7 @@ __meta__ = {
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 99.0
-margin_right = 233.0
+margin_right = 261.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -772,25 +743,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
-margin_right = 127.0
+[node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
+margin_right = 155.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Variable name"
-placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+clip_text = true
+align = 0
+script = ExtResource( 4 )
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
-margin_left = 131.0
-margin_right = 159.0
+margin_left = 159.0
+margin_right = 187.0
 margin_bottom = 29.0
 text = "=="
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
-margin_left = 163.0
-margin_right = 233.0
+margin_left = 191.0
+margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "Value"
@@ -801,7 +770,7 @@ __meta__ = {
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 132.0
-margin_right = 233.0
+margin_right = 261.0
 margin_bottom = 161.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -809,29 +778,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckVarKeyText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
-margin_right = 127.0
+[node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
+margin_right = 155.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Variable name"
+clip_text = true
+align = 0
+script = ExtResource( 4 )
+
+[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
+margin_left = 159.0
+margin_right = 187.0
+margin_bottom = 29.0
+text = "=="
+
+[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
+margin_left = 191.0
+margin_right = 261.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 60, 0 )
+placeholder_text = "Value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
-margin_left = 131.0
-margin_right = 159.0
-margin_bottom = 29.0
-text = "=="
-
-[node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
-margin_left = 163.0
-margin_right = 233.0
-margin_bottom = 29.0
-rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
-placeholder_alpha = 0.33
+[node name="OrCheckBox" type="CheckBox" parent="VBoxContainer2/Panel3"]
+modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
+margin_top = 188.0
+margin_right = 261.0
+margin_bottom = 215.0
+text = "OR condition"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -852,34 +829,34 @@ __meta__ = {
 [connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText5" to="." method="_on_ShowBranch_change_value"]
 [connection signal="change_value" from="VBoxContainer2/Panel4/VBoxContainer/ShowBranchText6" to="." method="_on_ShowBranch_change_value"]
 [connection signal="toggled" from="VBoxContainer2/Panel4/ChoiceCheckBox" to="." method="_on_ChoiceCheckBox_toggled"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/VarKeyText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/VarKeyText" to="." method="save_vars_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_vars_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer/VarValueText1" to="." method="_on_Var_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarKeyText2" to="." method="_on_Var_text_changed"]
-[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/MenuButton2" to="." method="save_vars_info"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarValueText2" to="." method="_on_Var_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarKeyText3" to="." method="_on_Var_text_changed"]
-[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/MenuButton3" to="." method="save_vars_info"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarValueText3" to="." method="_on_Var_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarKeyText4" to="." method="_on_Var_text_changed"]
-[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/MenuButton4" to="." method="save_vars_info"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarValueText4" to="." method="_on_Var_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarKeyText4" to="." method="_on_Var_text_changed"]
-[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/MenuButton5" to="." method="save_vars_info"]
-[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarValueText4" to="." method="_on_Var_text_changed"]
-[connection signal="toggled" from="VBoxContainer2/Panel3/OrCheckBox" to="." method="_on_OrCheckBox_toggled"]
-[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarKeyText" to="." method="save_vars_info"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/MenuButton" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarKeyText" to="." method="save_vars_info"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/MenuButton" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarKeyText" to="." method="save_vars_info"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/MenuButton" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarKeyText" to="." method="save_vars_info"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/MenuButton" to="." method="save_vars_info"]
+[connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarValueText1" to="." method="_on_if_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2/CheckVarValueText1" to="." method="_on_if_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3/CheckVarValueText1" to="." method="_on_if_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4/CheckVarValueText1" to="." method="_on_if_text_changed"]
-[connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/CheckVarKeyText1" to="." method="_on_if_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5/CheckVarValueText1" to="." method="_on_if_text_changed"]
+[connection signal="toggled" from="VBoxContainer2/Panel3/OrCheckBox" to="." method="_on_OrCheckBox_toggled"]

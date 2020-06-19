@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/ExpandableTextEdit.gd" type="Script" id=1]
 [ext_resource path="res://Resources/ArrowUp.png" type="Texture" id=2]
 [ext_resource path="res://Resources/ArrowDown.png" type="Texture" id=3]
 [ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/CharactersBtn.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/VariablesBtn.gd" type="Script" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends VBoxContainer
@@ -15,27 +17,26 @@ func _ready():
 
 func update_content(content: Dictionary):
 	_content = content
-	$HBoxContainer/NPCNameText.text = content[\"npc\"]
+	$HBoxContainer/NPCNameText.set_text(content[\"npc\"])
 	$HBoxContainer/AnimationText.text = content[\"anim\"]
 	$PhraseText.text = content[\"text\"]
 	$PhraseText._on_TextEdit_text_changed()
 	
 	if (_content[\"if\"].empty()):
-		$HBoxContainer/Control/VarCondText.text = \"\"
+		$HBoxContainer/Control/VarCondText.set_text(\"\")
 		$HBoxContainer/Control/OpCondText.text = \"==\"
 		$HBoxContainer/Control/ValCondText.text = \"\"
 		$HBoxContainer/Control/ElseCheckBox.pressed = false
 		$HBoxContainer/Control/ElseCheckBox.disabled = true
 	else:
-		$HBoxContainer/Control/VarCondText.text = content[\"if\"][\"key\"]
+		$HBoxContainer/Control/VarCondText.set_text(content[\"if\"][\"key\"])
 		$HBoxContainer/Control/OpCondText.text = content[\"if\"][\"op\"]
 		$HBoxContainer/Control/ValCondText.text = content[\"if\"][\"val\"]
 		$HBoxContainer/Control/ElseCheckBox.pressed = content[\"if\"][\"else\"]
 		$HBoxContainer/Control/ElseCheckBox.disabled = false
 
-func _on_NPCNameText_text_changed(new_text):
-	_content[\"npc\"] = new_text
-
+func _on_NPCNameText_change_value():
+	_content[\"npc\"] = $HBoxContainer/NPCNameText.get_text()
 
 func _on_AnimationText_text_changed(new_text):
 	_content[\"anim\"] = new_text
@@ -47,11 +48,11 @@ func _on_ElseCheckBox_toggled(button_pressed):
 	save_cond_info()
 
 func save_cond_info():
-	var is_set: bool = !($HBoxContainer/Control/VarCondText.text.empty() && $HBoxContainer/Control/VarCondText.text.empty())
+	var is_set: bool = !($HBoxContainer/Control/VarCondText.get_text().empty() && $HBoxContainer/Control/VarCondText.get_text().empty())
 	$HBoxContainer/Control/ElseCheckBox.disabled = !is_set
 	if (is_set):
 		_content[\"if\"] = {
-			\"key\": $HBoxContainer/Control/VarCondText.text,
+			\"key\": $HBoxContainer/Control/VarCondText.get_text(),
 			\"op\": $HBoxContainer/Control/OpCondText.text,
 			\"val\": $HBoxContainer/Control/ValCondText.text,
 			\"else\": $HBoxContainer/Control/ElseCheckBox.pressed
@@ -88,50 +89,52 @@ func _on_UpBtn_pressed():
 
 
 
+
+
+
 "
 
 [node name="VBoxContainer" type="VBoxContainer"]
-margin_right = 794.0
-margin_bottom = 58.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 794.0
+margin_right = 613.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 
-[node name="NPCNameText" type="LineEdit" parent="HBoxContainer"]
-margin_right = 200.0
+[node name="NPCNameText" type="MenuButton" parent="HBoxContainer"]
+margin_right = 120.0
 margin_bottom = 29.0
-rect_min_size = Vector2( 200, 0 )
-placeholder_text = "NPC Name"
-placeholder_alpha = 0.33
+rect_min_size = Vector2( 120, 0 )
+align = 0
+script = ExtResource( 5 )
 
 [node name="AnimationText" type="LineEdit" parent="HBoxContainer"]
-margin_left = 204.0
-margin_right = 404.0
+margin_left = 124.0
+margin_right = 224.0
 margin_bottom = 29.0
-rect_min_size = Vector2( 200, 0 )
+rect_min_size = Vector2( 100, 0 )
 placeholder_text = "Animation"
 placeholder_alpha = 0.33
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 408.0
-margin_right = 677.0
+margin_left = 228.0
+margin_right = 497.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 250, 0 )
 size_flags_horizontal = 3
 
-[node name="VarCondText" type="LineEdit" parent="HBoxContainer/Control"]
+[node name="VarCondText" type="MenuButton" parent="HBoxContainer/Control"]
 margin_right = 100.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
-placeholder_text = "Var name"
-placeholder_alpha = 0.33
+script = ExtResource( 6 )
 
 [node name="OpCondText" parent="HBoxContainer/Control" instance=ExtResource( 4 )]
 margin_left = 104.0
@@ -155,22 +158,22 @@ disabled = true
 text = "else"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]
-margin_left = 681.0
-margin_right = 682.0
+margin_left = 501.0
+margin_right = 501.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 
 [node name="UpBtn" type="Button" parent="HBoxContainer"]
-margin_left = 686.0
-margin_right = 713.0
+margin_left = 505.0
+margin_right = 532.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 27, 0 )
 icon = ExtResource( 2 )
 expand_icon = true
 
 [node name="DownBtn" type="Button" parent="HBoxContainer"]
-margin_left = 717.0
-margin_right = 744.0
+margin_left = 536.0
+margin_right = 563.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 27, 0 )
 text = "▲"
@@ -178,28 +181,29 @@ icon = ExtResource( 3 )
 expand_icon = true
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
-margin_left = 748.0
-margin_right = 758.0
+margin_left = 567.0
+margin_right = 577.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="DelBtn" type="Button" parent="HBoxContainer"]
-margin_left = 762.0
-margin_right = 794.0
+margin_left = 581.0
+margin_right = 613.0
 margin_bottom = 29.0
 text = " X "
 
 [node name="PhraseText" type="TextEdit" parent="."]
 margin_top = 33.0
-margin_right = 794.0
+margin_right = 613.0
 margin_bottom = 61.0
 rect_min_size = Vector2( 0, 28 )
+size_flags_horizontal = 3
 wrap_enabled = true
 script = ExtResource( 1 )
 min_line = 1
-[connection signal="text_changed" from="HBoxContainer/NPCNameText" to="." method="_on_NPCNameText_text_changed"]
+[connection signal="change_value" from="HBoxContainer/NPCNameText" to="." method="_on_NPCNameText_change_value"]
 [connection signal="text_changed" from="HBoxContainer/AnimationText" to="." method="_on_AnimationText_text_changed"]
-[connection signal="text_changed" from="HBoxContainer/Control/VarCondText" to="." method="_on_CondText_text_changed"]
+[connection signal="change_value" from="HBoxContainer/Control/VarCondText" to="." method="save_cond_info"]
 [connection signal="change_value" from="HBoxContainer/Control/OpCondText" to="." method="save_cond_info"]
 [connection signal="text_changed" from="HBoxContainer/Control/ValCondText" to="." method="_on_CondText_text_changed"]
 [connection signal="toggled" from="HBoxContainer/Control/ElseCheckBox" to="." method="_on_ElseCheckBox_toggled"]

@@ -23,7 +23,7 @@ func alert(text: String, title: String='Message') -> void:
 	dialog.dialog_text = text
 	dialog.window_title = title
 	dialog.connect('modal_closed', dialog, 'queue_free')
-	add_child(dialog)
+	app_win.add_child(dialog)
 	dialog.popup_centered()
 
 
@@ -63,6 +63,18 @@ func load_json(path: String):
 	else:
 		return null 
 
+func get_character_name(id: String) -> String:
+	for item in config["characters"]:
+		if id == item["id"]:
+			return item["name"]
+	return ""
+
+func get_character_id(name: String) -> String:
+	for item in config["characters"]:
+		if name == item["name"]:
+			return item["id"]
+	return ""
+
 func create_empty_dialog(path: String):
 	var file = File.new()
 	file.open(path, File.WRITE)
@@ -72,11 +84,11 @@ func create_empty_dialog(path: String):
 
 func change_setting(name: String, value):
 	settings.set_value("settings", name, value)
-	settings.save("user://settings.cfg")
+	settings.save("res://settings.cfg")
 
 func load_settings():
 	settings = ConfigFile.new()
-	var err = settings.load("user://settings.cfg")
+	var err = settings.load("res://settings.cfg")
 	if (settings.get_value("settings", "config") == null):
 		change_setting("config", "res://Default.config")
 		change_setting("last_path", "res://")
@@ -87,7 +99,7 @@ func load_config():
 	if (dict == null):
 		var file = File.new()
 		file.open(settings.get_value("settings", "config"), File.WRITE)
-		config = {"characters": [], "variables": []}
+		config = {"characters": [], "variables": [], "hero": ""}
 		var saved_json = JSON.print(config)
 		file.store_string(saved_json)
 		file.close()

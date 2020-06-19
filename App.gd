@@ -4,23 +4,29 @@ class_name AppWin
 
 onready var dialogs_list: VBoxContainer = $MainVBox/MainHBox/BranchesScroll/BranchesList
 onready var path_input: LineEdit = $MainVBox/ToolbarPanel/HBoxContainer/PathInput
-onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/InfoScroll
-onready var info_panel: Panel = $MainVBox/MainHBox/InfoScroll/InfoContainer/Panel
-onready var info_container: ScrollContainer = $MainVBox/MainHBox/InfoScroll
+onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
+onready var info_panel: Panel = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel
+onready var info_container: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var branches_scroll: ScrollContainer = $MainVBox/MainHBox/BranchesScroll
-onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/InfoScroll/InfoContainer/ScrollContainer/PhrasesVBox
+onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer/PhrasesVBox
 
 var BranchCell = preload("res://Components/BranchCell.tscn")
 var PhraseCell = preload("res://Components/DialPhraseCell.tscn")
 
 func _ready():
+	randomize()
 	info_container.visible = false
 	branches_scroll.visible = false
 	AppInstance.app_win = self
 	
 	AppInstance.load_settings()
 	AppInstance.load_config()
-	randomize()
+	
+	var last_file_path = AppInstance.settings.get_value("settings", "last_file")
+	var open_recent = AppInstance.load_json(last_file_path)
+	if (open_recent):
+		AppInstance.current_npc = open_recent
+		init_form(last_file_path)
 
 
 func _on_OpenDialog_file_selected(path):
@@ -120,7 +126,9 @@ func _on_AddPhraseButton_pressed():
 	AppInstance.selected_branch.get_content()["dialog"].append(new_dict)
 	cell.update_content(new_dict)
 
-
+func change_selected_branch_text(value: String):
+	var node_content: Dictionary = AppInstance.selected_branch.get_content()
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (value != "" && node_content["dialog"].empty())
 
 func change_selected(node: BranchCell):
 	
@@ -141,6 +149,8 @@ func change_selected(node: BranchCell):
 		cell.update_content(item)
 	
 	update_branch_states()
+	
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (node_content["phrase"] != "" && node_content["dialog"].empty())
 	
 func get_branch_cell(phrase_id: String) -> BranchCell:
 	for item in dialogs_list.get_children():
@@ -202,3 +212,19 @@ func _on_Config_file_selected(path):
 	AppInstance.load_config()
 	$Panel/ConfigPanel.load_data()
 
+
+
+func _on_AddFirst_pressed():
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = false
+	
+	var node_content: Dictionary = AppInstance.selected_branch.get_content()
+	var cell = PhraseCell.instance()
+	phrases_list.add_child(cell)
+	var new_dict: Dictionary = {
+		"text": node_content["phrase"],
+		"npc": AppInstance.config["hero"],
+		"anim": "",
+		"if": {}
+		}
+	node_content["dialog"].append(new_dict)
+	cell.update_content(new_dict)

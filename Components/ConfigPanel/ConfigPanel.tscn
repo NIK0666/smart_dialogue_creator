@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/ConfigPanel.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/CharactersBtn.gd" type="Script" id=3]
 
 [node name="Panel" type="Panel"]
 anchor_left = 0.5
@@ -95,6 +96,15 @@ margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "Add"
 
+[node name="HeroBtn" type="MenuButton" parent="HBoxContainer/CharactersList/Panel"]
+margin_left = 169.0
+margin_right = 269.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 100, 0 )
+align = 0
+script = ExtResource( 3 )
+placeholder = "[Main Hero]"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/CharactersList"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -160,4 +170,5 @@ size_flags_vertical = 3
 [connection signal="pressed" from="Control/OpenBtn" to="." method="_on_OpenBtn_pressed"]
 [connection signal="pressed" from="Control/CloseBtn" to="." method="_on_CloseBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/CharactersList/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
+[connection signal="change_value" from="HBoxContainer/CharactersList/Panel/HeroBtn" to="." method="_on_HeroBtn_change_value"]
 [connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddBtn" to="." method="_on_AddVarBtn_pressed"]

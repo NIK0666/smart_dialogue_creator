@@ -2,6 +2,7 @@ extends Panel
 
 onready var chars_list = $HBoxContainer/CharactersList/ScrollContainer/ChanactersVBox
 onready var vars_list = $HBoxContainer/VariablesList/ScrollContainer/VariablesVBox
+onready var hero_btn = $HBoxContainer/CharactersList/Panel/HeroBtn
 
 var CharCell = preload("res://Components/ConfigPanel/CharacterCell.tscn")
 var VarCell = preload("res://Components/ConfigPanel/VariableCell.tscn")
@@ -41,6 +42,8 @@ func load_data():
 		var cell = VarCell.instance()
 		cell.update_content(item)
 		vars_list.add_child(cell)
+	
+	hero_btn.set_text(AppInstance.get_character_name(AppInstance.config["hero"]))
 
 func show():
 	get_parent().visible = true
@@ -76,3 +79,7 @@ func _on_NewConfigBtn_pressed():
 func _on_OpenBtn_pressed():
 	save_file()
 	emit_signal("open_config_dialog")
+
+
+func _on_HeroBtn_change_value():
+	AppInstance.config["hero"] = hero_btn._content["id"]
