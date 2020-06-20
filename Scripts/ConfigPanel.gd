@@ -43,7 +43,7 @@ func load_data():
 		cell.update_content(item)
 		vars_list.add_child(cell)
 	
-	hero_btn.set_text(AppInstance.get_character_name(AppInstance.config["hero"]))
+	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["hero"]))
 
 func show():
 	get_parent().visible = true

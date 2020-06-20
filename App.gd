@@ -46,9 +46,16 @@ func _on_CreateDialog_file_selected(path):
 func init_form(path: String):
 	path_input.text = path
 	branches_scroll.visible = true
-
+	AppInstance.select_branch(null)
+	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.set_text("")
+	$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text("")
 	for item in dialogs_list.get_children():
 		dialogs_list.remove_child(item)
+	
+	if (AppInstance.current_npc.get("character")):
+		$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.current_npc["character"]))
+	if (AppInstance.current_npc.get("autobranch")):
+		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.current_npc["autobranch"])
 	
 	var content: Array = AppInstance.current_npc["dialogues"]
 	for ind in range(content.size()):
@@ -98,6 +105,7 @@ func _on_AddBranchButton_pressed():
 	var new_dict: Dictionary = {
 		"name": generate_name(), 
 		"phrase": "", 
+		"text_id": UUID.v4(),
 		"hidden": false, 
 		"closed": false,
 		"hide_self": true,
@@ -108,6 +116,7 @@ func _on_AddBranchButton_pressed():
 		"hide": [],
 		"vars": [],
 		"if": [],
+		"change_started": "", 
 		"dialog": []}
 	AppInstance.current_npc["dialogues"].append(new_dict)
 	cell.update_content(new_dict)
@@ -119,7 +128,8 @@ func _on_AddPhraseButton_pressed():
 	phrases_list.add_child(cell)
 	var new_dict: Dictionary = {
 		"text": "",
-		"npc": "", 
+		"text_id": UUID.v4(),
+		"npc": AppInstance.current_npc["character"], 
 		"anim": "",
 		"if": {}
 		}
@@ -139,7 +149,6 @@ func change_selected(node: BranchCell):
 	var node_content: Dictionary = node.get_content()
 	info_container.visible = true
 	info_panel.update_content(node_content)
-	
 	for item in phrases_list.get_children():
 		phrases_list.remove_child(item)
 	
@@ -228,3 +237,10 @@ func _on_AddFirst_pressed():
 		}
 	node_content["dialog"].append(new_dict)
 	cell.update_content(new_dict)
+
+
+func _on_CharacterBtn_change_value():
+	AppInstance.current_npc["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
+
+func _on_AutobranchBtn_change_value():
+	AppInstance.current_npc["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()

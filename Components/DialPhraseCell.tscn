@@ -17,7 +17,7 @@ func _ready():
 
 func update_content(content: Dictionary):
 	_content = content
-	$HBoxContainer/NPCNameText.set_text(content[\"npc\"])
+	$HBoxContainer/NPCNameText.update_content(AppInstance.get_character_info(content[\"npc\"]))
 	$HBoxContainer/AnimationText.text = content[\"anim\"]
 	$PhraseText.text = content[\"text\"]
 	$PhraseText._on_TextEdit_text_changed()
@@ -36,7 +36,7 @@ func update_content(content: Dictionary):
 		$HBoxContainer/Control/ElseCheckBox.disabled = false
 
 func _on_NPCNameText_change_value():
-	_content[\"npc\"] = $HBoxContainer/NPCNameText.get_text()
+	_content[\"npc\"] = $HBoxContainer/NPCNameText.get_id()
 
 func _on_AnimationText_text_changed(new_text):
 	_content[\"anim\"] = new_text
@@ -71,20 +71,24 @@ func _on_DelBtn_pressed():
 
 func _on_DownBtn_pressed():
 	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
-	if (branch_content.size() > get_index() + 1):
-		branch_content[\"dialog\"].remove(get_index())
-		branch_content[\"dialog\"].insert(get_index() + 1, _content)
-		get_parent().move_child(self, 1)
-
+	var ind = get_index()
+	if (branch_content[\"dialog\"].size() > ind + 1):
+		branch_content[\"dialog\"].remove(ind)
+		branch_content[\"dialog\"].insert(ind + 1, _content)
+		var next_cell = AppInstance.app_win.phrases_list.get_child(ind + 1)
+		next_cell.update_content(branch_content[\"dialog\"][ind + 1])
+		update_content(branch_content[\"dialog\"][ind])
 
 func _on_UpBtn_pressed():
 	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
-	if (get_index() > 0):
-		print(get_index())
-		get_parent().move_child(get_parent().get_child(get_index() - 1), 1)
-		print(get_index())
-		branch_content[\"dialog\"].remove(get_index() + 1)
-		branch_content[\"dialog\"].insert(get_index(), _content)
+	var ind = get_index()
+	if (ind > 0):
+		branch_content[\"dialog\"].remove(ind)
+		branch_content[\"dialog\"].insert(ind - 1, _content)
+		var prev_cell = AppInstance.app_win.phrases_list.get_child(ind - 1)
+		prev_cell.update_content(branch_content[\"dialog\"][ind - 1])
+		update_content(branch_content[\"dialog\"][ind])
+
 		
 
 

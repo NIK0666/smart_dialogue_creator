@@ -50,7 +50,7 @@ margin_right = 43.0
 margin_bottom = 30.0
 text = "Add"
 
-[node name="LineEdit3" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+[node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 47.0
 margin_right = 127.0
 margin_bottom = 30.0
@@ -59,7 +59,7 @@ align = 0
 script = ExtResource( 6 )
 placeholder = "[Character dialogue]"
 
-[node name="LineEdit5" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 4 )]
+[node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 4 )]
 margin_left = 131.0
 margin_right = 211.0
 margin_bottom = 30.0
@@ -126,6 +126,7 @@ __meta__ = {
 [node name="BranchesList" type="VBoxContainer" parent="MainVBox/MainHBox/BranchesScroll"]
 margin_right = 714.0
 size_flags_horizontal = 3
+custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -291,6 +292,8 @@ margin_left = -540.0
 margin_right = 540.0
 rect_min_size = Vector2( 1080, 600 )
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]

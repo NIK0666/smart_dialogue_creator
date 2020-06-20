@@ -2,7 +2,7 @@ extends Node
 
 var compares: Array = ["==", "!=", ">=", "<=", ">", "<"]
 var operators: Array = ["=", "+", "-", "*", "/"]
-var exist_branches: Array = ["none"]
+var exist_branches: Array = []
 var colors: Dictionary = {
 	"Default": Color("2c2a32"),
 	"Selected": Color("00cdcf"),
@@ -28,7 +28,7 @@ func alert(text: String, title: String='Message') -> void:
 
 
 func update_branches():
-	exist_branches = ["none"]
+	exist_branches = []
 	for dict in current_npc["dialogues"]:
 		exist_branches.append(dict["name"])
 
@@ -63,11 +63,11 @@ func load_json(path: String):
 	else:
 		return null 
 
-func get_character_name(id: String) -> String:
+func get_character_info(id: String) -> Dictionary:
 	for item in config["characters"]:
 		if id == item["id"]:
-			return item["name"]
-	return ""
+			return item
+	return {}
 
 func get_character_id(name: String) -> String:
 	for item in config["characters"]:
@@ -78,7 +78,7 @@ func get_character_id(name: String) -> String:
 func create_empty_dialog(path: String):
 	var file = File.new()
 	file.open(path, File.WRITE)
-	var saved_json = JSON.print({"name": "", "autodialog": null, "dialogues": []})
+	var saved_json = JSON.print({"character": "", "autobranch": "", "dialogues": []})
 	file.store_string(saved_json)
 	file.close()
 

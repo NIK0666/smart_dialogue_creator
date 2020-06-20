@@ -4,6 +4,7 @@
 [ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/VariablesBtn.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/SelectBranchMenuButton.gd" type="Script" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Panel
@@ -29,7 +30,7 @@ func update_content(content: Dictionary):
 	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
 	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
 	$HBoxContainer/Control/SignalText.text = content[\"extern_signal\"]
-	
+	$VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn.set_text(content[\"change_started\"])
 
 	# Hide branches info
 	var arr_len = content[\"hide\"].size() 
@@ -39,7 +40,7 @@ func update_content(content: Dictionary):
 			item.text = content[\"hide\"][ind]
 			item.self_modulate.a = 1
 		else:
-			item.text = \"none\"
+			item.set_text(\"\")
 			item.self_modulate.a = 0.33
 	
 	# Show branches info
@@ -50,7 +51,7 @@ func update_content(content: Dictionary):
 			item.text = content[\"show\"][ind]
 			item.self_modulate.a = 1
 		else:
-			item.text = \"none\"
+			item.set_text(\"\")
 			item.self_modulate.a = 0.33
 	
 	# Vars info
@@ -102,7 +103,7 @@ func _on_SignalText_text_changed(new_text):
 func _on_HideBranch_change_value():
 	var arr: Array = []
 	for item in $VBoxContainer2/Panel/VBoxContainer.get_children():
-		if (item.text != \"none\"):
+		if (item.get_text() != \"\"):
 			arr.append(item.text)
 	_content[\"hide\"] = arr
 	AppInstance.app_win.update_branch_states()
@@ -111,7 +112,7 @@ func _on_HideBranch_change_value():
 func _on_ShowBranch_change_value():
 	var arr: Array = []
 	for item in $VBoxContainer2/Panel4/VBoxContainer.get_children():
-		if (item.text != \"none\"):
+		if (item.get_text() != \"\"):
 			arr.append(item.text)
 	_content[\"show\"] = arr
 	AppInstance.app_win.update_branch_states()
@@ -137,6 +138,8 @@ func save_if_info():
 			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
 	_content[\"if\"] = arr
 
+func _on_ChangeStartedBtn_change_value():
+	_content[\"change_started\"] = $VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn.get_text()
 
 
 
@@ -152,35 +155,8 @@ func save_if_info():
 
 
 
-"
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends MenuButton
 
-signal change_value
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	get_popup().connect(\"id_pressed\", self, \"_on_item_pressed\")
-
-func _on_item_pressed(id: int):
-	var item_text: String = get_popup().get_item_text(id)
-	if (text != item_text):
-		text = item_text
-		emit_signal(\"change_value\")
-
-	if (id == 0):
-		self_modulate.a = 0.33
-	else:
-		self_modulate.a = 1
-
-func _on_LineEdit_pressed():
-	get_popup().clear()
-	update_popup_list()
-
-func update_popup_list():
-	for item in AppInstance.exist_branches:
-		get_popup().add_item(item)
 "
 
 [node name="Panel" type="Panel"]
@@ -270,7 +246,7 @@ __meta__ = {
 [node name="Panel" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
 margin_right = 125.0
-margin_bottom = 224.0
+margin_bottom = 219.0
 rect_min_size = Vector2( 125, 0 )
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel"]
@@ -286,7 +262,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel"]
 margin_top = 23.0
 margin_right = 125.0
-margin_bottom = 193.0
+margin_bottom = 188.0
+custom_constants/separation = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -295,48 +272,48 @@ __meta__ = {
 margin_right = 125.0
 margin_bottom = 25.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="HideBranchText2" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 29.0
+margin_top = 28.0
 margin_right = 125.0
-margin_bottom = 54.0
+margin_bottom = 53.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="HideBranchText3" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 58.0
+margin_top = 56.0
 margin_right = 125.0
-margin_bottom = 83.0
+margin_bottom = 81.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="HideBranchText4" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 87.0
+margin_top = 84.0
 margin_right = 125.0
-margin_bottom = 112.0
+margin_bottom = 109.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="HideBranchText5" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 116.0
+margin_top = 112.0
 margin_right = 125.0
-margin_bottom = 141.0
+margin_bottom = 137.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="HideBranchText6" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 145.0
+margin_top = 140.0
 margin_right = 125.0
-margin_bottom = 170.0
+margin_bottom = 165.0
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="Panel4" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
 margin_left = 129.0
 margin_right = 257.0
-margin_bottom = 224.0
+margin_bottom = 219.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel4"]
@@ -352,7 +329,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel4"]
 margin_top = 23.0
 margin_right = 128.0
-margin_bottom = 193.0
+margin_bottom = 188.0
+custom_constants/separation = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -361,48 +339,48 @@ __meta__ = {
 margin_right = 128.0
 margin_bottom = 25.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ShowBranchText2" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 29.0
+margin_top = 28.0
 margin_right = 128.0
-margin_bottom = 54.0
+margin_bottom = 53.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ShowBranchText3" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 58.0
+margin_top = 56.0
 margin_right = 128.0
-margin_bottom = 83.0
+margin_bottom = 81.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ShowBranchText4" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 87.0
+margin_top = 84.0
 margin_right = 128.0
-margin_bottom = 112.0
+margin_bottom = 109.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ShowBranchText5" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 116.0
+margin_top = 112.0
 margin_right = 128.0
-margin_bottom = 141.0
+margin_bottom = 137.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ShowBranchText6" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 145.0
+margin_top = 140.0
 margin_right = 128.0
-margin_bottom = 170.0
+margin_bottom = 165.0
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-script = SubResource( 2 )
+text = ""
 
 [node name="ChoiceCheckBox" type="CheckBox" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
-margin_top = 197.0
+margin_top = 192.0
 margin_right = 128.0
-margin_bottom = 224.0
+margin_bottom = 219.0
 text = "Show choice"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -412,7 +390,7 @@ __meta__ = {
 self_modulate = Color( 0.227451, 0.227451, 0.227451, 1 )
 margin_left = 261.0
 margin_right = 521.0
-margin_bottom = 224.0
+margin_bottom = 219.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel2"]
@@ -428,7 +406,7 @@ __meta__ = {
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel2"]
 margin_top = 23.0
 margin_right = 260.0
-margin_bottom = 184.0
+margin_bottom = 218.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -604,11 +582,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ChangeStartedBtn" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2"]
+margin_top = 165.0
+margin_right = 260.0
+margin_bottom = 195.0
+rect_min_size = Vector2( 0, 30 )
+size_flags_horizontal = 3
+clip_text = true
+align = 0
+script = ExtResource( 5 )
+placeholder = "[Change started branch]"
+
 [node name="Panel3" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
 margin_left = 525.0
 margin_right = 786.0
-margin_bottom = 224.0
+margin_bottom = 219.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel3"]
@@ -844,6 +833,7 @@ __meta__ = {
 [connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarKeyText" to="." method="save_vars_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/MenuButton" to="." method="save_vars_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarValueText1" to="." method="_on_Var_text_changed"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn" to="." method="_on_ChangeStartedBtn_change_value"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarValueText1" to="." method="_on_if_text_changed"]
