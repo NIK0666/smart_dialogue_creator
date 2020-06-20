@@ -20,6 +20,8 @@ func update_content(content: Dictionary):
 	$HBoxContainer/NPCNameText.update_content(AppInstance.get_character_info(content[\"npc\"]))
 	$HBoxContainer/AnimationText.text = content[\"anim\"]
 	$PhraseText.text = content[\"text\"]
+	
+	$PhraseText.rect_size.x = get_parent().rect_size.x - 12 # Text height change Crutch fix
 	$PhraseText._on_TextEdit_text_changed()
 	
 	if (_content[\"if\"].empty()):
