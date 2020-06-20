@@ -15,7 +15,7 @@ var colors: Dictionary = {
 var app_win: AppWin = null
 var settings:ConfigFile
 var config: Dictionary
-var current_npc: Dictionary
+var document: Dictionary
 var selected_branch: BranchCell = null
 
 func alert(text: String, title: String='Message') -> void:
@@ -29,7 +29,7 @@ func alert(text: String, title: String='Message') -> void:
 
 func update_branches():
 	exist_branches = []
-	for dict in current_npc["dialogues"]:
+	for dict in document["branches"]:
 		exist_branches.append(dict["name"])
 
 func select_branch(node: BranchCell):
@@ -43,10 +43,10 @@ func deselect_branch(node: BranchCell):
 	node.set_state("Default")
 
 func delete_branch(node: BranchCell):
-	current_npc["dialogues"].erase(node.get_content())
+	document["branches"].erase(node.get_content())
 	deselect_branch(node)
 	node.get_parent().remove_child(node)
-	if (current_npc["dialogues"].size() > 0):
+	if (document["branches"].size() > 0):
 		select_branch(app_win.dialogs_list.get_child(0))
 	else:
 		select_branch(null)
@@ -78,7 +78,7 @@ func get_character_id(name: String) -> String:
 func create_empty_dialog(path: String):
 	var file = File.new()
 	file.open(path, File.WRITE)
-	var saved_json = JSON.print({"character": "", "autobranch": "", "dialogues": []})
+	var saved_json = JSON.print({"character": "", "autobranch": "", "branches": []})
 	file.store_string(saved_json)
 	file.close()
 

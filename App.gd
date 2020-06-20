@@ -25,19 +25,19 @@ func _ready():
 	var last_file_path = AppInstance.settings.get_value("settings", "last_file")
 	var open_recent = AppInstance.load_json(last_file_path)
 	if (open_recent):
-		AppInstance.current_npc = open_recent
+		AppInstance.document = open_recent
 		init_form(last_file_path)
 
 
 func _on_OpenDialog_file_selected(path):
-	AppInstance.current_npc = AppInstance.load_json(path)
+	AppInstance.document = AppInstance.load_json(path)
 	init_form(path)
 	AppInstance.change_setting("last_file", path)
 	AppInstance.change_setting("last_path", $OpenDialog.current_dir + "/")
 
 func _on_CreateDialog_file_selected(path):
 	AppInstance.create_empty_dialog(path)
-	AppInstance.current_npc = AppInstance.load_json(path)
+	AppInstance.document = AppInstance.load_json(path)
 	init_form(path)
 	AppInstance.change_setting("last_file", path)
 	AppInstance.change_setting("last_path", $CreateDialog.current_dir + "/")
@@ -52,12 +52,12 @@ func init_form(path: String):
 	for item in dialogs_list.get_children():
 		dialogs_list.remove_child(item)
 	
-	if (AppInstance.current_npc.get("character")):
-		$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.current_npc["character"]))
-	if (AppInstance.current_npc.get("autobranch")):
-		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.current_npc["autobranch"])
+	if (AppInstance.document.get("character")):
+		$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.document["character"]))
+	if (AppInstance.document.get("autobranch")):
+		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.document["autobranch"])
 	
-	var content: Array = AppInstance.current_npc["dialogues"]
+	var content: Array = AppInstance.document["branches"]
 	for ind in range(content.size()):
 		var cell = BranchCell.instance()
 		cell.update_content(content[ind])
@@ -67,12 +67,12 @@ func init_form(path: String):
 
 
 func _on_SaveBtn_pressed():
-	if AppInstance.current_npc.empty():
+	if AppInstance.document.empty():
 		AppInstance.alert("File is not opened!", "ERROR")
 		return
 	var file = File.new()
 	file.open(path_input.text, File.WRITE)
-	file.store_string(JSON.print(AppInstance.current_npc))
+	file.store_string(JSON.print(AppInstance.document))
 	file.close()
 
 
@@ -89,6 +89,50 @@ func _on_ConfigPanel_new_config_dialog():
 func _on_ConfigPanel_open_config_dialog():
 	show_filedialog($OpenConfig, "config")
 
+func _on_ExportBtn_pressed():
+	show_filedialog($ExportDialog, "loc")
+
+func _on_ImportBtn_pressed():
+	show_filedialog($ImportDialog, "loc")
+
+func _on_ImportDialog_file_selected(path):
+	var file = File.new()
+	file.open(path, file.READ)
+	
+	var dict: Dictionary = {}
+	var arr: Array = file.get_csv_line("\t")
+	while arr.size() == 2:
+		arr = file.get_csv_line("\t")
+		if arr.size() == 2:
+			print(arr.size())
+			dict[arr[0]] = arr[1]
+	file.close()
+	
+	for branch in AppInstance.document["branches"]:
+		if (dict.has(branch["text_id"])):
+			branch["text"] = dict[branch["text_id"]]
+		for phrase in branch["phrases"]:
+			if (dict.has(phrase["text_id"])):
+				phrase["text"] = dict[phrase["text_id"]]
+				
+	init_form(path_input.text)
+	
+
+func _on_ExportDialog_file_selected(path):
+	var file_data: String = "text_id\ttext\n"
+		
+	for branch in AppInstance.document["branches"]:
+		file_data += branch["text_id"] + "\t" + branch["text"] + "\n"
+		for phrase in branch["phrases"]:
+			file_data += phrase["text_id"] + "\t" + phrase["text"] + "\n"
+	
+	var file = File.new()
+	file.open(path, File.WRITE)
+	file.store_string(file_data)
+	file.close()
+
+
+
 func show_filedialog(node: FileDialog, type: String):
 	node.current_path = AppInstance.settings.get_value("settings", "last_path")
 	node.add_filter("*." + type)
@@ -96,7 +140,7 @@ func show_filedialog(node: FileDialog, type: String):
 	
 func _on_AddBranchButton_pressed():
 	
-	if AppInstance.current_npc.empty():
+	if AppInstance.document.empty():
 		AppInstance.alert("Dialog is not found! Create or open file.", "ERROR")
 		return
 	
@@ -104,7 +148,7 @@ func _on_AddBranchButton_pressed():
 	dialogs_list.add_child(cell)
 	var new_dict: Dictionary = {
 		"name": generate_name(), 
-		"phrase": "", 
+		"text": "", 
 		"text_id": UUID.v4(),
 		"hidden": false, 
 		"closed": false,
@@ -117,8 +161,8 @@ func _on_AddBranchButton_pressed():
 		"vars": [],
 		"if": [],
 		"change_started": "", 
-		"dialog": []}
-	AppInstance.current_npc["dialogues"].append(new_dict)
+		"phrases": []}
+	AppInstance.document["branches"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.phrase_text.grab_focus()
 	AppInstance.update_branches()
@@ -129,16 +173,16 @@ func _on_AddPhraseButton_pressed():
 	var new_dict: Dictionary = {
 		"text": "",
 		"text_id": UUID.v4(),
-		"npc": AppInstance.current_npc["character"], 
+		"npc": AppInstance.document["character"], 
 		"anim": "",
 		"if": {}
 		}
-	AppInstance.selected_branch.get_content()["dialog"].append(new_dict)
+	AppInstance.selected_branch.get_content()["phrases"].append(new_dict)
 	cell.update_content(new_dict)
 
 func change_selected_branch_text(value: String):
 	var node_content: Dictionary = AppInstance.selected_branch.get_content()
-	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (value != "" && node_content["dialog"].empty())
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (value != "" && node_content["phrases"].empty())
 
 func change_selected(node: BranchCell):
 	
@@ -152,14 +196,14 @@ func change_selected(node: BranchCell):
 	for item in phrases_list.get_children():
 		phrases_list.remove_child(item)
 	
-	for item in node_content["dialog"]:
+	for item in node_content["phrases"]:
 		var cell = PhraseCell.instance()
 		phrases_list.add_child(cell)
 		cell.update_content(item)
 	
 	update_branch_states()
 	
-	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (node_content["phrase"] != "" && node_content["dialog"].empty())
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (node_content["text"] != "" && node_content["phrases"].empty())
 	
 func get_branch_cell(phrase_id: String) -> BranchCell:
 	for item in dialogs_list.get_children():
@@ -195,7 +239,7 @@ func update_branch_states():
 
 
 func generate_name():
-	var content: Array = AppInstance.current_npc["dialogues"]
+	var content: Array = AppInstance.document["branches"]
 	if (content.size() > 0):
 		var temp_name: String = content[content.size() - 1]["name"]
 		var temp_arr: Array = temp_name.split("_")
@@ -230,17 +274,21 @@ func _on_AddFirst_pressed():
 	var cell = PhraseCell.instance()
 	phrases_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"text": node_content["phrase"],
+		"text": node_content["text"],
+		"text_id": UUID.v4(),
 		"npc": AppInstance.config["hero"],
 		"anim": "",
 		"if": {}
 		}
-	node_content["dialog"].append(new_dict)
+	node_content["phrases"].append(new_dict)
 	cell.update_content(new_dict)
 
 
 func _on_CharacterBtn_change_value():
-	AppInstance.current_npc["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
+	AppInstance.document["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
 
 func _on_AutobranchBtn_change_value():
-	AppInstance.current_npc["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
+	AppInstance.document["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
+
+
+

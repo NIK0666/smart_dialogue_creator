@@ -68,9 +68,27 @@ placeholder = "[Started branch]"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 215.0
-margin_right = 644.0
+margin_right = 432.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
+
+[node name="ImportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 436.0
+margin_right = 538.0
+margin_bottom = 30.0
+text = "Import text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 542.0
+margin_right = 644.0
+margin_bottom = 30.0
+text = "Export text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 648.0
@@ -278,6 +296,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ExportDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Config_new"
+current_path = "/Godot/smart_dialogue_creator/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ImportDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Config_new"
+current_path = "/Godot/smart_dialogue_creator/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Panel" type="ColorRect" parent="."]
 visible = false
 anchor_right = 1.0
@@ -294,6 +349,8 @@ rect_min_size = Vector2( 1080, 600 )
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
 [connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
 [connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]
@@ -304,5 +361,7 @@ rect_min_size = Vector2( 1080, 600 )
 [connection signal="file_selected" from="CreateDialog" to="." method="_on_CreateDialog_file_selected"]
 [connection signal="file_selected" from="OpenConfig" to="." method="_on_Config_file_selected"]
 [connection signal="file_selected" from="CreateConfig" to="." method="_on_Config_file_selected"]
+[connection signal="file_selected" from="ExportDialog" to="." method="_on_ExportDialog_file_selected"]
+[connection signal="file_selected" from="ImportDialog" to="." method="_on_ImportDialog_file_selected"]
 [connection signal="new_config_dialog" from="Panel/ConfigPanel" to="." method="_on_ConfigPanel_new_config_dialog"]
 [connection signal="open_config_dialog" from="Panel/ConfigPanel" to="." method="_on_ConfigPanel_open_config_dialog"]

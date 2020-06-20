@@ -13,8 +13,8 @@ func _ready():
 func update_content(content: Dictionary):
 	_content = content
 	$HBoxContainer/NameText.text = _content["name"]
-	if (_content.has("phrase")):
-		$HBoxContainer/PhraseText.text = _content["phrase"]
+	if (_content.has("text")):
+		$HBoxContainer/PhraseText.text = _content["text"]
 
 
 func _on_Button_pressed():
@@ -23,7 +23,7 @@ func _on_Button_pressed():
 
 
 func _on_PhraseText_text_changed(new_text):
-	_content["phrase"] = new_text
+	_content["text"] = new_text
 	AppInstance.app_win.change_selected_branch_text(new_text)
 
 func _on_NameText_text_changed(new_text):

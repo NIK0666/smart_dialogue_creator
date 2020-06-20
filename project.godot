@@ -63,6 +63,14 @@ window/size/test_height=900
 
 theme/custom_font="res://CertaFont.tres"
 
+[locale]
+
+translations=PoolStringArray( "res://lang/text.csv" )
+locale_filter=[ 1, [ "en", "ru" ] ]
+translation_remaps={
+
+}
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

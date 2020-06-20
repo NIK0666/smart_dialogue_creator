@@ -30,7 +30,7 @@ func update_content(content: Dictionary):
 	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
 	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
 	$HBoxContainer/Control/SignalText.text = content[\"extern_signal\"]
-	$VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn.set_text(content[\"change_started\"])
+	$VBoxContainer2/Panel2/ChangeStartedBtn.set_text(content[\"change_started\"])
 
 	# Hide branches info
 	var arr_len = content[\"hide\"].size() 
@@ -123,7 +123,8 @@ func _on_Var_text_changed(new_text):
 
 func save_vars_info():
 	var arr: Array = []
-	for item in $VBoxContainer2/Panel2/VBoxContainer2.get_children():
+	var container = $VBoxContainer2/Panel2/VBoxContainer2
+	for item in container.get_children():
 		if (item.get_child(0).get_text() != \"\"):
 			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
 	_content[\"vars\"] = arr
@@ -139,7 +140,7 @@ func save_if_info():
 	_content[\"if\"] = arr
 
 func _on_ChangeStartedBtn_change_value():
-	_content[\"change_started\"] = $VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn.get_text()
+	_content[\"change_started\"] = $VBoxContainer2/Panel2/ChangeStartedBtn.get_text()
 
 
 
@@ -406,7 +407,7 @@ __meta__ = {
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel2"]
 margin_top = 23.0
 margin_right = 260.0
-margin_bottom = 218.0
+margin_bottom = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -582,10 +583,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChangeStartedBtn" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2"]
-margin_top = 165.0
+[node name="ChangeStartedBtn" type="MenuButton" parent="VBoxContainer2/Panel2"]
+margin_top = 188.0
 margin_right = 260.0
-margin_bottom = 195.0
+margin_bottom = 218.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 clip_text = true
@@ -833,7 +834,7 @@ __meta__ = {
 [connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarKeyText" to="." method="save_vars_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/MenuButton" to="." method="save_vars_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5/VarValueText1" to="." method="_on_Var_text_changed"]
-[connection signal="change_value" from="VBoxContainer2/Panel2/VBoxContainer2/ChangeStartedBtn" to="." method="_on_ChangeStartedBtn_change_value"]
+[connection signal="change_value" from="VBoxContainer2/Panel2/ChangeStartedBtn" to="." method="_on_ChangeStartedBtn_change_value"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarKeyText1" to="." method="save_if_info"]
 [connection signal="change_value" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/MenuButton" to="." method="save_if_info"]
 [connection signal="text_changed" from="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer/CheckVarValueText1" to="." method="_on_if_text_changed"]
