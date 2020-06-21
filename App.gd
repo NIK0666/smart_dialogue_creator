@@ -111,9 +111,14 @@ func _on_ImportDialog_file_selected(path):
 	for branch in AppInstance.document["branches"]:
 		if (dict.has(branch["text_id"])):
 			branch["text"] = dict[branch["text_id"]]
+		
+		var ind:int = -1
 		for phrase in branch["phrases"]:
+			ind += 1
 			if (dict.has(phrase["text_id"])):
 				phrase["text"] = dict[phrase["text_id"]]
+			elif (ind == 0):
+				phrase["text"] = dict[branch["text_id"]]
 				
 	init_form(path_input.text)
 	
@@ -123,7 +128,11 @@ func _on_ExportDialog_file_selected(path):
 		
 	for branch in AppInstance.document["branches"]:
 		file_data += branch["text_id"] + "\t" + branch["text"] + "\n"
+		var ind:int = -1
 		for phrase in branch["phrases"]:
+			ind += 1
+			if (ind == 0 && String(branch["text"]) == String(phrase["text"])):
+				continue
 			file_data += phrase["text_id"] + "\t" + phrase["text"] + "\n"
 	
 	var file = File.new()
