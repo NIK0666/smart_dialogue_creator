@@ -3,7 +3,6 @@ extends Control
 class_name AppWin
 
 onready var dialogs_list: VBoxContainer = $MainVBox/MainHBox/BranchesScroll/BranchesList
-onready var path_input: LineEdit = $MainVBox/ToolbarPanel/HBoxContainer/PathInput
 onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var info_panel: Panel = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel
 onready var info_container: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
@@ -12,6 +11,8 @@ onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/ColorRect/InfoScrol
 
 var BranchCell = preload("res://Components/BranchCell.tscn")
 var PhraseCell = preload("res://Components/DialPhraseCell.tscn")
+var document_path: String = ""
+var edit_mode: bool = false
 
 func _ready():
 	randomize()
@@ -44,7 +45,8 @@ func _on_CreateDialog_file_selected(path):
 	
 
 func init_form(path: String):
-	path_input.text = path
+	document_path = path
+	$MainVBox/BottomPanel/PathEdit.text = document_path
 	branches_scroll.visible = true
 	AppInstance.select_branch(null)
 	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.set_text("")
@@ -61,6 +63,7 @@ func init_form(path: String):
 	for ind in range(content.size()):
 		var cell = BranchCell.instance()
 		cell.update_content(content[ind])
+		cell.set_edit_mode(edit_mode)
 		dialogs_list.add_child(cell)
 	
 	AppInstance.update_branches()
@@ -71,7 +74,7 @@ func _on_SaveBtn_pressed():
 		AppInstance.alert("File is not opened!", "ERROR")
 		return
 	var file = File.new()
-	file.open(path_input.text, File.WRITE)
+	file.open(document_path, File.WRITE)
 	file.store_string(JSON.print(AppInstance.document))
 	file.close()
 
@@ -120,7 +123,7 @@ func _on_ImportDialog_file_selected(path):
 			elif (ind == 0):
 				phrase["text"] = dict[branch["text_id"]]
 				
-	init_form(path_input.text)
+	init_form(document_path)
 	
 
 func _on_ExportDialog_file_selected(path):
@@ -173,6 +176,7 @@ func _on_AddBranchButton_pressed():
 		"phrases": []}
 	AppInstance.document["branches"].append(new_dict)
 	cell.update_content(new_dict)
+	cell.set_edit_mode(edit_mode)
 	cell.phrase_text.grab_focus()
 	AppInstance.update_branches()
 
@@ -301,3 +305,9 @@ func _on_AutobranchBtn_change_value():
 
 
 
+
+
+func _on_EditBranchesBtn_toggled(button_pressed):
+	edit_mode = button_pressed
+	for cell in dialogs_list.get_children():
+		cell.set_edit_mode(edit_mode)

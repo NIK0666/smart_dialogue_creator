@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://App.gd" type="Script" id=1]
+[ext_resource path="res://Resources/icons/archive.svg" type="Texture" id=2]
 [ext_resource path="res://Components/DialInfoPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Components/ConfigPanel/ConfigPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/CharactersBtn.gd" type="Script" id=6]
+[ext_resource path="res://Resources/icons/folder-open.svg" type="Texture" id=7]
+[ext_resource path="res://Resources/icons/file.svg" type="Texture" id=8]
+[ext_resource path="res://Resources/icons/import.svg" type="Texture" id=9]
+[ext_resource path="res://Resources/icons/export.svg" type="Texture" id=10]
+[ext_resource path="res://Resources/icons/settings.svg" type="Texture" id=11]
+[ext_resource path="res://Resources/icons/plus.svg" type="Texture" id=12]
+[ext_resource path="res://Resources/icons/ellipsis-vertical.svg" type="Texture" id=13]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -25,19 +33,17 @@ __meta__ = {
 
 [node name="ToolbarPanel" type="Panel" parent="MainVBox"]
 margin_right = 1432.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 0, 34 )
+margin_bottom = 42.0
+rect_min_size = Vector2( 0, 42 )
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainVBox/ToolbarPanel"]
-anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 0.5
 margin_left = 2.0
-margin_top = -14.0
+margin_top = 2.0
 margin_right = -1.99988
 margin_bottom = 16.0
 rect_min_size = Vector2( 0, 30 )
@@ -46,86 +52,111 @@ __meta__ = {
 }
 
 [node name="AddBranchButton" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_right = 43.0
-margin_bottom = 30.0
-text = "Add"
+margin_right = 44.0
+margin_bottom = 38.0
+hint_tooltip = "Add new branch"
+icon = ExtResource( 12 )
+
+[node name="Control2" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 48.0
+margin_right = 152.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 104, 0 )
+
+[node name="ImportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 156.0
+margin_right = 200.0
+margin_bottom = 38.0
+hint_tooltip = "Import text"
+icon = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 204.0
+margin_right = 248.0
+margin_bottom = 38.0
+hint_tooltip = "Export all text"
+icon = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 252.0
+margin_right = 296.0
+margin_bottom = 38.0
+hint_tooltip = "Config"
+icon = ExtResource( 11 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EditBranchesBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 300.0
+margin_right = 344.0
+margin_bottom = 38.0
+hint_tooltip = "Edit branches"
+toggle_mode = true
+icon = ExtResource( 13 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 47.0
-margin_right = 127.0
-margin_bottom = 30.0
+margin_left = 348.0
+margin_right = 428.0
+margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 align = 0
 script = ExtResource( 6 )
 placeholder = "[Character dialogue]"
 
 [node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 131.0
-margin_right = 211.0
-margin_bottom = 30.0
+margin_left = 432.0
+margin_right = 512.0
+margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 placeholder = "[Started branch]"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 215.0
-margin_right = 432.0
-margin_bottom = 30.0
+margin_left = 516.0
+margin_right = 1284.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 
-[node name="ImportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 436.0
-margin_right = 538.0
-margin_bottom = 30.0
-text = "Import text"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 542.0
-margin_right = 644.0
-margin_bottom = 30.0
-text = "Export text"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 648.0
-margin_right = 710.0
-margin_bottom = 30.0
-text = "Config"
-
-[node name="PathInput" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 714.0
-margin_right = 1214.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 500, 28 )
-editable = false
-
 [node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1218.0
-margin_right = 1292.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 64, 0 )
-text = "New file"
+margin_left = 1288.0
+margin_right = 1332.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "New dialog"
+icon = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="OpenBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1296.0
-margin_right = 1360.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 64, 0 )
-text = "Open"
+margin_left = 1336.0
+margin_right = 1380.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Open dialog"
+icon = ExtResource( 7 )
 
 [node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1364.0
+margin_left = 1384.0
 margin_right = 1428.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 64, 0 )
-text = "Save"
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Save dialog"
+icon = ExtResource( 2 )
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
-margin_top = 38.0
+margin_top = 46.0
 margin_right = 1432.0
 margin_bottom = 866.0
 size_flags_horizontal = 3
@@ -133,7 +164,7 @@ size_flags_vertical = 3
 
 [node name="BranchesScroll" type="ScrollContainer" parent="MainVBox/MainHBox"]
 margin_right = 714.0
-margin_bottom = 828.0
+margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -152,7 +183,7 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="MainVBox/MainHBox"]
 margin_left = 718.0
 margin_right = 1432.0
-margin_bottom = 828.0
+margin_bottom = 820.0
 rect_min_size = Vector2( 700, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -170,7 +201,7 @@ __meta__ = {
 
 [node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll"]
 margin_right = 710.0
-margin_bottom = 828.0
+margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -194,7 +225,7 @@ __meta__ = {
 [node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer"]
 margin_top = 258.0
 margin_right = 710.0
-margin_bottom = 828.0
+margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -215,11 +246,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="MainVBox"]
+[node name="BottomPanel" type="Panel" parent="MainVBox"]
 margin_top = 870.0
 margin_right = 1432.0
 margin_bottom = 900.0
 rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PathEdit" type="LineEdit" parent="MainVBox/BottomPanel"]
+margin_right = 70.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 200, 0 )
+editable = false
+expand_to_text_length = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -347,11 +388,12 @@ margin_left = -540.0
 margin_right = 540.0
 rect_min_size = Vector2( 1080, 600 )
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
-[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
-[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
+[connection signal="toggled" from="MainVBox/ToolbarPanel/HBoxContainer/EditBranchesBtn" to="." method="_on_EditBranchesBtn_toggled"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]

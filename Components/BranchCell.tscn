@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://LineCell.gd" type="Script" id=2]
+[ext_resource path="res://Resources/icons/trash.svg" type="Texture" id=3]
+[ext_resource path="res://Resources/icons/arrow-top.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/icons/arrow-bottom.svg" type="Texture" id=5]
 
 [node name="ColorRect" type="ColorRect"]
 margin_right = 1600.0
@@ -33,7 +36,7 @@ caret_blink_speed = 0.5
 
 [node name="PhraseText" type="LineEdit" parent="HBoxContainer"]
 margin_left = 154.0
-margin_right = 1561.0
+margin_right = 1479.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
@@ -41,14 +44,43 @@ placeholder_alpha = 0.33
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="DelBtn" type="Button" parent="HBoxContainer"]
-margin_left = 1565.0
+[node name="EditControl" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 1483.0
 margin_right = 1592.0
 margin_bottom = 29.0
-rect_min_size = Vector2( 27, 0 )
-text = "X"
+
+[node name="UpBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_right = 29.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 29, 0 )
+icon = ExtResource( 4 )
+expand_icon = true
+
+[node name="DownBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_left = 33.0
+margin_right = 62.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 29, 0 )
+icon = ExtResource( 5 )
+expand_icon = true
+
+[node name="Control" type="Control" parent="HBoxContainer/EditControl"]
+margin_left = 66.0
+margin_right = 76.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="DelBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_left = 80.0
+margin_right = 109.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 29, 0 )
+icon = ExtResource( 3 )
+expand_icon = true
 [connection signal="focus_entered" from="HBoxContainer/NameText" to="." method="_on_NameText_focus_entered"]
 [connection signal="text_changed" from="HBoxContainer/NameText" to="." method="_on_NameText_text_changed"]
 [connection signal="focus_entered" from="HBoxContainer/PhraseText" to="." method="_on_NameText_focus_entered"]
 [connection signal="text_changed" from="HBoxContainer/PhraseText" to="." method="_on_PhraseText_text_changed"]
-[connection signal="pressed" from="HBoxContainer/DelBtn" to="." method="_on_DelBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/DelBtn" to="." method="_on_DelBtn_pressed"]

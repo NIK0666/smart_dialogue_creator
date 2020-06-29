@@ -1,6 +1,6 @@
 extends PopupBtn
 
-var _content: Dictionary
+var _var: String
 
 func _ready():
 	if (placeholder == ""):
@@ -8,9 +8,12 @@ func _ready():
 	._ready()
 
 func update_popup_list():
+	if (AppInstance.document.has("variables")):
+		for item in AppInstance.document["variables"]:
+			get_popup().add_item(item["var"])
 	for item in AppInstance.config["variables"]:
 		get_popup().add_item(item["var"])
 
 func selected_item(id: int):
 	.selected_item(id)
-	_content = AppInstance.config["variables"][id - 1]
+	_var = get_popup().get_item_text(id) # AppInstance.config["variables"][id - 1]

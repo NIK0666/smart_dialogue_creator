@@ -38,9 +38,18 @@ func load_data():
 		cell.update_content(item)
 		chars_list.add_child(cell)
 
+	if (AppInstance.document.has("variables")):
+		for item in AppInstance.document["variables"]:
+			var cell = VarCell.instance()
+			cell.update_content(item)
+			cell.set_public(false)
+			vars_list.add_child(cell)
+
+
 	for item in AppInstance.config["variables"]:
 		var cell = VarCell.instance()
 		cell.update_content(item)
+		cell.set_public(true)
 		vars_list.add_child(cell)
 	
 	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["hero"]))
@@ -60,7 +69,7 @@ func _on_AdChardBtn_pressed():
 	cell.update_content(new_dict)
 
 
-func _on_AddVarBtn_pressed():
+func _on_AddPublicVarBtn_pressed():
 	var cell = VarCell.instance()
 	vars_list.add_child(cell)
 	var new_dict: Dictionary = {
@@ -69,7 +78,21 @@ func _on_AddVarBtn_pressed():
 		}
 	AppInstance.config["variables"].append(new_dict)
 	cell.update_content(new_dict)
+	cell.set_public(true)
 
+func _on_AddPrivateVarBtn_pressed():
+	var cell = VarCell.instance()
+	vars_list.add_child(cell)
+	var new_dict: Dictionary = {
+		"var": "",
+		"desc": ""
+		}
+	
+	if (!AppInstance.document.has("variables")):
+		AppInstance.document["variables"] = []
+	AppInstance.document["variables"].append(new_dict)
+	cell.update_content(new_dict)
+	cell.set_public(false)
 
 func _on_NewConfigBtn_pressed():
 	save_file()

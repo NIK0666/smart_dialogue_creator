@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/ExpandableTextEdit.gd" type="Script" id=1]
-[ext_resource path="res://Resources/ArrowUp.png" type="Texture" id=2]
-[ext_resource path="res://Resources/ArrowDown.png" type="Texture" id=3]
+[ext_resource path="res://Resources/icons/arrow-top.svg" type="Texture" id=2]
+[ext_resource path="res://Resources/icons/arrow-bottom.svg" type="Texture" id=3]
 [ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/CharactersBtn.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/VariablesBtn.gd" type="Script" id=6]
+[ext_resource path="res://Resources/icons/trash.svg" type="Texture" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends VBoxContainer
@@ -67,29 +68,30 @@ func _on_PhraseText_text_changed():
 
 
 func _on_DelBtn_pressed():
-	AppInstance.selected_branch.get_content()[\"dialog\"].erase(_content)
+	print(AppInstance.selected_branch)
+	AppInstance.selected_branch.get_content()[\"phrases\"].erase(_content)
 	get_parent().remove_child(self)
 
 
 func _on_DownBtn_pressed():
 	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
 	var ind = get_index()
-	if (branch_content[\"dialog\"].size() > ind + 1):
-		branch_content[\"dialog\"].remove(ind)
-		branch_content[\"dialog\"].insert(ind + 1, _content)
+	if (branch_content[\"phrases\"].size() > ind + 1):
+		branch_content[\"phrases\"].remove(ind)
+		branch_content[\"phrases\"].insert(ind + 1, _content)
 		var next_cell = AppInstance.app_win.phrases_list.get_child(ind + 1)
-		next_cell.update_content(branch_content[\"dialog\"][ind + 1])
-		update_content(branch_content[\"dialog\"][ind])
+		next_cell.update_content(branch_content[\"phrases\"][ind + 1])
+		update_content(branch_content[\"phrases\"][ind])
 
 func _on_UpBtn_pressed():
 	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
 	var ind = get_index()
 	if (ind > 0):
-		branch_content[\"dialog\"].remove(ind)
-		branch_content[\"dialog\"].insert(ind - 1, _content)
+		branch_content[\"phrases\"].remove(ind)
+		branch_content[\"phrases\"].insert(ind - 1, _content)
 		var prev_cell = AppInstance.app_win.phrases_list.get_child(ind - 1)
-		prev_cell.update_content(branch_content[\"dialog\"][ind - 1])
-		update_content(branch_content[\"dialog\"][ind])
+		prev_cell.update_content(branch_content[\"phrases\"][ind - 1])
+		update_content(branch_content[\"phrases\"][ind])
 
 		
 
@@ -109,7 +111,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 613.0
+margin_right = 623.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 
@@ -169,38 +171,50 @@ margin_right = 501.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 
-[node name="UpBtn" type="Button" parent="HBoxContainer"]
+[node name="EditControl" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 505.0
-margin_right = 532.0
+margin_right = 623.0
 margin_bottom = 29.0
-rect_min_size = Vector2( 27, 0 )
+
+[node name="UpBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_right = 30.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 30, 0 )
 icon = ExtResource( 2 )
 expand_icon = true
 
-[node name="DownBtn" type="Button" parent="HBoxContainer"]
-margin_left = 536.0
-margin_right = 563.0
+[node name="DownBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_left = 34.0
+margin_right = 64.0
 margin_bottom = 29.0
-rect_min_size = Vector2( 27, 0 )
+rect_min_size = Vector2( 30, 0 )
 text = "▲"
 icon = ExtResource( 3 )
 expand_icon = true
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
-margin_left = 567.0
-margin_right = 577.0
+[node name="Control2" type="Control" parent="HBoxContainer/EditControl"]
+margin_left = 68.0
+margin_right = 78.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 10, 0 )
 
-[node name="DelBtn" type="Button" parent="HBoxContainer"]
-margin_left = 581.0
-margin_right = 613.0
+[node name="DelBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_left = 82.0
+margin_right = 112.0
 margin_bottom = 29.0
-text = " X "
+rect_min_size = Vector2( 30, 0 )
+icon = ExtResource( 7 )
+expand_icon = true
+
+[node name="Control4" type="Control" parent="HBoxContainer/EditControl"]
+margin_left = 116.0
+margin_right = 118.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 2, 0 )
 
 [node name="PhraseText" type="TextEdit" parent="."]
 margin_top = 33.0
-margin_right = 613.0
+margin_right = 623.0
 margin_bottom = 61.0
 rect_min_size = Vector2( 0, 28 )
 size_flags_horizontal = 3
@@ -213,8 +227,8 @@ min_line = 1
 [connection signal="change_value" from="HBoxContainer/Control/OpCondText" to="." method="save_cond_info"]
 [connection signal="text_changed" from="HBoxContainer/Control/ValCondText" to="." method="_on_CondText_text_changed"]
 [connection signal="toggled" from="HBoxContainer/Control/ElseCheckBox" to="." method="_on_ElseCheckBox_toggled"]
-[connection signal="pressed" from="HBoxContainer/UpBtn" to="." method="_on_UpBtn_pressed"]
-[connection signal="pressed" from="HBoxContainer/DownBtn" to="." method="_on_DownBtn_pressed"]
-[connection signal="pressed" from="HBoxContainer/DelBtn" to="." method="_on_DelBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/EditControl/DelBtn" to="." method="_on_DelBtn_pressed"]
 [connection signal="text_changed" from="PhraseText" to="PhraseText" method="_on_TextEdit_text_changed"]
 [connection signal="text_changed" from="PhraseText" to="." method="_on_PhraseText_text_changed"]

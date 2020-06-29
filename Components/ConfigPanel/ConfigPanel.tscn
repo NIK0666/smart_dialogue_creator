@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/ConfigPanel.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/CharactersBtn.gd" type="Script" id=3]
+[ext_resource path="res://Resources/icons/folder-open.svg" type="Texture" id=4]
+[ext_resource path="res://Resources/icons/file.svg" type="Texture" id=5]
+[ext_resource path="res://Resources/icons/close.svg" type="Texture" id=6]
 
 [node name="Panel" type="Panel"]
 anchor_left = 0.5
@@ -11,9 +14,9 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -400.0
 margin_top = -300.0
-margin_right = 400.0
+margin_right = 680.0
 margin_bottom = 300.0
-rect_min_size = Vector2( 800, 600 )
+rect_min_size = Vector2( 1080, 600 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -30,30 +33,33 @@ __meta__ = {
 }
 
 [node name="NewConfigBtn" type="Button" parent="Control"]
-margin_right = 98.0
-margin_bottom = 32.0
+margin_right = 44.0
+margin_bottom = 38.0
+hint_tooltip = "New config"
 custom_fonts/font = ExtResource( 1 )
-text = "New config"
+icon = ExtResource( 5 )
 
 [node name="OpenBtn" type="Button" parent="Control"]
-margin_left = 102.0
-margin_right = 155.0
-margin_bottom = 32.0
+margin_left = 48.0
+margin_right = 92.0
+margin_bottom = 38.0
+hint_tooltip = "Open config"
 custom_fonts/font = ExtResource( 1 )
-text = "Open"
+icon = ExtResource( 4 )
 
 [node name="Control" type="Control" parent="Control"]
-margin_left = 159.0
-margin_right = 756.0
-margin_bottom = 32.0
+margin_left = 96.0
+margin_right = 1024.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 
 [node name="CloseBtn" type="Button" parent="Control"]
-margin_left = 760.0
-margin_right = 792.0
-margin_bottom = 32.0
+margin_left = 1028.0
+margin_right = 1072.0
+margin_bottom = 38.0
 rect_min_size = Vector2( 32, 0 )
-text = "X"
+hint_tooltip = "Close config"
+icon = ExtResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -66,7 +72,7 @@ __meta__ = {
 }
 
 [node name="CharactersList" type="ColorRect" parent="HBoxContainer"]
-margin_right = 394.0
+margin_right = 534.0
 margin_bottom = 550.0
 size_flags_horizontal = 3
 color = Color( 0.0784314, 0.156863, 0.313726, 0.156863 )
@@ -115,14 +121,14 @@ __meta__ = {
 }
 
 [node name="ChanactersVBox" type="VBoxContainer" parent="HBoxContainer/CharactersList/ScrollContainer"]
-margin_right = 394.0
+margin_right = 534.0
 margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VariablesList" type="ColorRect" parent="HBoxContainer"]
-margin_left = 398.0
-margin_right = 792.0
+margin_left = 538.0
+margin_right = 1072.0
 margin_bottom = 550.0
 size_flags_horizontal = 3
 color = Color( 0.0784314, 0.313726, 0.156863, 0.156863 )
@@ -145,12 +151,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AddBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
+[node name="AddPrivateBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
 margin_left = 108.0
-margin_right = 151.0
+margin_right = 194.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "Add"
+text = "Add local"
+
+[node name="AddPublicBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
+margin_left = 198.0
+margin_right = 293.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Add public"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
 anchor_right = 1.0
@@ -162,7 +175,7 @@ __meta__ = {
 }
 
 [node name="VariablesVBox" type="VBoxContainer" parent="HBoxContainer/VariablesList/ScrollContainer"]
-margin_right = 394.0
+margin_right = 534.0
 margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -171,4 +184,5 @@ size_flags_vertical = 3
 [connection signal="pressed" from="Control/CloseBtn" to="." method="_on_CloseBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/CharactersList/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
 [connection signal="change_value" from="HBoxContainer/CharactersList/Panel/HeroBtn" to="." method="_on_HeroBtn_change_value"]
-[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddBtn" to="." method="_on_AddVarBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddPrivateBtn" to="." method="_on_AddPrivateVarBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddPublicBtn" to="." method="_on_AddPublicVarBtn_pressed"]

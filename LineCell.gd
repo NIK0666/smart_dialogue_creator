@@ -16,6 +16,7 @@ func update_content(content: Dictionary):
 	if (_content.has("text") && _content["text"] != ""):
 		$HBoxContainer/PhraseText.text = _content["text"]
 	elif _content["phrases"].size() > 0:
+		$HBoxContainer/PhraseText.text = ""
 		$HBoxContainer/PhraseText.placeholder_text = _content["phrases"][0]["text"]
 
 
@@ -51,3 +52,32 @@ func get_content() -> Dictionary:
 
 func _on_DelBtn_pressed():
 	AppInstance.delete_branch(self)
+
+func set_edit_mode(value: bool):
+	$HBoxContainer/EditControl.visible = value
+
+
+func _on_DownBtn_pressed():
+	var ind = get_index()
+	if (AppInstance.document["branches"].size() > ind + 1):
+		AppInstance.document["branches"].remove(ind)
+		AppInstance.document["branches"].insert(ind + 1, _content)
+		var next_cell = AppInstance.app_win.dialogs_list.get_child(ind + 1)
+		next_cell.update_content(AppInstance.document["branches"][ind + 1])
+		update_content(AppInstance.document["branches"][ind])
+		AppInstance.app_win.update_branch_states()
+		AppInstance.select_branch(null)
+		AppInstance.select_branch(self)
+
+
+func _on_UpBtn_pressed():
+	var ind = get_index()
+	if (ind > 0):
+		AppInstance.document["branches"].remove(ind)
+		AppInstance.document["branches"].insert(ind - 1, _content)
+		var prev_cell = AppInstance.app_win.dialogs_list.get_child(ind - 1)
+		prev_cell.update_content(AppInstance.document["branches"][ind - 1])
+		update_content(AppInstance.document["branches"][ind])
+		AppInstance.app_win.update_branch_states()
+		AppInstance.select_branch(null)
+		AppInstance.select_branch(self)
