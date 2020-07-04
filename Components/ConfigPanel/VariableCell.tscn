@@ -12,27 +12,36 @@ __meta__ = {
 }
 
 [node name="NameText" type="LineEdit" parent="."]
-margin_right = 177.0
+margin_right = 120.0
 margin_bottom = 29.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 120, 0 )
 placeholder_text = "Variable"
 placeholder_alpha = 0.33
 
+[node name="ValueText" type="LineEdit" parent="."]
+margin_left = 124.0
+margin_right = 204.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 80, 0 )
+placeholder_text = "Default"
+placeholder_alpha = 0.33
+
 [node name="DescText" type="LineEdit" parent="."]
-margin_left = 181.0
-margin_right = 358.0
+margin_left = 208.0
+margin_right = 359.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 placeholder_text = "Description"
 placeholder_alpha = 0.33
 
 [node name="DelBtn" type="Button" parent="."]
-margin_left = 362.0
-margin_right = 389.0
+margin_left = 363.0
+margin_right = 390.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 27, 29 )
 custom_fonts/font = ExtResource( 1 )
 text = "X"
 [connection signal="text_changed" from="NameText" to="." method="_on_text_changed"]
+[connection signal="text_changed" from="ValueText" to="." method="_on_text_changed"]
 [connection signal="text_changed" from="DescText" to="." method="_on_text_changed"]
 [connection signal="pressed" from="DelBtn" to="." method="_on_DelBtn_pressed"]

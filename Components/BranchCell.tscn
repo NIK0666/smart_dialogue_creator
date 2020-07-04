@@ -78,8 +78,10 @@ rect_min_size = Vector2( 29, 0 )
 icon = ExtResource( 3 )
 expand_icon = true
 [connection signal="focus_entered" from="HBoxContainer/NameText" to="." method="_on_NameText_focus_entered"]
+[connection signal="focus_exited" from="HBoxContainer/NameText" to="." method="_on_NameText_focus_exited"]
 [connection signal="text_changed" from="HBoxContainer/NameText" to="." method="_on_NameText_text_changed"]
 [connection signal="focus_entered" from="HBoxContainer/PhraseText" to="." method="_on_NameText_focus_entered"]
+[connection signal="focus_exited" from="HBoxContainer/PhraseText" to="." method="_on_PhraseText_focus_exited"]
 [connection signal="text_changed" from="HBoxContainer/PhraseText" to="." method="_on_PhraseText_text_changed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]

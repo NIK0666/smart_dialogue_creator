@@ -81,3 +81,11 @@ func _on_UpBtn_pressed():
 		AppInstance.app_win.update_branch_states()
 		AppInstance.select_branch(null)
 		AppInstance.select_branch(self)
+
+
+func _on_PhraseText_focus_exited():
+	phrase_text.deselect()
+
+
+func _on_NameText_focus_exited():
+	name_text.deselect()

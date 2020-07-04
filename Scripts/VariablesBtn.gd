@@ -10,9 +10,9 @@ func _ready():
 func update_popup_list():
 	if (AppInstance.document.has("variables")):
 		for item in AppInstance.document["variables"]:
-			get_popup().add_item(item["var"])
+			get_popup().add_item(item["key"])
 	for item in AppInstance.config["variables"]:
-		get_popup().add_item(item["var"])
+		get_popup().add_item(item["key"])
 
 func selected_item(id: int):
 	.selected_item(id)

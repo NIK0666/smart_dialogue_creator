@@ -8,7 +8,8 @@ func _ready():
 
 func update_content(content: Dictionary):
 	_content = content
-	$NameText.text = content["var"]
+	$NameText.text = content["key"]
+	$ValueText.text = content["value"]
 	$DescText.text = content["desc"]
 
 func _on_DelBtn_pressed():
@@ -20,7 +21,8 @@ func _on_DelBtn_pressed():
 
 
 func _on_text_changed(new_text):
-	_content["var"] = $NameText.text
+	_content["key"] = $NameText.text
+	_content["value"] = $ValueText.text
 	_content["desc"] = $DescText.text
 
 func set_public(value: bool):

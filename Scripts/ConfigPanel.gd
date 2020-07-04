@@ -62,7 +62,8 @@ func _on_AdChardBtn_pressed():
 	var cell = CharCell.instance()
 	chars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"id": "",
+		"key": "",
+		"value": "",
 		"name": ""
 		}
 	AppInstance.config["characters"].append(new_dict)
@@ -73,7 +74,8 @@ func _on_AddPublicVarBtn_pressed():
 	var cell = VarCell.instance()
 	vars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"var": "",
+		"key": "",
+		"value": "",
 		"desc": ""
 		}
 	AppInstance.config["variables"].append(new_dict)
@@ -84,7 +86,8 @@ func _on_AddPrivateVarBtn_pressed():
 	var cell = VarCell.instance()
 	vars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"var": "",
+		"key": "",
+		"value": "",
 		"desc": ""
 		}
 	
