@@ -15,6 +15,7 @@ func _ready():
 
 func _on_CloseBtn_pressed():
 	get_parent().visible = false
+	self.visible = false
 	clean_data()
 	save_file()
 
@@ -56,6 +57,7 @@ func load_data():
 
 func show():
 	get_parent().visible = true
+	self.visible = true
 	load_data()
 
 func _on_AdChardBtn_pressed():

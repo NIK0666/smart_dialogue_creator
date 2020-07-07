@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/PlayPanel/CharacterCell.gd" type="Script" id=2]
+
+[node name="Label" type="Label"]
+margin_right = 1064.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.988235, 0.572549, 1 )
+text = "Персонаж:"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

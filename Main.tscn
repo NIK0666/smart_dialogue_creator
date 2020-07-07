@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://App.gd" type="Script" id=1]
 [ext_resource path="res://Resources/icons/archive.svg" type="Texture" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://Resources/icons/settings.svg" type="Texture" id=11]
 [ext_resource path="res://Resources/icons/plus.svg" type="Texture" id=12]
 [ext_resource path="res://Resources/icons/ellipsis-vertical.svg" type="Texture" id=13]
+[ext_resource path="res://Resources/icons/play.svg" type="Texture" id=14]
+[ext_resource path="res://Components/PlayPanel/PlayPanel.tscn" type="PackedScene" id=15]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -124,13 +126,13 @@ placeholder = "[Started branch]"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 516.0
-margin_right = 1284.0
+margin_right = 1236.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 
 [node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1288.0
-margin_right = 1332.0
+margin_left = 1240.0
+margin_right = 1284.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
 hint_tooltip = "New dialog"
@@ -140,20 +142,28 @@ __meta__ = {
 }
 
 [node name="OpenBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1336.0
-margin_right = 1380.0
+margin_left = 1288.0
+margin_right = 1332.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
 hint_tooltip = "Open dialog"
 icon = ExtResource( 7 )
 
 [node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1384.0
-margin_right = 1428.0
+margin_left = 1336.0
+margin_right = 1380.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
 hint_tooltip = "Save dialog"
 icon = ExtResource( 2 )
+
+[node name="PlayBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1384.0
+margin_right = 1428.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Play current dialog"
+icon = ExtResource( 14 )
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
 margin_top = 46.0
@@ -384,8 +394,12 @@ __meta__ = {
 }
 
 [node name="ConfigPanel" parent="Panel" instance=ExtResource( 5 )]
+visible = false
 margin_left = -540.0
 margin_right = 540.0
+
+[node name="PlayPanel" parent="Panel" instance=ExtResource( 15 )]
+visible = false
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
@@ -396,6 +410,7 @@ margin_right = 540.0
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel/AddPhrase" to="." method="_on_AddPhraseButton_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/AddFirst" to="." method="_on_AddFirst_pressed"]
 [connection signal="file_selected" from="OpenDialog" to="." method="_on_OpenDialog_file_selected"]

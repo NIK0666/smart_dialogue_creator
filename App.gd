@@ -272,6 +272,9 @@ func generate_name():
 func _on_ConfigBtn_pressed():
 	$Panel/ConfigPanel.show()
 
+func _on_PlayBtn_pressed():
+	$Panel/PlayPanel.show()
+
 func _on_Config_file_selected(path):
 	$Panel/ConfigPanel.clean_data()
 	AppInstance.change_setting("config", path)
@@ -311,3 +314,5 @@ func _on_EditBranchesBtn_toggled(button_pressed):
 	edit_mode = button_pressed
 	for cell in dialogs_list.get_children():
 		cell.set_edit_mode(edit_mode)
+
+

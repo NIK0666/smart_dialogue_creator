@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/PlayPanel.gd" type="Script" id=1]
+[ext_resource path="res://Components/PlayPanel/AnswerButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Resources/icons/close.svg" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0901961, 0.0862745, 0.0862745, 1 )
+
+[node name="PlayPanel" type="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -300.0
+margin_right = 540.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 1080, 600 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+margin_right = 1064.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+
+[node name="CloseBtn" type="Button" parent="VBoxContainer/Panel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -16.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 32, 32 )
+icon = ExtResource( 3 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HistoryScroll" type="ScrollContainer" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 1064.0
+margin_bottom = 420.0
+size_flags_vertical = 3
+custom_styles/bg = SubResource( 1 )
+scroll_horizontal_enabled = false
+
+[node name="HistoryVBox" type="VBoxContainer" parent="VBoxContainer/HistoryScroll"]
+margin_right = 1064.0
+size_flags_horizontal = 3
+
+[node name="AnswersScroll" type="ScrollContainer" parent="VBoxContainer"]
+margin_top = 424.0
+margin_right = 1064.0
+margin_bottom = 584.0
+rect_min_size = Vector2( 0, 160 )
+scroll_horizontal_enabled = false
+
+[node name="AnswersVBox" type="VBoxContainer" parent="VBoxContainer/AnswersScroll"]
+margin_right = 1064.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="Button" parent="VBoxContainer/AnswersScroll/AnswersVBox" instance=ExtResource( 2 )]
+[connection signal="pressed" from="VBoxContainer/Panel/CloseBtn" to="." method="_on_CloseBtn_pressed"]
