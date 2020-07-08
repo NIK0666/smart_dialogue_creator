@@ -68,15 +68,18 @@ func init_form(path: String):
 	
 	AppInstance.update_branches()
 
-
-func _on_SaveBtn_pressed():
-	if AppInstance.document.empty():
-		AppInstance.alert("File is not opened!", "ERROR")
-		return
+func save_document():
 	var file = File.new()
 	file.open(document_path, File.WRITE)
 	file.store_string(JSON.print(AppInstance.document))
 	file.close()
+	
+	
+func _on_SaveBtn_pressed():
+	if AppInstance.document.empty():
+		AppInstance.alert("File is not opened!", "ERROR")
+		return
+	save_document()
 
 
 func _on_OpenBtn_pressed():
@@ -273,6 +276,11 @@ func _on_ConfigBtn_pressed():
 	$Panel/ConfigPanel.show()
 
 func _on_PlayBtn_pressed():
+	if AppInstance.document.empty():
+		AppInstance.alert("File is not opened!", "ERROR")
+		return
+	
+	save_document()
 	$Panel/PlayPanel.show()
 
 func _on_Config_file_selected(path):

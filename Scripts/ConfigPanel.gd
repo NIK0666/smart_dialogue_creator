@@ -64,8 +64,7 @@ func _on_AdChardBtn_pressed():
 	var cell = CharCell.instance()
 	chars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"key": "",
-		"value": "",
+		"id": "",
 		"name": ""
 		}
 	AppInstance.config["characters"].append(new_dict)

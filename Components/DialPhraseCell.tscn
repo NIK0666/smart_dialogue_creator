@@ -34,7 +34,7 @@ func update_content(content: Dictionary):
 	else:
 		$HBoxContainer/Control/VarCondText.set_text(content[\"if\"][\"key\"])
 		$HBoxContainer/Control/OpCondText.text = content[\"if\"][\"op\"]
-		$HBoxContainer/Control/ValCondText.text = content[\"if\"][\"val\"]
+		$HBoxContainer/Control/ValCondText.text = content[\"if\"][\"value\"]
 		$HBoxContainer/Control/ElseCheckBox.pressed = content[\"if\"][\"else\"]
 		$HBoxContainer/Control/ElseCheckBox.disabled = false
 
@@ -57,7 +57,7 @@ func save_cond_info():
 		_content[\"if\"] = {
 			\"key\": $HBoxContainer/Control/VarCondText.get_text(),
 			\"op\": $HBoxContainer/Control/OpCondText.text,
-			\"val\": $HBoxContainer/Control/ValCondText.text,
+			\"value\": $HBoxContainer/Control/ValCondText.text,
 			\"else\": $HBoxContainer/Control/ElseCheckBox.pressed
 			}
 	else:

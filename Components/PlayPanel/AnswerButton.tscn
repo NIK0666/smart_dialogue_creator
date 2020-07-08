@@ -5,7 +5,6 @@
 [node name="Button" type="Button"]
 margin_right = 1064.0
 margin_bottom = 25.0
-hint_tooltip = "Фраза диалога"
 text = "Фраза диалога"
 align = 0
 script = ExtResource( 1 )
