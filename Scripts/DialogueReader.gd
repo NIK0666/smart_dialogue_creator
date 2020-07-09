@@ -81,7 +81,7 @@ func next_phrase():
 			emit_signal("change_branches", branches_text)
 	elif (current_branch["choice"] && phrase_index == current_branch_phrases.size() && answer_branches.size() == 1):
 		__check_emit_event(true)
-		__change_current_branch(answer_branches[0])		
+		__change_current_branch(answer_branches[0])
 	elif (current_branch["closed"] == true):
 		__check_emit_event(true)
 		emit_signal("close_dialog")
@@ -147,6 +147,9 @@ func __read_branch():
 		current_dialog["autobranch"] = current_branch["change_started"]
 	
 	__check_emit_event(false)
+	
+	for var_dict in current_branch["vars"]:
+		__change_var(var_dict)
 	
 	if (current_branch["choice"]):
 		__set_choice_branches()
