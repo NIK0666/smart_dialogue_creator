@@ -6,6 +6,8 @@ signal change_phrase(phrase_text)
 signal change_branches(branches_array)
 signal change_speaker_id(speaker_id)
 signal close_dialog()
+signal extern_event(event_data)
+signal anim_event(animation_name)
 
 var public_config: Dictionary = {}
 var current_dialog: Dictionary = {}
@@ -63,6 +65,8 @@ func next_phrase():
 			emit_signal("change_speaker_id", current_speaker_id)
 		emit_signal("change_phrase", phrase_dict["text"])
 		
+		if (phrase_dict["anim"] != ""):
+			emit_signal("anim_event", phrase_dict["anim"])
 		if (current_branch_phrases.size() - 1 == phrase_index):
 			if (!current_branch["choice"]):
 				answer_branches = __find_visible_branches()
@@ -73,12 +77,14 @@ func next_phrase():
 			var branches_text: Array = []
 			for branch in answer_branches:
 				branches_text.append(branch["text"])
+			__check_emit_event(true)
 			emit_signal("change_branches", branches_text)
 	elif (current_branch["choice"] && phrase_index == current_branch_phrases.size() && answer_branches.size() == 1):
-		__change_current_branch(answer_branches[0])
+		__check_emit_event(true)
+		__change_current_branch(answer_branches[0])		
 	elif (current_branch["closed"] == true):
+		__check_emit_event(true)
 		emit_signal("close_dialog")
-
 
 # Выбрать вариант ответа
 # @index - выбирается по индексу в массиве предоставленных вариантов
@@ -103,6 +109,16 @@ func get_character_name(id: String) -> String:
 			return ch["name"]
 	return ""
 
+
+func __check_emit_event(end_branch: bool):
+	if (current_branch["event"].empty()):
+		return
+	
+	var is_post: bool = current_branch["event"].has("post") && current_branch["event"]["post"]	
+	if end_branch && is_post:
+		emit_signal("extern_event", current_branch["event"])
+	elif !is_post && !end_branch:
+		emit_signal("extern_event", current_branch["event"])
 
 # Функция загрузки JSON файла с диска
 # @path - путь к файлу
@@ -129,6 +145,8 @@ func __read_branch():
 	
 	if (current_branch["change_started"] != ""):
 		current_dialog["autobranch"] = current_branch["change_started"]
+	
+	__check_emit_event(false)
 	
 	if (current_branch["choice"]):
 		__set_choice_branches()

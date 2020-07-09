@@ -5,9 +5,11 @@ class_name AppWin
 onready var dialogs_list: VBoxContainer = $MainVBox/MainHBox/BranchesScroll/BranchesList
 onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var info_panel: Panel = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel
+onready var event_panel: Panel = $Panel/EventPanel
 onready var info_container: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var branches_scroll: ScrollContainer = $MainVBox/MainHBox/BranchesScroll
 onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer/PhrasesVBox
+
 
 var BranchCell = preload("res://Components/BranchCell.tscn")
 var PhraseCell = preload("res://Components/DialPhraseCell.tscn")
@@ -110,7 +112,6 @@ func _on_ImportDialog_file_selected(path):
 	while arr.size() == 2:
 		arr = file.get_csv_line("\t")
 		if arr.size() == 2:
-			print(arr.size())
 			dict[arr[0]] = arr[1]
 	file.close()
 	
@@ -170,7 +171,7 @@ func _on_AddBranchButton_pressed():
 		"hide_self": true,
 		"choice": false,
 		"or_cond": false,
-		"extern_signal": "",
+		"event": {},
 		"show": [],
 		"hide": [],
 		"vars": [],

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://App.gd" type="Script" id=1]
 [ext_resource path="res://Resources/icons/archive.svg" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Resources/icons/ellipsis-vertical.svg" type="Texture" id=13]
 [ext_resource path="res://Resources/icons/play.svg" type="Texture" id=14]
 [ext_resource path="res://Components/PlayPanel/PlayPanel.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Components/EventPanel.tscn" type="PackedScene" id=16]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -399,6 +400,9 @@ margin_left = -540.0
 margin_right = 540.0
 
 [node name="PlayPanel" parent="Panel" instance=ExtResource( 15 )]
+visible = false
+
+[node name="EventPanel" parent="Panel" instance=ExtResource( 16 )]
 visible = false
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]

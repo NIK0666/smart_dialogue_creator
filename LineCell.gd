@@ -40,8 +40,11 @@ func _on_NameText_focus_entered():
 func set_state(state_name: String):
 	self.color = AppInstance.colors[state_name]
 	if (!_content.empty() && _content["closed"]):
-		$HBoxContainer/NameText.set("custom_colors/font_color", AppInstance.colors["Close"])
-	elif (!_content.empty() && _content["hidden"]):
+		$HBoxContainer/PhraseText.set("custom_colors/font_color", AppInstance.colors["Close"])
+	else:
+		$HBoxContainer/PhraseText.set("custom_colors/font_color", Color("ffffff"))
+	
+	if (!_content.empty() && _content["hidden"]):
 		$HBoxContainer/NameText.set("custom_colors/font_color", AppInstance.colors["Hidden"])
 	else:
 		$HBoxContainer/NameText.set("custom_colors/font_color", Color("ffffff"))

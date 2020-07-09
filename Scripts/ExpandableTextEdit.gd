@@ -75,7 +75,6 @@ func _update_height(count):
 	
 	rect_min_size.y = lines_to_show * line_height + line_spacing
 	rect_size.y = rect_min_size.y
-	print(rect_size.y)
 	update()
 
 func _on_TextEdit_text_changed():

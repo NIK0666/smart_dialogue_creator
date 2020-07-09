@@ -5,6 +5,7 @@ var dial_data: Dictionary
 
 var CharacterCell = preload("res://Components/PlayPanel/CharacterCell.tscn")
 var TextCell = preload("res://Components/PlayPanel/TextCell.tscn")
+var EventCell = preload("res://Components/PlayPanel/EventCell.tscn")
 var AnswerButton = preload("res://Components/PlayPanel/AnswerButton.tscn")
 var scroll_to_bottom: bool = false
 
@@ -27,7 +28,8 @@ func show():
 	dial_reader.connect("change_branches", self, "_change_branches")
 	dial_reader.connect("change_speaker_id", self, "_change_speaker_id")
 	dial_reader.connect("close_dialog", self, "_close_dialog")
-	
+	dial_reader.connect("extern_event", self, "_extern_event")
+	dial_reader.connect("anim_event", self, "_anim_event")
 	
 
 	__play_dialog()
@@ -38,7 +40,6 @@ func _phrase_changed(phrase_text: String):
 	var cell = TextCell.instance()
 	cell.set_text(phrase_text)
 	history_container.add_child(cell)
-	print(history_scroll.get_v_scrollbar().max_value)
 	scroll_to_bottom = true
 
 func _change_branches(branches_array: Array):
@@ -78,7 +79,14 @@ func _change_speaker_id(speaker_id: String):
 func _close_dialog():
 	__clean_data()
 	talk_btn.disabled = false
-	
+
+func _extern_event(event_data: Dictionary):
+	var cell = EventCell.instance()
+	cell.set_content(event_data)
+	history_container.add_child(cell)
+
+func _anim_event(anim_name: String):
+	print(anim_name)
 
 func __play_dialog():
 	var dial_path: String = AppInstance.app_win.document_path

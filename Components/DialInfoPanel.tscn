@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Components/SelectBranchMenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Components/OperatorMenuButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/VariablesBtn.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/SelectBranchMenuButton.gd" type="Script" id=5]
+[ext_resource path="res://Resources/icons/options.svg" type="Texture" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Panel
@@ -29,7 +30,14 @@ func update_content(content: Dictionary):
 	$HBoxContainer/HideSelfCheck.pressed = content[\"hide_self\"]
 	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
 	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
-	$HBoxContainer/Control/SignalText.text = content[\"extern_signal\"]
+	
+	if (!content[\"event\"].empty()):
+		$HBoxContainer/Control/SignalText.text = content[\"event\"][\"name\"]
+		$HBoxContainer/Control/EventOptionsBtn.disabled = (content[\"event\"][\"name\"] == \"\")
+	else:
+		$HBoxContainer/Control/SignalText.text = \"\"
+		$HBoxContainer/Control/EventOptionsBtn.disabled = true
+
 	$VBoxContainer2/Panel2/ChangeStartedBtn.set_text(content[\"change_started\"])
 
 	# Hide branches info
@@ -82,10 +90,12 @@ func update_content(content: Dictionary):
 
 func _on_HiddenCheck_toggled(button_pressed):
 	_content[\"hidden\"] = button_pressed
+	AppInstance.app_win.update_branch_states()
 
 
 func _on_ClosedCheck_toggled(button_pressed):
 	_content[\"closed\"] = button_pressed
+	AppInstance.app_win.update_branch_states()
 
 func _on_HideSelfCheck_toggled(button_pressed):
 	_content[\"hide_self\"] = button_pressed
@@ -97,7 +107,12 @@ func _on_OrCheckBox_toggled(button_pressed):
 	_content[\"or_cond\"] = button_pressed
 	
 func _on_SignalText_text_changed(new_text):
-	_content[\"extern_signal\"] = new_text
+	if (new_text != \"\"):
+		_content[\"event\"][\"name\"] = new_text
+		$HBoxContainer/Control/EventOptionsBtn.disabled = (new_text == \"\")
+	else:
+		_content[\"event\"] = {}
+	
 
 
 func _on_HideBranch_change_value():
@@ -142,22 +157,8 @@ func save_if_info():
 func _on_ChangeStartedBtn_change_value():
 	_content[\"change_started\"] = $VBoxContainer2/Panel2/ChangeStartedBtn.get_text()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func _on_EventOptionsBtn_pressed():
+	AppInstance.app_win.event_panel.show_with_content(_content[\"event\"])
 "
 
 [node name="Panel" type="Panel"]
@@ -200,14 +201,14 @@ text = "Closed dialog"
 [node name="HideSelfCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
 margin_left = 308.0
-margin_right = 549.0
+margin_right = 448.0
 margin_bottom = 32.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 140, 0 )
 custom_fonts/font = ExtResource( 1 )
 text = "Hide self"
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 553.0
+margin_left = 452.0
 margin_right = 794.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
@@ -215,24 +216,40 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HBoxContainer/Control"]
 self_modulate = Color( 0.407843, 0.819608, 0.54902, 1 )
 margin_top = 6.0
-margin_right = 63.0
+margin_right = 56.0
 margin_bottom = 25.0
 custom_fonts/font = ExtResource( 1 )
-text = "SIGNAL:"
+text = "EVENT:"
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SignalText" type="LineEdit" parent="HBoxContainer/Control"]
-margin_left = 67.0
-margin_right = 241.0
+margin_left = 60.0
+margin_right = 300.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 28 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
-placeholder_text = "Signal name"
+placeholder_text = "Event name"
 caret_blink = true
+
+[node name="EventOptionsBtn" type="Button" parent="HBoxContainer/Control"]
+margin_left = 304.0
+margin_right = 336.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+hint_tooltip = "Event options"
+disabled = true
+icon = ExtResource( 6 )
+expand_icon = true
+
+[node name="Control" type="Control" parent="HBoxContainer/Control"]
+margin_left = 340.0
+margin_right = 342.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 2, 0 )
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -806,6 +823,7 @@ __meta__ = {
 [connection signal="toggled" from="HBoxContainer/ClosedCheck" to="." method="_on_ClosedCheck_toggled"]
 [connection signal="toggled" from="HBoxContainer/HideSelfCheck" to="." method="_on_HideSelfCheck_toggled"]
 [connection signal="text_changed" from="HBoxContainer/Control/SignalText" to="." method="_on_SignalText_text_changed"]
+[connection signal="pressed" from="HBoxContainer/Control/EventOptionsBtn" to="." method="_on_EventOptionsBtn_pressed"]
 [connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText1" to="." method="_on_HideBranch_change_value"]
 [connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText2" to="." method="_on_HideBranch_change_value"]
 [connection signal="change_value" from="VBoxContainer2/Panel/VBoxContainer/HideBranchText3" to="." method="_on_HideBranch_change_value"]
