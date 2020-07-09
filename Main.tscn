@@ -396,8 +396,9 @@ __meta__ = {
 
 [node name="ConfigPanel" parent="Panel" instance=ExtResource( 5 )]
 visible = false
-margin_left = -540.0
-margin_right = 540.0
+margin_left = -600.0
+margin_right = 600.0
+rect_min_size = Vector2( 1200, 600 )
 
 [node name="PlayPanel" parent="Panel" instance=ExtResource( 15 )]
 visible = false

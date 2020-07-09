@@ -6,6 +6,7 @@ onready var name_text:LineEdit = $HBoxContainer/NameText
 onready var phrase_text:LineEdit = $HBoxContainer/PhraseText
 
 var _content: Dictionary
+var old_name: String
 
 func _ready():
 	set_state("Default")
@@ -32,10 +33,12 @@ func _on_PhraseText_text_changed(new_text):
 func _on_NameText_text_changed(new_text):
 	_content["name"] = new_text
 	AppInstance.update_branches()
+	
 
 
 func _on_NameText_focus_entered():
 	AppInstance.select_branch(self)
+	old_name = _content["name"]
 	
 func set_state(state_name: String):
 	self.color = AppInstance.colors[state_name]
@@ -92,3 +95,5 @@ func _on_PhraseText_focus_exited():
 
 func _on_NameText_focus_exited():
 	name_text.deselect()
+	if (old_name != "" && _content["name"] != "" && old_name != _content["name"]):
+		AppInstance.rename_branch(old_name, _content["name"])

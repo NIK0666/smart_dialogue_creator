@@ -39,6 +39,18 @@ func select_branch(node: BranchCell):
 		selected_branch = node
 		app_win.change_selected(node)
 
+func rename_branch(old_name: String, new_name: String):
+	
+	for branch in document["branches"]:
+		for ind in range(0, branch["show"].size()):
+			if (branch["show"][ind] == old_name):
+				branch["show"][ind] = new_name
+		
+		for ind in range(0, branch["hide"].size()):
+			if (branch["hide"][ind] == old_name):
+				branch["hide"][ind] = new_name
+
+
 func deselect_branch(node: BranchCell):
 	node.set_state("Default")
 
