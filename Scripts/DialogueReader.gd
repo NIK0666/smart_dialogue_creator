@@ -161,9 +161,6 @@ func __read_branch():
 	for branch_name in current_branch["hide"]:
 		var br: Dictionary = __find_branch(branch_name)
 		br["hidden"] = true
-	
-	for var_dict in current_branch["vars"]:
-		__change_var(var_dict)
 		
 	# Предварительно получу все фразы, проверив по условиям
 	current_branch_phrases = []
