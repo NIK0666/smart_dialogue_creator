@@ -2,7 +2,7 @@ extends PopupBtn
 
 func _ready():
 	if (placeholder == ""):
-		placeholder = "[None branch]"
+		placeholder = "none_branch"
 	._ready()
 
 func update_popup_list():

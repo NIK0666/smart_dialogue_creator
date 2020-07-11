@@ -15,7 +15,7 @@ __meta__ = {
 margin_right = 120.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 120, 0 )
-placeholder_text = "Variable"
+placeholder_text = "variable"
 placeholder_alpha = 0.33
 
 [node name="ValueText" type="LineEdit" parent="."]
@@ -23,7 +23,7 @@ margin_left = 124.0
 margin_right = 204.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Default"
+placeholder_text = "default"
 placeholder_alpha = 0.33
 
 [node name="DescText" type="LineEdit" parent="."]
@@ -31,7 +31,7 @@ margin_left = 208.0
 margin_right = 359.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Description"
+placeholder_text = "description"
 placeholder_alpha = 0.33
 
 [node name="DelBtn" type="Button" parent="."]

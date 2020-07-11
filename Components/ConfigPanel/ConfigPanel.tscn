@@ -35,7 +35,7 @@ __meta__ = {
 [node name="NewConfigBtn" type="Button" parent="Control"]
 margin_right = 44.0
 margin_bottom = 38.0
-hint_tooltip = "New config"
+hint_tooltip = "new_config"
 custom_fonts/font = ExtResource( 1 )
 icon = ExtResource( 5 )
 
@@ -43,7 +43,7 @@ icon = ExtResource( 5 )
 margin_left = 48.0
 margin_right = 92.0
 margin_bottom = 38.0
-hint_tooltip = "Open config"
+hint_tooltip = "open_config"
 custom_fonts/font = ExtResource( 1 )
 icon = ExtResource( 4 )
 
@@ -87,24 +87,24 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HBoxContainer/CharactersList/Panel"]
 margin_top = 4.0
-margin_right = 118.0
+margin_right = 73.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
-text = "Characters list:"
+text = "chars_list"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddBtn" type="Button" parent="HBoxContainer/CharactersList/Panel"]
-margin_left = 122.0
-margin_right = 165.0
+margin_left = 77.0
+margin_right = 118.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "Add"
+text = "add"
 
 [node name="HeroBtn" type="MenuButton" parent="HBoxContainer/CharactersList/Panel"]
-margin_left = 169.0
-margin_right = 269.0
+margin_left = 122.0
+margin_right = 222.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 100, 0 )
 align = 0
@@ -143,27 +143,27 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HBoxContainer/VariablesList/Panel"]
 margin_top = 4.0
-margin_right = 104.0
+margin_right = 64.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
-text = "Variables list:"
+text = "vars_list"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddPrivateBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
-margin_left = 108.0
-margin_right = 194.0
+margin_left = 68.0
+margin_right = 154.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "Add local"
+text = "add_local"
 
 [node name="AddPublicBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
-margin_left = 198.0
-margin_right = 293.0
+margin_left = 158.0
+margin_right = 253.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "Add public"
+text = "add_public"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
 anchor_right = 1.0

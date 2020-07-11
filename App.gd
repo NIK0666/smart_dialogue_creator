@@ -15,6 +15,7 @@ var BranchCell = preload("res://Components/BranchCell.tscn")
 var PhraseCell = preload("res://Components/DialPhraseCell.tscn")
 var document_path: String = ""
 var edit_mode: bool = false
+var selected_branch_cell: BranchCell = null
 
 func _ready():
 	randomize()
@@ -30,7 +31,6 @@ func _ready():
 	if (open_recent):
 		AppInstance.document = open_recent
 		init_form(last_file_path)
-
 
 func _on_OpenDialog_file_selected(path):
 	AppInstance.document = AppInstance.load_json(path)
@@ -206,6 +206,11 @@ func change_selected(node: BranchCell):
 	if (node == null):
 		info_container.visible = false
 		return
+	
+	if (selected_branch_cell != node):
+		if selected_branch_cell != null:
+			selected_branch_cell.update_phrase_text()
+		selected_branch_cell = node
 
 	var node_content: Dictionary = node.get_content()
 	info_container.visible = true

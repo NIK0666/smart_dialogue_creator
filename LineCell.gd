@@ -14,12 +14,14 @@ func _ready():
 func update_content(content: Dictionary):
 	_content = content
 	$HBoxContainer/NameText.text = _content["name"]
+	update_phrase_text()
+
+func update_phrase_text():
 	if (_content.has("text") && _content["text"] != ""):
 		$HBoxContainer/PhraseText.text = _content["text"]
 	elif _content["phrases"].size() > 0:
 		$HBoxContainer/PhraseText.text = ""
 		$HBoxContainer/PhraseText.placeholder_text = _content["phrases"][0]["text"]
-
 
 func _on_Button_pressed():
 	pass

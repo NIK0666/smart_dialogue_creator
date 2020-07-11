@@ -15,7 +15,7 @@ __meta__ = {
 margin_right = 177.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Id"
+placeholder_text = "id"
 placeholder_alpha = 0.33
 
 [node name="NameText" type="LineEdit" parent="."]
@@ -23,7 +23,7 @@ margin_left = 181.0
 margin_right = 358.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
-placeholder_text = "Name"
+placeholder_text = "name"
 placeholder_alpha = 0.33
 
 [node name="DelBtn" type="Button" parent="."]

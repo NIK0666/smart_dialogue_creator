@@ -127,7 +127,7 @@ margin_left = 124.0
 margin_right = 224.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 100, 0 )
-placeholder_text = "Animation"
+placeholder_text = "anim"
 placeholder_alpha = 0.33
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
@@ -155,7 +155,7 @@ margin_left = 136.0
 margin_right = 206.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 50, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 
 [node name="ElseCheckBox" type="CheckBox" parent="HBoxContainer/Control"]
@@ -230,5 +230,5 @@ min_line = 1
 [connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DelBtn" to="." method="_on_DelBtn_pressed"]
-[connection signal="text_changed" from="PhraseText" to="PhraseText" method="_on_TextEdit_text_changed"]
 [connection signal="text_changed" from="PhraseText" to="." method="_on_PhraseText_text_changed"]
+[connection signal="text_changed" from="PhraseText" to="PhraseText" method="_on_TextEdit_text_changed"]

@@ -71,7 +71,7 @@ theme/custom_font="res://CertaFont.tres"
 
 [locale]
 
-translations=PoolStringArray( "res://lang/text.csv" )
+translations=PoolStringArray( "res://locale/locale.en.translation", "res://locale/locale.ru.translation" )
 locale_filter=[ 1, [ "en", "ru" ] ]
 translation_remaps={
 

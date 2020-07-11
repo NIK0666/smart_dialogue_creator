@@ -183,32 +183,32 @@ __meta__ = {
 
 [node name="HiddenCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.560784, 0.560784, 0.560784, 1 )
-margin_right = 150.0
+margin_right = 142.0
 margin_bottom = 32.0
-rect_min_size = Vector2( 150, 0 )
+rect_min_size = Vector2( 110, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "Hidden default"
+text = "hidden_default"
 
 [node name="ClosedCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.776471, 0.803922, 0.533333, 1 )
-margin_left = 154.0
-margin_right = 304.0
+margin_left = 146.0
+margin_right = 296.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 150, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "Closed dialog"
+text = "closed_dialog"
 
 [node name="HideSelfCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
-margin_left = 308.0
-margin_right = 448.0
+margin_left = 300.0
+margin_right = 440.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 140, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "Hide self"
+text = "hide_self"
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 452.0
+margin_left = 444.0
 margin_right = 794.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
@@ -216,38 +216,38 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HBoxContainer/Control"]
 self_modulate = Color( 0.407843, 0.819608, 0.54902, 1 )
 margin_top = 6.0
-margin_right = 56.0
+margin_right = 52.0
 margin_bottom = 25.0
 custom_fonts/font = ExtResource( 1 )
-text = "EVENT:"
+text = "event"
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SignalText" type="LineEdit" parent="HBoxContainer/Control"]
-margin_left = 60.0
-margin_right = 300.0
+margin_left = 56.0
+margin_right = 308.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 28 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
-placeholder_text = "Event name"
+placeholder_text = "event_name"
 caret_blink = true
 
 [node name="EventOptionsBtn" type="Button" parent="HBoxContainer/Control"]
-margin_left = 304.0
-margin_right = 336.0
+margin_left = 312.0
+margin_right = 344.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
-hint_tooltip = "Event options"
+hint_tooltip = "event_options"
 disabled = true
 icon = ExtResource( 6 )
 expand_icon = true
 
 [node name="Control" type="Control" parent="HBoxContainer/Control"]
-margin_left = 340.0
-margin_right = 342.0
+margin_left = 348.0
+margin_right = 350.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 2, 0 )
 
@@ -272,7 +272,7 @@ modulate = Color( 0.905882, 0.690196, 0.690196, 1 )
 margin_right = 125.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "Hide branches:"
+text = "hide_branches"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -339,7 +339,7 @@ modulate = Color( 0.576471, 0.823529, 0.662745, 1 )
 margin_right = 128.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "Show branches:"
+text = "show_branches"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -399,7 +399,7 @@ modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
 margin_top = 192.0
 margin_right = 128.0
 margin_bottom = 219.0
-text = "Show choice"
+text = "show_choice"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -416,7 +416,7 @@ modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
 margin_right = 260.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "Change variables:"
+text = "change_variables"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -445,7 +445,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 4 )
-placeholder = "[Set var]"
+placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
 margin_bottom = 29.0
@@ -457,7 +457,7 @@ margin_left = 180.0
 margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -480,7 +480,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 4 )
-placeholder = "[Set var]"
+placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
 margin_bottom = 29.0
@@ -492,7 +492,7 @@ margin_left = 180.0
 margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -514,7 +514,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 4 )
-placeholder = "[Set var]"
+placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
 margin_bottom = 29.0
@@ -526,7 +526,7 @@ margin_left = 180.0
 margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -548,7 +548,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 4 )
-placeholder = "[Set var]"
+placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
 margin_bottom = 29.0
@@ -560,7 +560,7 @@ margin_left = 180.0
 margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -582,7 +582,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 4 )
-placeholder = "[Set var]"
+placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
 margin_bottom = 29.0
@@ -594,7 +594,7 @@ margin_left = 180.0
 margin_right = 260.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -609,7 +609,7 @@ size_flags_horizontal = 3
 clip_text = true
 align = 0
 script = ExtResource( 5 )
-placeholder = "[Change started branch]"
+placeholder = "set_started"
 
 [node name="Panel3" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
@@ -623,7 +623,7 @@ modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
 margin_right = 261.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "Check enter conditions:"
+text = "check_enter_cond"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -664,7 +664,7 @@ margin_left = 191.0
 margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -699,7 +699,7 @@ margin_left = 191.0
 margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -734,7 +734,7 @@ margin_left = 191.0
 margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -769,7 +769,7 @@ margin_left = 191.0
 margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -804,7 +804,7 @@ margin_left = 191.0
 margin_right = 261.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "Value"
+placeholder_text = "value"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -815,7 +815,7 @@ modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
 margin_top = 188.0
 margin_right = 261.0
 margin_bottom = 215.0
-text = "OR condition"
+text = "or_cond"
 __meta__ = {
 "_edit_use_anchors_": false
 }

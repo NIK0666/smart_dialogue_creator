@@ -105,6 +105,9 @@ func load_settings():
 		change_setting("config", "res://Default.config")
 		change_setting("last_path", "res://")
 		change_setting("last_file", "")
+		change_setting("locale", TranslationServer.get_locale())
+	if settings.get_value("settings", "locale"):
+		TranslationServer.set_locale(settings.get_value("settings", "locale"))
 
 func load_config():
 	var dict = load_json(settings.get_value("settings", "config"))

@@ -4,7 +4,7 @@ var _var: String
 
 func _ready():
 	if (placeholder == ""):
-		placeholder = "[None var]"
+		placeholder = "none_var"
 	._ready()
 
 func update_popup_list():

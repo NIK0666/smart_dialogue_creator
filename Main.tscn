@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://App.gd" type="Script" id=1]
 [ext_resource path="res://Resources/icons/archive.svg" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Resources/icons/play.svg" type="Texture" id=14]
 [ext_resource path="res://Components/PlayPanel/PlayPanel.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Components/EventPanel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scripts/LangBtn.gd" type="Script" id=17]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -57,7 +58,7 @@ __meta__ = {
 [node name="AddBranchButton" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_right = 44.0
 margin_bottom = 38.0
-hint_tooltip = "Add new branch"
+hint_tooltip = "add_new_branch"
 icon = ExtResource( 12 )
 
 [node name="Control2" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
@@ -70,7 +71,7 @@ rect_min_size = Vector2( 104, 0 )
 margin_left = 156.0
 margin_right = 200.0
 margin_bottom = 38.0
-hint_tooltip = "Import text"
+hint_tooltip = "import_text"
 icon = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -81,7 +82,7 @@ __meta__ = {
 margin_left = 204.0
 margin_right = 248.0
 margin_bottom = 38.0
-hint_tooltip = "Export all text"
+hint_tooltip = "export_text"
 icon = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -92,7 +93,7 @@ __meta__ = {
 margin_left = 252.0
 margin_right = 296.0
 margin_bottom = 38.0
-hint_tooltip = "Config"
+hint_tooltip = "config"
 icon = ExtResource( 11 )
 __meta__ = {
 "_editor_description_": ""
@@ -102,7 +103,7 @@ __meta__ = {
 margin_left = 300.0
 margin_right = 344.0
 margin_bottom = 38.0
-hint_tooltip = "Edit branches"
+hint_tooltip = "edit_mode"
 toggle_mode = true
 icon = ExtResource( 13 )
 __meta__ = {
@@ -116,27 +117,39 @@ margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 align = 0
 script = ExtResource( 6 )
-placeholder = "[Character dialogue]"
+placeholder = "char_dial"
 
 [node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 4 )]
 margin_left = 432.0
 margin_right = 512.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
-placeholder = "[Started branch]"
+placeholder = "start_branch"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 516.0
-margin_right = 1236.0
+margin_right = 1172.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
+
+[node name="PopupBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+self_modulate = Color( 0.666667, 0.572549, 0.486275, 0.784314 )
+margin_left = 1176.0
+margin_right = 1236.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 60, 0 )
+size_flags_vertical = 3
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 1240.0
 margin_right = 1284.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "New dialog"
+hint_tooltip = "new_dialog"
 icon = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
@@ -147,7 +160,8 @@ margin_left = 1288.0
 margin_right = 1332.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Open dialog"
+hint_tooltip = "open_dialog
+"
 icon = ExtResource( 7 )
 
 [node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
@@ -155,7 +169,7 @@ margin_left = 1336.0
 margin_right = 1380.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Save dialog"
+hint_tooltip = "save_dialog"
 icon = ExtResource( 2 )
 
 [node name="PlayBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
@@ -163,7 +177,7 @@ margin_left = 1384.0
 margin_right = 1428.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Play current dialog"
+hint_tooltip = "play_dialog"
 icon = ExtResource( 14 )
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
@@ -228,7 +242,7 @@ margin_top = -30.0
 margin_right = 129.0
 margin_bottom = -2.0
 rect_min_size = Vector2( 125, 28 )
-text = "Add phrase"
+text = "add_phrase"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -252,7 +266,7 @@ margin_top = 260.0
 margin_right = 131.0
 margin_bottom = 288.0
 rect_min_size = Vector2( 125, 28 )
-text = "Add first"
+text = "add_first"
 __meta__ = {
 "_edit_use_anchors_": false
 }

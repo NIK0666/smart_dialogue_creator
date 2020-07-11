@@ -109,4 +109,7 @@ func _on_OpenBtn_pressed():
 
 
 func _on_HeroBtn_change_value():
-	AppInstance.config["hero"] = hero_btn._content["id"]
+	if hero_btn._content.empty():
+		AppInstance.config["hero"] = ""
+	else:
+		AppInstance.config["hero"] = hero_btn._content["id"]

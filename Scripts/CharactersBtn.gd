@@ -4,7 +4,7 @@ var _content: Dictionary
 
 func _ready():
 	if (placeholder == ""):
-		placeholder = "[None char]"
+		placeholder = "char_phrase"
 	._ready()
 
 func update_popup_list():

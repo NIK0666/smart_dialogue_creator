@@ -1,0 +1,49 @@
+id,en,ru
+add_new_branch,Add new branch,Добавить новую ветку
+import_text,Import text,Импортировать текст
+export_text,Export all text,Экспортировать весь текст
+config,Config characters and variables,Конфигурация персонажей и переменных
+edit_mode,Branches edit mode,Режим редактирования веток
+char_dial,[Character dialogue],[Хозяин диалога]
+start_branch,[Started branch],[Стартовая ветка]
+new_dialog,Create new dialogue file,Создать новый файл диалога
+open_dialog,Open exist dialogue file,Открыть существующий файл диалога
+save_dialog,Save current dialogue,Сохранить текущий диалог
+play_dialog,Play current dialog,Запустить диалог
+add_phrase,Add phrase,Новая фраза
+add_first,Add main hero first phrase,Добавить первую фразу главного героя
+hidden_default,Hidden default,Скрыта
+closed_dialog,Closed dialog,Конец диалога
+hide_self,Hide self,Скрыть себя
+event,EVENT:,СОБЫТИЕ:
+event_name,Event name,Имя события
+event_options,Event options,Параметры события
+hide_branches,Hide branches:,Скрыть ветки:
+show_branches,Show branches:,Показать ветки:
+change_variables,Change variables:,Изменить переменные:
+check_enter_cond,Check enter conditions:,Проверить условия входа:
+set_var,[Set var],[Имя переменной]
+value,Value,Знач.
+show_choice,Show choice,Показать выбор
+set_started,[Set started branch],[Стартовая ветка]
+or_cond,OR condition,Проверка как ИЛИ
+none_branch,[None branch],[Пусто]
+none_var,[None var],[Пусто]
+chars_list,Characters list:,Список персонажей:
+vars_list,Variables list:,Список переменных:
+add,Add,Добавить
+add_local,Add local,Добавить локальную
+add_public,Add public,Добавить публичную
+new_config,New config,Создать файл конфигурации
+open_config,Open config,Открыть файл конфигурации
+id,Id,Идентификатор
+name,Name,Имя
+variable,Variable,Переменная
+default,Deault,По умолч.
+description,Description,Описание
+char_phrase,[Character],[Персонаж]
+anim,Animation,Анимация
+else,else,иначе
+event_param,Event param,Параметр события
+event_post,Emit post all phrases,Событие после всех фраз ветки
+lang,[Locale],[Язык]
