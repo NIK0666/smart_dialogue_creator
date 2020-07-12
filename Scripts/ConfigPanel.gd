@@ -32,6 +32,8 @@ func clean_data():
 
 	for item in vars_list.get_children():
 		vars_list.remove_child(item)
+	
+	hero_btn.update_content({})
 
 func load_data():
 	for item in AppInstance.config["characters"]:

@@ -196,6 +196,7 @@ func _on_AddPhraseButton_pressed():
 		}
 	AppInstance.selected_branch.get_content()["phrases"].append(new_dict)
 	cell.update_content(new_dict)
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = false
 
 func change_selected_branch_text(value: String):
 	var node_content: Dictionary = AppInstance.selected_branch.get_content()

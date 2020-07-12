@@ -35,3 +35,5 @@ func update_content(content):
 	_content = content
 	if !_content.empty():
 		.set_text(content["name"])
+	else:
+		.set_text("char_phrase")

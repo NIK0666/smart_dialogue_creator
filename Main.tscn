@@ -290,6 +290,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="MainVBox/BottomPanel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -70.0
+margin_top = -9.5
+margin_bottom = 9.5
+rect_min_size = Vector2( 70, 0 )
+custom_colors/font_color = Color( 0.4, 0.4, 0.4, 1 )
+text = "ver. 0.8"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="OpenDialog" type="FileDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
