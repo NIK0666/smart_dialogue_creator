@@ -22,13 +22,13 @@ hide_branches,Hide branches:,Скрыть ветки:
 show_branches,Show branches:,Показать ветки:
 change_variables,Change variables:,Изменить переменные:
 check_enter_cond,Check enter conditions:,Проверить условия входа:
-set_var,[Set var],[Имя переменной]
+set_var,[Set var],[Нет перем.]
 value,Value,Знач.
 show_choice,Show choice,Показать выбор
 set_started,[Set started branch],[Стартовая ветка]
 or_cond,OR condition,Проверка как ИЛИ
-none_branch,[None branch],[Пусто]
-none_var,[None var],[Пусто]
+none_branch,[None branch],[Нет ветки]
+none_var,[None var],[Нет перем.]
 chars_list,Characters list:,Список персонажей:
 vars_list,Variables list:,Список переменных:
 add,Add,Добавить
@@ -47,3 +47,4 @@ else,else,иначе
 event_param,Event param,Параметр события
 event_post,Emit post all phrases,Событие после всех фраз ветки
 lang,[Locale],[Язык]
+random,random,рандом

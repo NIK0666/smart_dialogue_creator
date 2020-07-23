@@ -162,9 +162,14 @@ func __read_branch():
 		var br: Dictionary = __find_branch(branch_name)
 		br["hidden"] = true
 		
+	__prepare_phrases()
+
+
+func __prepare_phrases():
 	# Предварительно получу все фразы, проверив по условиям
 	current_branch_phrases = []
-	var skip_else: bool = false
+	var random_phrases: Array = []
+	var skip_else: bool = false	
 	for phrase in current_branch["phrases"]:
 		if (skip_else):
 			if (phrase["if"].has("else")):
@@ -173,11 +178,22 @@ func __read_branch():
 				skip_else = false
 			continue
 		if (phrase["if"].empty()):
+			if (phrase.has("random") && phrase["random"]):
+				random_phrases.append(phrase)
+				continue
+			if !random_phrases.empty():
+				current_branch_phrases.append(random_phrases[randi() % random_phrases.size()])
+				random_phrases = []
+
 			current_branch_phrases.append(phrase)
 		else:
 			if (__check_condition(phrase["if"])):
 				current_branch_phrases.append(phrase)
 				skip_else = phrase["if"]["else"]
+	
+	if !random_phrases.empty():
+		current_branch_phrases.append(random_phrases[randi() % random_phrases.size()])
+		random_phrases = []
 
 
 # Переключить ветку диалога

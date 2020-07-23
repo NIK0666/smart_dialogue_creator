@@ -29,14 +29,18 @@ func update_content(content: Dictionary):
 		$HBoxContainer/Control/VarCondText.set_text(\"\")
 		$HBoxContainer/Control/OpCondText.text = \"==\"
 		$HBoxContainer/Control/ValCondText.text = \"\"
-		$HBoxContainer/Control/ElseCheckBox.pressed = false
-		$HBoxContainer/Control/ElseCheckBox.disabled = true
+		
+		$HBoxContainer/Control/ElseCheckBox.text = \"random\"
+		if (content.has(\"random\")):
+			$HBoxContainer/Control/ElseCheckBox.pressed = content[\"random\"]
+		else:
+			$HBoxContainer/Control/ElseCheckBox.pressed = false
 	else:
 		$HBoxContainer/Control/VarCondText.set_text(content[\"if\"][\"key\"])
 		$HBoxContainer/Control/OpCondText.text = content[\"if\"][\"op\"]
 		$HBoxContainer/Control/ValCondText.text = content[\"if\"][\"value\"]
 		$HBoxContainer/Control/ElseCheckBox.pressed = content[\"if\"][\"else\"]
-		$HBoxContainer/Control/ElseCheckBox.disabled = false
+		$HBoxContainer/Control/ElseCheckBox.text = \"else\"
 
 func _on_NPCNameText_change_value():
 	_content[\"npc\"] = $HBoxContainer/NPCNameText.get_id()
@@ -48,11 +52,13 @@ func _on_CondText_text_changed(new_text):
 	save_cond_info()
 
 func _on_ElseCheckBox_toggled(button_pressed):
-	save_cond_info()
+	if (_content[\"if\"].empty()):
+		_content[\"random\"] = button_pressed
+	else:
+		save_cond_info()
 
 func save_cond_info():
 	var is_set: bool = !($HBoxContainer/Control/VarCondText.get_text().empty() && $HBoxContainer/Control/VarCondText.get_text().empty())
-	$HBoxContainer/Control/ElseCheckBox.disabled = !is_set
 	if (is_set):
 		_content[\"if\"] = {
 			\"key\": $HBoxContainer/Control/VarCondText.get_text(),
@@ -60,8 +66,10 @@ func save_cond_info():
 			\"value\": $HBoxContainer/Control/ValCondText.text,
 			\"else\": $HBoxContainer/Control/ElseCheckBox.pressed
 			}
+		$HBoxContainer/Control/ElseCheckBox.text = \"else\"
 	else:
 		_content[\"if\"] = {}
+		$HBoxContainer/Control/ElseCheckBox.text = \"random\"
 
 func _on_PhraseText_text_changed():
 	_content[\"text\"] = $PhraseText.text
@@ -162,7 +170,6 @@ placeholder_alpha = 0.33
 margin_left = 210.0
 margin_right = 269.0
 margin_bottom = 29.0
-disabled = true
 text = "else"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]
@@ -230,5 +237,5 @@ min_line = 1
 [connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DelBtn" to="." method="_on_DelBtn_pressed"]
-[connection signal="text_changed" from="PhraseText" to="." method="_on_PhraseText_text_changed"]
 [connection signal="text_changed" from="PhraseText" to="PhraseText" method="_on_TextEdit_text_changed"]
+[connection signal="text_changed" from="PhraseText" to="." method="_on_PhraseText_text_changed"]
