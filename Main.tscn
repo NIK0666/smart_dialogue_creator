@@ -300,7 +300,7 @@ margin_top = -9.5
 margin_bottom = 9.5
 rect_min_size = Vector2( 70, 0 )
 custom_colors/font_color = Color( 0.4, 0.4, 0.4, 1 )
-text = "ver. 0.8"
+text = "ver. 0.81"
 __meta__ = {
 "_edit_use_anchors_": false
 }

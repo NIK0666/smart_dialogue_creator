@@ -260,9 +260,10 @@ func __change_var(var_dict: Dictionary):
 # Получить локальную переменную
 # @key - имя переменной
 func __get_local_var(key: String) -> Dictionary:
-	for local_var in current_dialog["variables"]:
-		if local_var["key"] == key:
-			return local_var
+	if (current_dialog.has("variables")):
+		for local_var in current_dialog["variables"]:
+			if local_var["key"] == key:
+				return local_var
 	return {}
 
 

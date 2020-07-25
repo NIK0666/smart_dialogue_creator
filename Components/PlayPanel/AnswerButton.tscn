@@ -6,6 +6,7 @@
 margin_right = 1064.0
 margin_bottom = 25.0
 text = "Фраза диалога"
+clip_text = true
 align = 0
 script = ExtResource( 1 )
 __meta__ = {
