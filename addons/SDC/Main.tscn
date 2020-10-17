@@ -1,0 +1,630 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://addons/SDC/Scripts/Core/App.gd" type="Script" id=1]
+[ext_resource path="res://addons/SDC/Scripts/CharactersBtn.gd" type="Script" id=2]
+[ext_resource path="res://addons/SDC/Scripts/LangBtn.gd" type="Script" id=3]
+[ext_resource path="res://addons/SDC/Components/DialInfoPanel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/SDC/Components/ConfigPanel/ConfigPanel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/SDC/Components/PlayPanel/PlayPanel.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/SDC/Components/EventPanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/SDC/Components/SelectBranchMenuButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/SDC/Resources/icons/archive.svg" type="Texture" id=9]
+[ext_resource path="res://addons/SDC/Resources/icons/settings.svg" type="Texture" id=10]
+[ext_resource path="res://addons/SDC/Resources/icons/ellipsis-vertical.svg" type="Texture" id=11]
+[ext_resource path="res://addons/SDC/Resources/icons/folder-open.svg" type="Texture" id=12]
+[ext_resource path="res://addons/SDC/Resources/icons/import.svg" type="Texture" id=13]
+[ext_resource path="res://addons/SDC/Resources/icons/plus.svg" type="Texture" id=14]
+[ext_resource path="res://addons/SDC/Resources/icons/play.svg" type="Texture" id=15]
+[ext_resource path="res://addons/SDC/Resources/icons/export.svg" type="Texture" id=16]
+[ext_resource path="res://addons/SDC/Resources/icons/file.svg" type="Texture" id=17]
+[ext_resource path="res://addons/SDC/Resources/dial_editor_theme.tres" type="Theme" id=18]
+
+[sub_resource type="GDScript" id=1]
+script/source = "tool
+extends Panel
+
+
+# Declare member variables here. Examples:
+var _content: Dictionary
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func update_content(content: Dictionary):
+	_content = content
+	
+	# Upper panel
+	$HBoxContainer/HiddenCheck.pressed = content[\"hidden\"]
+	$HBoxContainer/ClosedCheck.pressed = content[\"closed\"]
+	$HBoxContainer/HideSelfCheck.pressed = content[\"hide_self\"]
+	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
+	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
+	
+	if (!content[\"event\"].empty()):
+		$HBoxContainer/Control/SignalText.text = content[\"event\"][\"name\"]
+		$HBoxContainer/Control/EventOptionsBtn.disabled = (content[\"event\"][\"name\"] == \"\")
+	else:
+		$HBoxContainer/Control/SignalText.text = \"\"
+		$HBoxContainer/Control/EventOptionsBtn.disabled = true
+
+	$VBoxContainer2/Panel2/ChangeStartedBtn.set_text(content[\"change_started\"])
+
+	# Hide branches info
+	var arr_len = content[\"hide\"].size() 
+	for ind in range(0,  6):
+		var item = $VBoxContainer2/Panel/VBoxContainer.get_child(ind)
+		if (arr_len > ind):
+			item.text = content[\"hide\"][ind]
+			item.self_modulate.a = 1
+		else:
+			item.set_text(\"\")
+			item.self_modulate.a = 0.33
+	
+	# Show branches info
+	arr_len = content[\"show\"].size() 
+	for ind in range(0,  6):
+		var item = $VBoxContainer2/Panel4/VBoxContainer.get_child(ind)
+		if (arr_len > ind):
+			item.text = content[\"show\"][ind]
+			item.self_modulate.a = 1
+		else:
+			item.set_text(\"\")
+			item.self_modulate.a = 0.33
+	
+	# Vars info
+	arr_len = content[\"vars\"].size() 
+	for ind in range(0,  5):
+		var item = $VBoxContainer2/Panel2/VBoxContainer2.get_child(ind)
+		if (arr_len > ind):
+			item.get_child(0).set_text(content[\"vars\"][ind][\"key\"])
+			item.get_child(1).text = content[\"vars\"][ind][\"op\"]
+			item.get_child(2).text = content[\"vars\"][ind][\"value\"]
+		else:
+			item.get_child(0).set_text(\"\")
+			item.get_child(1).text = \"=\"
+			item.get_child(2).text = \"\"
+	
+	# If info
+	arr_len = content[\"if\"].size() 
+	for ind in range(0,  5):
+		var item = $VBoxContainer2/Panel3/VBoxContainer2.get_child(ind)
+		if (arr_len > ind):
+			item.get_child(0).set_text(content[\"if\"][ind][\"key\"])
+			item.get_child(1).text = content[\"if\"][ind][\"op\"]
+			item.get_child(2).text = content[\"if\"][ind][\"value\"]
+		else:
+			item.get_child(0).set_text(\"\")
+			item.get_child(1).text = \"==\"
+			item.get_child(2).text = \"\"
+
+func _on_HiddenCheck_toggled(button_pressed):
+	_content[\"hidden\"] = button_pressed
+	AppInstance.app_win.update_branch_states()
+
+
+func _on_ClosedCheck_toggled(button_pressed):
+	_content[\"closed\"] = button_pressed
+	AppInstance.app_win.update_branch_states()
+
+func _on_HideSelfCheck_toggled(button_pressed):
+	_content[\"hide_self\"] = button_pressed
+
+func _on_ChoiceCheckBox_toggled(button_pressed):
+	_content[\"choice\"] = button_pressed
+	
+func _on_OrCheckBox_toggled(button_pressed):
+	_content[\"or_cond\"] = button_pressed
+	
+func _on_SignalText_text_changed(new_text):
+	if (new_text != \"\"):
+		_content[\"event\"][\"name\"] = new_text
+		$HBoxContainer/Control/EventOptionsBtn.disabled = (new_text == \"\")
+	else:
+		_content[\"event\"] = {}
+	
+
+
+func _on_HideBranch_change_value():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel/VBoxContainer.get_children():
+		if (item.get_text() != \"\"):
+			arr.append(item.text)
+	_content[\"hide\"] = arr
+	AppInstance.app_win.update_branch_states()
+
+
+func _on_ShowBranch_change_value():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel4/VBoxContainer.get_children():
+		if (item.get_text() != \"\"):
+			arr.append(item.text)
+	_content[\"show\"] = arr
+	AppInstance.app_win.update_branch_states()
+
+
+func _on_Var_text_changed(new_text):
+	save_vars_info()
+
+func save_vars_info():
+	var arr: Array = []
+	var container = $VBoxContainer2/Panel2/VBoxContainer2
+	for item in container.get_children():
+		if (item.get_child(0).get_text() != \"\"):
+			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+	_content[\"vars\"] = arr
+
+func _on_if_text_changed(new_text):
+	save_if_info()
+
+func save_if_info():
+	var arr: Array = []
+	for item in $VBoxContainer2/Panel3/VBoxContainer2.get_children():
+		if (item.get_child(0).get_text() != \"\"):
+			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
+	_content[\"if\"] = arr
+
+func _on_ChangeStartedBtn_change_value():
+	_content[\"change_started\"] = $VBoxContainer2/Panel2/ChangeStartedBtn.get_text()
+
+func _on_EventOptionsBtn_pressed():
+	AppInstance.app_win.event_panel.show_with_content(_content[\"event\"])
+"
+
+[node name="Control" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 18 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_right = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolbarPanel" type="Panel" parent="MainVBox"]
+margin_right = 1432.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 0, 42 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainVBox/ToolbarPanel"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = -1.99988
+margin_bottom = 16.0
+rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddBranchButton" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_right = 44.0
+margin_bottom = 38.0
+hint_tooltip = "add_new_branch"
+icon = ExtResource( 14 )
+
+[node name="Control2" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 48.0
+margin_right = 152.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 104, 0 )
+
+[node name="ImportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 156.0
+margin_right = 200.0
+margin_bottom = 38.0
+hint_tooltip = "import_text"
+icon = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 204.0
+margin_right = 248.0
+margin_bottom = 38.0
+hint_tooltip = "export_text"
+icon = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 252.0
+margin_right = 296.0
+margin_bottom = 38.0
+hint_tooltip = "config"
+icon = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EditBranchesBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 300.0
+margin_right = 344.0
+margin_bottom = 38.0
+hint_tooltip = "edit_mode"
+toggle_mode = true
+icon = ExtResource( 11 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 348.0
+margin_right = 502.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 80, 0 )
+hint_tooltip = "char_dial"
+text = "Человек без лица"
+align = 0
+items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false ]
+script = ExtResource( 2 )
+placeholder = "char_dial"
+
+[node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 8 )]
+self_modulate = Color( 1, 1, 1, 1 )
+margin_left = 506.0
+margin_right = 617.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 80, 0 )
+hint_tooltip = "start_branch"
+text = "prologue_1_2"
+items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false ]
+placeholder = "start_branch"
+
+[node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 621.0
+margin_right = 1172.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+
+[node name="PopupBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+self_modulate = Color( 0.666667, 0.572549, 0.486275, 0.33 )
+margin_left = 1176.0
+margin_right = 1236.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 60, 0 )
+hint_tooltip = "lang"
+size_flags_vertical = 3
+text = "lang"
+items = [ "lang", null, 0, false, false, 0, 0, null, "", false, "lang", null, 0, false, false, 1, 0, null, "", false, "lang", null, 0, false, false, 2, 0, null, "", false, "lang", null, 0, false, false, 3, 0, null, "", false, "lang", null, 0, false, false, 4, 0, null, "", false, "lang", null, 0, false, false, 5, 0, null, "", false, "lang", null, 0, false, false, 6, 0, null, "", false, "lang", null, 0, false, false, 7, 0, null, "", false, "lang", null, 0, false, false, 8, 0, null, "", false, "lang", null, 0, false, false, 9, 0, null, "", false ]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+placeholder = "lang"
+
+[node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1240.0
+margin_right = 1284.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "new_dialog"
+icon = ExtResource( 17 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="OpenBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1288.0
+margin_right = 1332.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "open_dialog
+"
+icon = ExtResource( 12 )
+
+[node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1336.0
+margin_right = 1380.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "save_dialog"
+icon = ExtResource( 9 )
+
+[node name="PlayBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1384.0
+margin_right = 1428.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "play_dialog"
+icon = ExtResource( 15 )
+
+[node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
+margin_top = 46.0
+margin_right = 1432.0
+margin_bottom = 866.0
+rect_min_size = Vector2( 0, 100 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BranchesScroll" type="ScrollContainer" parent="MainVBox/MainHBox"]
+margin_right = 714.0
+margin_bottom = 820.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BranchesList" type="VBoxContainer" parent="MainVBox/MainHBox/BranchesScroll"]
+margin_right = 714.0
+margin_bottom = 610.0
+size_flags_horizontal = 3
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="MainVBox/MainHBox"]
+margin_left = 718.0
+margin_right = 1432.0
+margin_bottom = 820.0
+rect_min_size = Vector2( 700, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.145098, 0.145098, 0.164706, 1 )
+
+[node name="InfoScroll" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = -2.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll"]
+margin_right = 710.0
+margin_bottom = 820.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer" instance=ExtResource( 4 )]
+margin_right = 710.0
+script = SubResource( 1 )
+
+[node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = -34.0
+margin_right = 129.0
+margin_bottom = -2.0
+rect_min_size = Vector2( 125, 28 )
+text = "add_phrase"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer"]
+margin_top = 278.0
+margin_right = 710.0
+margin_bottom = 820.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="PhrasesVBox" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer"]
+margin_right = 710.0
+size_flags_horizontal = 3
+
+[node name="AddFirst" type="Button" parent="MainVBox/MainHBox/ColorRect"]
+visible = false
+margin_left = 6.0
+margin_top = 260.0
+margin_right = 131.0
+margin_bottom = 288.0
+rect_min_size = Vector2( 125, 28 )
+text = "add_first"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomPanel" type="Panel" parent="MainVBox"]
+margin_top = 870.0
+margin_right = 1432.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PathEdit" type="LineEdit" parent="MainVBox/BottomPanel"]
+margin_right = 70.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 200, 0 )
+text = "D:/_BT/BT_Quest/Dialogs/Prologue/prologue_1_2.json"
+editable = false
+expand_to_text_length = true
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MainVBox/BottomPanel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -70.0
+margin_top = -9.5
+margin_bottom = 9.5
+rect_min_size = Vector2( 70, 0 )
+custom_colors/font_color = Color( 0.4, 0.4, 0.4, 1 )
+text = "ver. 0.81"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_path = "/Godot/smart_dialogue_creator/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_path = "/Godot/smart_dialogue_creator/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Config_new"
+current_path = "/Godot/smart_dialogue_creator/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExportDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Config_new"
+current_path = "/Godot/smart_dialogue_creator/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ImportDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Открыть файл"
+mode = 0
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Config_new"
+current_path = "/Godot/smart_dialogue_creator/Config_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfigPanel" parent="Panel" instance=ExtResource( 5 )]
+visible = false
+margin_left = -600.0
+margin_right = 600.0
+rect_min_size = Vector2( 1200, 600 )
+
+[node name="PlayPanel" parent="Panel" instance=ExtResource( 6 )]
+visible = false
+
+[node name="EventPanel" parent="Panel" instance=ExtResource( 7 )]
+visible = false
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
+[connection signal="toggled" from="MainVBox/ToolbarPanel/HBoxContainer/EditBranchesBtn" to="." method="_on_EditBranchesBtn_toggled"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
+[connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn" to="." method="_on_OpenBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel/AddPhrase" to="." method="_on_AddPhraseButton_pressed"]
+[connection signal="pressed" from="MainVBox/MainHBox/ColorRect/AddFirst" to="." method="_on_AddFirst_pressed"]
+[connection signal="file_selected" from="OpenDialog" to="." method="_on_OpenDialog_file_selected"]
+[connection signal="file_selected" from="CreateDialog" to="." method="_on_CreateDialog_file_selected"]
+[connection signal="file_selected" from="OpenConfig" to="." method="_on_Config_file_selected"]
+[connection signal="file_selected" from="CreateConfig" to="." method="_on_Config_file_selected"]
+[connection signal="file_selected" from="ExportDialog" to="." method="_on_ExportDialog_file_selected"]
+[connection signal="file_selected" from="ImportDialog" to="." method="_on_ImportDialog_file_selected"]

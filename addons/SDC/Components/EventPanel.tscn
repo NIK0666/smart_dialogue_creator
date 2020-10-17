@@ -1,0 +1,119 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "tool
+extends Panel
+
+var _content: Dictionary
+
+func show_with_content(content: Dictionary):
+	get_parent().visible = true
+	self.visible = true
+	_content = content
+	
+	if (_content.has(\"name\")):
+		$ParamsPanel/NameEdit.text = _content[\"name\"]
+	else:
+		$ParamsPanel/NameEdit.text = \"\"
+
+	if (_content.has(\"param\")):
+		$ParamsPanel/ParamEdit.text = _content[\"param\"]
+	else:
+		$ParamsPanel/ParamEdit.text = \"\"
+	
+	if (_content.has(\"post\")):
+		$ParamsPanel/EmitPostCheckBox.pressed = _content[\"post\"]
+	else:
+		$ParamsPanel/EmitPostCheckBox.pressed = false
+
+func _on_CloseBtn_pressed():
+	get_parent().visible = false
+	self.visible = false
+
+
+func _on_NameEdit_text_changed(new_text):
+	_content[\"name\"] = new_text
+
+
+func _on_ParamEdit_text_changed(new_text):
+	if (new_text != \"\"):
+		_content[\"param\"] = new_text
+	elif _content.has(\"param\"):
+		_content.erase(\"param\")
+
+
+func _on_EmitPostCheckBox_toggled(button_pressed):
+	if (button_pressed):
+		_content[\"post\"] = true
+	elif _content.has(\"post\"):
+		_content.erase(\"post\")
+"
+
+[node name="EventPanel" type="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -360.0
+margin_top = -140.0
+margin_right = 360.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 720, 280 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParamsPanel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -36.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseBtn" type="Button" parent="ParamsPanel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -31.9999
+margin_top = -118.0
+margin_right = 6.10352e-05
+margin_bottom = -86.0
+rect_min_size = Vector2( 32, 32 )
+icon = ExtResource( 1 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameEdit" type="LineEdit" parent="ParamsPanel"]
+margin_left = -0.773804
+margin_top = -1.54758
+margin_right = 599.226
+margin_bottom = 27.4524
+rect_min_size = Vector2( 600, 0 )
+placeholder_text = "event_name"
+
+[node name="ParamEdit" type="LineEdit" parent="ParamsPanel"]
+margin_top = 32.0
+margin_right = 600.0
+margin_bottom = 61.0
+rect_min_size = Vector2( 600, 0 )
+placeholder_text = "event_param"
+
+[node name="EmitPostCheckBox" type="CheckBox" parent="ParamsPanel"]
+margin_top = 64.0
+margin_right = 24.0
+margin_bottom = 91.0
+text = "event_post"
+[connection signal="pressed" from="ParamsPanel/CloseBtn" to="." method="_on_CloseBtn_pressed"]
+[connection signal="text_changed" from="ParamsPanel/NameEdit" to="." method="_on_NameEdit_text_changed"]
+[connection signal="text_changed" from="ParamsPanel/ParamEdit" to="." method="_on_ParamEdit_text_changed"]
+[connection signal="toggled" from="ParamsPanel/EmitPostCheckBox" to="." method="_on_EmitPostCheckBox_toggled"]

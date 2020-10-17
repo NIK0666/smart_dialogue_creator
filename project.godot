@@ -9,39 +9,45 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Control",
+"base": "Panel",
 "class": "AppWin",
 "language": "GDScript",
-"path": "res://App.gd"
+"path": "res://addons/SDC/Scripts/Core/App.gd"
 }, {
 "base": "ColorRect",
 "class": "BranchCell",
 "language": "GDScript",
-"path": "res://LineCell.gd"
+"path": "res://addons/SDC/Scripts/LineCell.gd"
+}, {
+"base": "Resource",
+"class": "Dialogue",
+"language": "GDScript",
+"path": "res://addons/SDC/Scripts/Core/Dialogue.gd"
 }, {
 "base": "Node",
 "class": "DialogueReader",
 "language": "GDScript",
-"path": "res://Scripts/DialogueReader.gd"
+"path": "res://addons/SDC/Scripts/DialogueReader.gd"
 }, {
 "base": "TextEdit",
 "class": "ExpandableTextEdit",
 "language": "GDScript",
-"path": "res://Scripts/ExpandableTextEdit.gd"
+"path": "res://addons/SDC/Scripts/ExpandableTextEdit.gd"
 }, {
 "base": "MenuButton",
 "class": "PopupBtn",
 "language": "GDScript",
-"path": "res://Scripts/PopupBtn.gd"
+"path": "res://addons/SDC/Scripts/PopupBtn.gd"
 }, {
 "base": "Node",
 "class": "UUID",
 "language": "GDScript",
-"path": "res://Scripts/uuid.gd"
+"path": "res://addons/SDC/Scripts/uuid.gd"
 } ]
 _global_script_class_icons={
 "AppWin": "",
 "BranchCell": "",
+"Dialogue": "",
 "DialogueReader": "",
 "ExpandableTextEdit": "",
 "PopupBtn": "",
@@ -51,12 +57,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Smart dialogue creator"
-run/main_scene="res://Main.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://test_scene.tscn"
+config/icon="res://addons/SDC/icon.png"
 
 [autoload]
 
-AppInstance="*res://AppInstance.gd"
+AppInstance="*res://addons/SDC/Scripts/Core/AppInstance.gd"
 
 [display]
 
@@ -65,9 +71,13 @@ window/size/height=900
 window/size/test_width=1440
 window/size/test_height=900
 
+[editor_plugins]
+
+enabled=PoolStringArray( "SDC", "godot-plugin-refresher" )
+
 [gui]
 
-theme/custom_font="res://CertaFont.tres"
+theme/custom_font="res://addons/SDC/Resources/CertaFont.tres"
 
 [locale]
 
@@ -82,4 +92,4 @@ translation_remaps={
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://addons/SDC/Resources/default_env.tres"

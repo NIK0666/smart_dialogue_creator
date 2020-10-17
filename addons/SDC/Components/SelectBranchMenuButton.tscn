@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/SDC/Scripts/SelectBranchMenuButton.gd" type="Script" id=1]
+
+
+[node name="LineEdit" type="MenuButton"]
+self_modulate = Color( 1, 1, 1, 0.333333 )
+margin_right = 259.0
+margin_bottom = 20.0
+text = "none"
+align = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

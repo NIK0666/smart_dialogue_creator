@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://addons/SDC/locale/locale.en.translation", "res://addons/SDC/locale/locale.ru.translation" ]
+
+source_file="res://addons/SDC/locale/locale.csv"
+dest_files=[ "res://addons/SDC/locale/locale.en.translation", "res://addons/SDC/locale/locale.ru.translation" ]
+
+[params]
+
+compress=true
+delimiter=0
