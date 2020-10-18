@@ -13,9 +13,10 @@ func _ready():
 	connect("pressed", self, "_on_pressed")
 	
 	if (placeholder != ""):
-		get_popup().add_item(placeholder)
-		set_text(placeholder)
-		hint_tooltip = placeholder
+		hint_tooltip = AppInstance.get_local_text(placeholder)
+		get_popup().add_item(hint_tooltip)
+		set_text(hint_tooltip)
+		
 
 func _on_item_pressed(id: int):
 	var item_text: String = get_popup().get_item_text(id)
@@ -27,13 +28,13 @@ func _on_item_pressed(id: int):
 func _on_pressed():
 	get_popup().clear()
 	if (placeholder != ""):
-		get_popup().add_item(placeholder)
+		get_popup().add_item(hint_tooltip)
 	update_popup_list()
 
 
 func set_text(value: String):
 	if ((value == "" && placeholder != "") || (value == placeholder)):
-		.set_text(placeholder)
+		.set_text(hint_tooltip)
 		self_modulate.a = 0.33
 	else:
 		.set_text(value)

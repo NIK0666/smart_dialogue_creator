@@ -1,8 +1,8 @@
 [gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://addons/SDC/Scripts/Core/App.gd" type="Script" id=1]
-[ext_resource path="res://addons/SDC/Scripts/CharactersBtn.gd" type="Script" id=2]
-[ext_resource path="res://addons/SDC/Scripts/LangBtn.gd" type="Script" id=3]
+[ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=2]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedButton.gd" type="Script" id=3]
 [ext_resource path="res://addons/SDC/Components/DialInfoPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/SDC/Components/ConfigPanel/ConfigPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/SDC/Components/PlayPanel/PlayPanel.tscn" type="PackedScene" id=6]
@@ -18,6 +18,10 @@
 [ext_resource path="res://addons/SDC/Resources/icons/export.svg" type="Texture" id=16]
 [ext_resource path="res://addons/SDC/Resources/icons/file.svg" type="Texture" id=17]
 [ext_resource path="res://addons/SDC/Resources/dial_editor_theme.tres" type="Theme" id=18]
+
+
+
+
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -217,8 +221,10 @@ __meta__ = {
 [node name="AddBranchButton" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_right = 44.0
 margin_bottom = 38.0
-hint_tooltip = "add_new_branch"
+hint_tooltip = "Добавить новую ветку"
 icon = ExtResource( 14 )
+script = ExtResource( 3 )
+hint_id = "add_new_branch"
 
 [node name="Control2" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 48.0
@@ -230,54 +236,48 @@ rect_min_size = Vector2( 104, 0 )
 margin_left = 156.0
 margin_right = 200.0
 margin_bottom = 38.0
-hint_tooltip = "import_text"
+hint_tooltip = "Импортировать текст"
 icon = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
+script = ExtResource( 3 )
+hint_id = "import_text"
 
 [node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 204.0
 margin_right = 248.0
 margin_bottom = 38.0
-hint_tooltip = "export_text"
+hint_tooltip = "Экспортировать весь текст"
 icon = ExtResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
+script = ExtResource( 3 )
+hint_id = "export_text"
 
 [node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 252.0
 margin_right = 296.0
 margin_bottom = 38.0
-hint_tooltip = "config"
+hint_tooltip = "Конфигурация персонажей и переменных"
 icon = ExtResource( 10 )
-__meta__ = {
-"_editor_description_": ""
-}
+script = ExtResource( 3 )
+hint_id = "config"
 
 [node name="EditBranchesBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 300.0
 margin_right = 344.0
 margin_bottom = 38.0
-hint_tooltip = "edit_mode"
+hint_tooltip = "Режим редактирования веток"
 toggle_mode = true
 icon = ExtResource( 11 )
-__meta__ = {
-"_editor_description_": ""
-}
+script = ExtResource( 3 )
+hint_id = "edit_mode"
 
 [node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 348.0
 margin_right = 502.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
-hint_tooltip = "char_dial"
+hint_tooltip = "[Хозяин диалога]"
 text = "Человек без лица"
 align = 0
-items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false ]
+items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false ]
 script = ExtResource( 2 )
 placeholder = "char_dial"
 
@@ -287,68 +287,56 @@ margin_left = 506.0
 margin_right = 617.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
-hint_tooltip = "start_branch"
+hint_tooltip = "[Стартовая ветка]"
 text = "prologue_1_2"
-items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false ]
+items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false ]
 placeholder = "start_branch"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 621.0
-margin_right = 1172.0
-margin_bottom = 38.0
-size_flags_horizontal = 3
-
-[node name="PopupBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-self_modulate = Color( 0.666667, 0.572549, 0.486275, 0.33 )
-margin_left = 1176.0
 margin_right = 1236.0
 margin_bottom = 38.0
-rect_min_size = Vector2( 60, 0 )
-hint_tooltip = "lang"
-size_flags_vertical = 3
-text = "lang"
-items = [ "lang", null, 0, false, false, 0, 0, null, "", false, "lang", null, 0, false, false, 1, 0, null, "", false, "lang", null, 0, false, false, 2, 0, null, "", false, "lang", null, 0, false, false, 3, 0, null, "", false, "lang", null, 0, false, false, 4, 0, null, "", false, "lang", null, 0, false, false, 5, 0, null, "", false, "lang", null, 0, false, false, 6, 0, null, "", false, "lang", null, 0, false, false, 7, 0, null, "", false, "lang", null, 0, false, false, 8, 0, null, "", false, "lang", null, 0, false, false, 9, 0, null, "", false ]
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-placeholder = "lang"
+size_flags_horizontal = 3
 
 [node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 1240.0
 margin_right = 1284.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "new_dialog"
+hint_tooltip = "Создать новый файл диалога"
 icon = ExtResource( 17 )
-__meta__ = {
-"_editor_description_": ""
-}
+script = ExtResource( 3 )
+hint_id = "new_dialog"
 
 [node name="OpenBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 1288.0
 margin_right = 1332.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "open_dialog
-"
+hint_tooltip = "Открыть существующий файл диалога"
 icon = ExtResource( 12 )
+script = ExtResource( 3 )
+hint_id = "open_dialog"
 
 [node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 1336.0
 margin_right = 1380.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "save_dialog"
+hint_tooltip = "Сохранить текущий диалог"
 icon = ExtResource( 9 )
+script = ExtResource( 3 )
+hint_id = "save_dialog"
 
 [node name="PlayBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 1384.0
 margin_right = 1428.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "play_dialog"
+hint_tooltip = "Запустить диалог"
 icon = ExtResource( 15 )
+script = ExtResource( 3 )
+hint_id = "play_dialog"
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
 margin_top = 46.0
@@ -397,13 +385,13 @@ __meta__ = {
 }
 
 [node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll"]
-margin_right = 710.0
+margin_right = 717.0
 margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer" instance=ExtResource( 4 )]
-margin_right = 710.0
+margin_right = 717.0
 script = SubResource( 1 )
 
 [node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel"]
@@ -414,21 +402,21 @@ margin_top = -34.0
 margin_right = 129.0
 margin_bottom = -2.0
 rect_min_size = Vector2( 125, 28 )
-text = "add_phrase"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "Новая фраза"
+script = ExtResource( 3 )
+text_id = "add_phrase"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer"]
 margin_top = 278.0
-margin_right = 710.0
+margin_right = 717.0
 margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="PhrasesVBox" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer"]
-margin_right = 710.0
+margin_right = 717.0
+margin_bottom = 124.0
 size_flags_horizontal = 3
 
 [node name="AddFirst" type="Button" parent="MainVBox/MainHBox/ColorRect"]

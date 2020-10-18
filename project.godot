@@ -19,6 +19,26 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/SDC/Scripts/LineCell.gd"
 }, {
+"base": "CheckBox",
+"class": "DialCheckBox",
+"language": "GDScript",
+"path": "res://addons/SDC/Scripts/Controls/TranslatedCheckBox.gd"
+}, {
+"base": "Button",
+"class": "DialSimpleButton",
+"language": "GDScript",
+"path": "res://addons/SDC/Scripts/Controls/TranslatedButton.gd"
+}, {
+"base": "Label",
+"class": "DialTransLabel",
+"language": "GDScript",
+"path": "res://addons/SDC/Scripts/Controls/TranslatedLabel.gd"
+}, {
+"base": "LineEdit",
+"class": "DialTransLineEdit",
+"language": "GDScript",
+"path": "res://addons/SDC/Scripts/Controls/TranslatedLineEdit.gd"
+}, {
 "base": "Resource",
 "class": "Dialogue",
 "language": "GDScript",
@@ -32,12 +52,12 @@ _global_script_classes=[ {
 "base": "TextEdit",
 "class": "ExpandableTextEdit",
 "language": "GDScript",
-"path": "res://addons/SDC/Scripts/ExpandableTextEdit.gd"
+"path": "res://addons/SDC/Scripts/Controls/ExpandableTextEdit.gd"
 }, {
 "base": "MenuButton",
 "class": "PopupBtn",
 "language": "GDScript",
-"path": "res://addons/SDC/Scripts/PopupBtn.gd"
+"path": "res://addons/SDC/Scripts/Controls/PopupBtn.gd"
 }, {
 "base": "Node",
 "class": "UUID",
@@ -47,6 +67,10 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AppWin": "",
 "BranchCell": "",
+"DialCheckBox": "",
+"DialSimpleButton": "",
+"DialTransLabel": "",
+"DialTransLineEdit": "",
 "Dialogue": "",
 "DialogueReader": "",
 "ExpandableTextEdit": "",
@@ -81,7 +105,7 @@ theme/custom_font="res://addons/SDC/Resources/CertaFont.tres"
 
 [locale]
 
-translations=PoolStringArray( "res://locale/locale.en.translation", "res://locale/locale.ru.translation" )
+translations=PoolStringArray(  )
 locale_filter=[ 1, [ "en", "ru" ] ]
 translation_remaps={
 

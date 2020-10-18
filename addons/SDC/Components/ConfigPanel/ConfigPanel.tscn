@@ -1,13 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/SDC/Resources/CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/SDC/Scripts/ConfigPanel.gd" type="Script" id=2]
-[ext_resource path="res://addons/SDC/Scripts/CharactersBtn.gd" type="Script" id=3]
+[ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=3]
 [ext_resource path="res://addons/SDC/Resources/icons/folder-open.svg" type="Texture" id=4]
 [ext_resource path="res://addons/SDC/Resources/icons/file.svg" type="Texture" id=5]
 [ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=6]
-
-
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedButton.gd" type="Script" id=7]
 
 
 
@@ -107,13 +106,17 @@ margin_right = 118.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "add"
+script = ExtResource( 7 )
+text_id = "add"
 
 [node name="HeroBtn" type="MenuButton" parent="HBoxContainer/CharactersList/Panel"]
+self_modulate = Color( 1, 1, 1, 0.33 )
 margin_left = 122.0
 margin_right = 222.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 100, 0 )
 align = 0
+items = [ "", null, 0, false, false, 0, 0, null, "", false ]
 script = ExtResource( 3 )
 placeholder = "[Main Hero]"
 
@@ -163,6 +166,8 @@ margin_right = 154.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "add_local"
+script = ExtResource( 7 )
+text_id = "add_local"
 
 [node name="AddPublicBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
 margin_left = 158.0
@@ -170,6 +175,8 @@ margin_right = 253.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "add_public"
+script = ExtResource( 7 )
+text_id = "add_public"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
 anchor_right = 1.0

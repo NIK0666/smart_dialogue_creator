@@ -1,11 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/SDC/Resources/CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/SDC/Components/SelectBranchMenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/SDC/Components/OperatorMenuButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/SDC/Scripts/VariablesBtn.gd" type="Script" id=4]
-[ext_resource path="res://addons/SDC/Scripts/SelectBranchMenuButton.gd" type="Script" id=5]
+[ext_resource path="res://addons/SDC/Scripts/Controls/VariablesBtn.gd" type="Script" id=4]
+[ext_resource path="res://addons/SDC/Scripts/Controls/SelectBranchMenuButton.gd" type="Script" id=5]
 [ext_resource path="res://addons/SDC/Resources/icons/options.svg" type="Texture" id=6]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedCheckBox.gd" type="Script" id=7]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedLabel.gd" type="Script" id=8]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedButton.gd" type="Script" id=9]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedLineEdit.gd" type="Script" id=10]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -184,32 +188,38 @@ __meta__ = {
 
 [node name="HiddenCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.560784, 0.560784, 0.560784, 1 )
-margin_right = 142.0
+margin_right = 110.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 110, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "hidden_default"
+text = "Скрыта"
+script = ExtResource( 7 )
+text_id = "hidden_default"
 
 [node name="ClosedCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.776471, 0.803922, 0.533333, 1 )
-margin_left = 146.0
-margin_right = 296.0
+margin_left = 114.0
+margin_right = 264.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 150, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "closed_dialog"
+text = "Конец диалога"
+script = ExtResource( 7 )
+text_id = "closed_dialog"
 
 [node name="HideSelfCheck" type="CheckBox" parent="HBoxContainer"]
 self_modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
-margin_left = 300.0
-margin_right = 440.0
+margin_left = 268.0
+margin_right = 408.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 140, 0 )
 custom_fonts/font = ExtResource( 1 )
-text = "hide_self"
+text = "Скрыть себя"
+script = ExtResource( 7 )
+text_id = "hide_self"
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 444.0
+margin_left = 412.0
 margin_right = 794.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
@@ -222,33 +232,39 @@ margin_bottom = 25.0
 custom_fonts/font = ExtResource( 1 )
 text = "event"
 uppercase = true
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+text_id = "event"
 
 [node name="SignalText" type="LineEdit" parent="HBoxContainer/Control"]
 margin_left = 56.0
-margin_right = 308.0
+margin_right = 340.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 28 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 placeholder_text = "event_name"
 caret_blink = true
+script = ExtResource( 10 )
+placeholder_id = "event_name"
 
 [node name="EventOptionsBtn" type="Button" parent="HBoxContainer/Control"]
-margin_left = 312.0
-margin_right = 344.0
+margin_left = 344.0
+margin_right = 376.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
-hint_tooltip = "event_options"
+hint_tooltip = "Параметры события"
 disabled = true
 icon = ExtResource( 6 )
 expand_icon = true
+script = ExtResource( 9 )
+hint_id = "event_options"
 
 [node name="Control" type="Control" parent="HBoxContainer/Control"]
-margin_left = 348.0
-margin_right = 350.0
+margin_left = 380.0
+margin_right = 382.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 2, 0 )
 
@@ -274,9 +290,8 @@ margin_right = 125.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "hide_branches"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 8 )
+text_id = "hide_branches"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel"]
 margin_top = 23.0
@@ -288,90 +303,89 @@ __meta__ = {
 }
 
 [node name="HideBranchText1" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_right = 125.0
 margin_bottom = 25.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="HideBranchText2" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 28.0
 margin_right = 125.0
 margin_bottom = 53.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="HideBranchText3" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 56.0
 margin_right = 125.0
 margin_bottom = 81.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="HideBranchText4" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 84.0
 margin_right = 125.0
 margin_bottom = 109.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="HideBranchText5" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 112.0
 margin_right = 125.0
 margin_bottom = 137.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="HideBranchText6" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 140.0
 margin_right = 125.0
 margin_bottom = 165.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="Panel4" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
 margin_left = 129.0
-margin_right = 257.0
+margin_right = 284.0
 margin_bottom = 219.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.576471, 0.823529, 0.662745, 1 )
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "show_branches"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 8 )
+text_id = "show_branches"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/Panel4"]
 margin_top = 23.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 188.0
 custom_constants/separation = 3
 __meta__ = {
@@ -379,107 +393,108 @@ __meta__ = {
 }
 
 [node name="ShowBranchText1" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 128.0
+self_modulate = Color( 1, 1, 1, 1 )
+margin_right = 155.0
 margin_bottom = 25.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ShowBranchText2" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 28.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 53.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ShowBranchText3" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 56.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 81.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ShowBranchText4" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 84.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 109.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ShowBranchText5" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 112.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 137.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ShowBranchText6" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
-self_modulate = Color( 1, 1, 1, 0.33 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_top = 140.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 165.0
-hint_tooltip = "none_branch"
+hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
-text = "none_branch"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false ]
+text = "[Нет ветки]"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
 placeholder = "none_branch"
 
 [node name="ChoiceCheckBox" type="CheckBox" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
 margin_top = 192.0
-margin_right = 128.0
+margin_right = 155.0
 margin_bottom = 219.0
-text = "show_choice"
+text = "Показать выбор"
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+text_id = "show_choice"
 
 [node name="Panel2" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.227451, 0.227451, 0.227451, 1 )
-margin_left = 261.0
-margin_right = 521.0
+margin_left = 288.0
+margin_right = 535.0
 margin_bottom = 219.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel2"]
 modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "change_variables"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 8 )
+text_id = "change_variables"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel2"]
 margin_top = 23.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 9
@@ -488,38 +503,40 @@ __meta__ = {
 }
 
 [node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 144.0
+margin_right = 131.0
 margin_bottom = 29.0
-hint_tooltip = "set_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "set_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 135.0
+margin_right = 163.0
 margin_bottom = 29.0
 text = "="
-placeholder = ""
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer"]
-margin_left = 180.0
-margin_right = 260.0
+margin_left = 167.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+placeholder_id = "value"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 33.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 62.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 9
@@ -528,38 +545,37 @@ __meta__ = {
 }
 
 [node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 144.0
+margin_right = 131.0
 margin_bottom = 29.0
-hint_tooltip = "set_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "set_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
+margin_left = 135.0
+margin_right = 163.0
 margin_bottom = 29.0
 text = "="
-placeholder = ""
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer2"]
-margin_left = 180.0
-margin_right = 260.0
+margin_left = 167.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 66.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 24 )
 __meta__ = {
@@ -567,38 +583,37 @@ __meta__ = {
 }
 
 [node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 144.0
+margin_right = 131.0
 margin_bottom = 29.0
-hint_tooltip = "set_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "set_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
+margin_left = 135.0
+margin_right = 163.0
 margin_bottom = 29.0
 text = "="
-placeholder = ""
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer3"]
-margin_left = 180.0
-margin_right = 260.0
+margin_left = 167.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 99.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 0, 24 )
 __meta__ = {
@@ -606,38 +621,37 @@ __meta__ = {
 }
 
 [node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 144.0
+margin_right = 131.0
 margin_bottom = 29.0
-hint_tooltip = "set_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "set_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
+margin_left = 135.0
+margin_right = 163.0
 margin_bottom = 29.0
 text = "="
-placeholder = ""
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer4"]
-margin_left = 180.0
-margin_right = 260.0
+margin_left = 167.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel2/VBoxContainer2"]
 margin_top = 132.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 161.0
 rect_min_size = Vector2( 0, 24 )
 __meta__ = {
@@ -645,77 +659,74 @@ __meta__ = {
 }
 
 [node name="VarKeyText" type="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 144.0
+margin_right = 131.0
 margin_bottom = 29.0
-hint_tooltip = "set_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "set_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
+margin_left = 135.0
+margin_right = 163.0
 margin_bottom = 29.0
 text = "="
-placeholder = ""
 is_compare = false
 
 [node name="VarValueText1" type="LineEdit" parent="VBoxContainer2/Panel2/VBoxContainer2/HBoxContainer5"]
-margin_left = 180.0
-margin_right = 260.0
+margin_left = 167.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="ChangeStartedBtn" type="MenuButton" parent="VBoxContainer2/Panel2"]
-self_modulate = Color( 1, 1, 1, 0.33 )
 margin_top = 188.0
-margin_right = 260.0
+margin_right = 247.0
 margin_bottom = 218.0
 rect_min_size = Vector2( 0, 30 )
-hint_tooltip = "set_started"
+hint_tooltip = "[Стартовая ветка]"
 size_flags_horizontal = 3
-text = "set_started"
+text = "[Стартовая ветка]"
 clip_text = true
 align = 0
-items = [ "set_started", null, 0, false, false, 0, 0, null, "", false, "set_started", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "set_started", null, 0, false, false, 0, 0, null, "", false, "set_started", null, 0, false, false, 1, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 2, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 3, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 5 )
 placeholder = "set_started"
 
 [node name="Panel3" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
-margin_left = 525.0
+margin_left = 539.0
 margin_right = 786.0
 margin_bottom = 219.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/Panel3"]
 modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
 text = "check_enter_cond"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 8 )
+text_id = "check_enter_cond"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/Panel3"]
 margin_top = 23.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -724,40 +735,36 @@ __meta__ = {
 }
 
 [node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 155.0
+margin_right = 141.0
 margin_bottom = 29.0
-hint_tooltip = "none_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "none_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 159.0
-margin_right = 187.0
+margin_left = 145.0
+margin_right = 173.0
 margin_bottom = 29.0
 text = "=="
-placeholder = ""
-is_compare = true
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer"]
-margin_left = 191.0
-margin_right = 261.0
+margin_left = 177.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 33.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 62.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -766,40 +773,36 @@ __meta__ = {
 }
 
 [node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 155.0
+margin_right = 141.0
 margin_bottom = 29.0
-hint_tooltip = "none_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "none_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2" instance=ExtResource( 3 )]
-margin_left = 159.0
-margin_right = 187.0
+margin_left = 145.0
+margin_right = 173.0
 margin_bottom = 29.0
 text = "=="
-placeholder = ""
-is_compare = true
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer2"]
-margin_left = 191.0
-margin_right = 261.0
+margin_left = 177.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 66.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -808,40 +811,36 @@ __meta__ = {
 }
 
 [node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 155.0
+margin_right = 141.0
 margin_bottom = 29.0
-hint_tooltip = "none_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "none_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3" instance=ExtResource( 3 )]
-margin_left = 159.0
-margin_right = 187.0
+margin_left = 145.0
+margin_right = 173.0
 margin_bottom = 29.0
 text = "=="
-placeholder = ""
-is_compare = true
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer3"]
-margin_left = 191.0
-margin_right = 261.0
+margin_left = 177.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 99.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -850,40 +849,36 @@ __meta__ = {
 }
 
 [node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 155.0
+margin_right = 141.0
 margin_bottom = 29.0
-hint_tooltip = "none_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "none_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4" instance=ExtResource( 3 )]
-margin_left = 159.0
-margin_right = 187.0
+margin_left = 145.0
+margin_right = 173.0
 margin_bottom = 29.0
 text = "=="
-placeholder = ""
-is_compare = true
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer4"]
-margin_left = 191.0
-margin_right = 261.0
+margin_left = 177.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/Panel3/VBoxContainer2"]
 margin_top = 132.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 161.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -892,46 +887,44 @@ __meta__ = {
 }
 
 [node name="CheckVarKeyText1" type="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
-self_modulate = Color( 1, 1, 1, 0.33 )
-margin_right = 155.0
+margin_right = 141.0
 margin_bottom = 29.0
-hint_tooltip = "none_var"
+hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
-text = "none_var"
+text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
 [node name="MenuButton" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5" instance=ExtResource( 3 )]
-margin_left = 159.0
-margin_right = 187.0
+margin_left = 145.0
+margin_right = 173.0
 margin_bottom = 29.0
 text = "=="
-placeholder = ""
-is_compare = true
 
 [node name="CheckVarValueText1" type="LineEdit" parent="VBoxContainer2/Panel3/VBoxContainer2/HBoxContainer5"]
-margin_left = 191.0
-margin_right = 261.0
+margin_left = 177.0
+margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 placeholder_text = "value"
 placeholder_alpha = 0.33
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 10 )
+placeholder_id = "value"
 
 [node name="OrCheckBox" type="CheckBox" parent="VBoxContainer2/Panel3"]
 modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
 margin_top = 188.0
-margin_right = 261.0
+margin_right = 247.0
 margin_bottom = 215.0
-text = "or_cond"
+text = "Проверка как ИЛИ"
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+text_id = "or_cond"
 [connection signal="toggled" from="HBoxContainer/HiddenCheck" to="." method="_on_HiddenCheck_toggled"]
 [connection signal="toggled" from="HBoxContainer/ClosedCheck" to="." method="_on_ClosedCheck_toggled"]
 [connection signal="toggled" from="HBoxContainer/HideSelfCheck" to="." method="_on_HideSelfCheck_toggled"]

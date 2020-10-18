@@ -1,6 +1,8 @@
 tool
 extends Node
 
+var trans: Translation
+
 var compares: Array = ["==", "!=", ">=", "<=", ">", "<"]
 var operators: Array = ["=", "+", "-", "*", "/"]
 var exist_branches: Array = []
@@ -18,6 +20,15 @@ var settings:ConfigFile
 var config: Dictionary
 var document: Dictionary
 var selected_branch: BranchCell = null
+
+func _ready():
+	if TranslationServer.get_locale().to_lower().begins_with("ru"):
+		trans = load("res://addons/SDC/locale/locale.ru.translation")
+	else:
+		trans = load("res://addons/SDC/locale/locale.en.translation")
+
+func get_local_text(text_id: String):
+	return trans.get_message(text_id)
 
 func alert(text: String, title: String='Message') -> void:
 	var dialog = AcceptDialog.new()
