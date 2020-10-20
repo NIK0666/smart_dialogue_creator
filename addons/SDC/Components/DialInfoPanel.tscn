@@ -227,10 +227,10 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HBoxContainer/Control"]
 self_modulate = Color( 0.407843, 0.819608, 0.54902, 1 )
 margin_top = 6.0
-margin_right = 52.0
+margin_right = 84.0
 margin_bottom = 25.0
 custom_fonts/font = ExtResource( 1 )
-text = "event"
+text = "СОБЫТИЕ:"
 uppercase = true
 script = ExtResource( 8 )
 __meta__ = {
@@ -239,13 +239,13 @@ __meta__ = {
 text_id = "event"
 
 [node name="SignalText" type="LineEdit" parent="HBoxContainer/Control"]
-margin_left = 56.0
+margin_left = 88.0
 margin_right = 340.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 28 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
-placeholder_text = "event_name"
+placeholder_text = "Имя события"
 caret_blink = true
 script = ExtResource( 10 )
 placeholder_id = "event_name"
@@ -289,7 +289,7 @@ modulate = Color( 0.905882, 0.690196, 0.690196, 1 )
 margin_right = 125.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "hide_branches"
+text = "Скрыть ветки:"
 script = ExtResource( 8 )
 text_id = "hide_branches"
 
@@ -309,8 +309,7 @@ margin_bottom = 25.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="HideBranchText2" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -320,8 +319,7 @@ margin_bottom = 53.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="HideBranchText3" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -331,8 +329,7 @@ margin_bottom = 81.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="HideBranchText4" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -342,8 +339,7 @@ margin_bottom = 109.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="HideBranchText5" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -353,8 +349,7 @@ margin_bottom = 137.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="HideBranchText6" parent="VBoxContainer2/Panel/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -364,8 +359,7 @@ margin_bottom = 165.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.878431, 0.776471, 0.776471, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="Panel4" type="VBoxContainer" parent="VBoxContainer2"]
 self_modulate = Color( 0.682353, 0.682353, 0.682353, 1 )
@@ -379,7 +373,7 @@ modulate = Color( 0.576471, 0.823529, 0.662745, 1 )
 margin_right = 155.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "show_branches"
+text = "Показать ветки:"
 script = ExtResource( 8 )
 text_id = "show_branches"
 
@@ -399,8 +393,7 @@ margin_bottom = 25.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ShowBranchText2" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -410,8 +403,7 @@ margin_bottom = 53.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ShowBranchText3" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -421,8 +413,7 @@ margin_bottom = 81.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ShowBranchText4" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -432,8 +423,7 @@ margin_bottom = 109.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ShowBranchText5" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -443,8 +433,7 @@ margin_bottom = 137.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ShowBranchText6" parent="VBoxContainer2/Panel4/VBoxContainer" instance=ExtResource( 2 )]
 self_modulate = Color( 1, 1, 1, 1 )
@@ -454,8 +443,7 @@ margin_bottom = 165.0
 hint_tooltip = "[Нет ветки]"
 custom_colors/font_color = Color( 0.670588, 0.772549, 0.713726, 1 )
 text = "[Нет ветки]"
-items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false ]
-placeholder = "none_branch"
+items = [ "none_branch", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 2, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 3, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="ChoiceCheckBox" type="CheckBox" parent="VBoxContainer2/Panel4"]
 modulate = Color( 0.741176, 0.741176, 0.741176, 1 )
@@ -481,7 +469,7 @@ modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
 margin_right = 247.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "change_variables"
+text = "Изменить переменные:"
 script = ExtResource( 8 )
 text_id = "change_variables"
 
@@ -510,7 +498,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
@@ -526,7 +514,7 @@ margin_left = 167.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 __meta__ = {
@@ -552,7 +540,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
@@ -568,7 +556,7 @@ margin_left = 167.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -590,7 +578,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
@@ -606,7 +594,7 @@ margin_left = 167.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -628,7 +616,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
@@ -644,7 +632,7 @@ margin_left = 167.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -666,7 +654,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_var", null, 0, false, false, 0, 0, null, "", false, "set_var", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "set_var"
 
@@ -682,7 +670,7 @@ margin_left = 167.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 80, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -697,7 +685,7 @@ size_flags_horizontal = 3
 text = "[Стартовая ветка]"
 clip_text = true
 align = 0
-items = [ "set_started", null, 0, false, false, 0, 0, null, "", false, "set_started", null, 0, false, false, 1, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 2, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 3, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 4, 0, null, "", false ]
+items = [ "set_started", null, 0, false, false, 0, 0, null, "", false, "set_started", null, 0, false, false, 1, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 2, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 3, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 4, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 5 )
 placeholder = "set_started"
 
@@ -713,7 +701,7 @@ modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
 margin_right = 247.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 1 )
-text = "check_enter_cond"
+text = "Проверить условия входа:"
 script = ExtResource( 8 )
 text_id = "check_enter_cond"
 
@@ -742,7 +730,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
@@ -757,7 +745,7 @@ margin_left = 177.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -780,7 +768,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
@@ -795,7 +783,7 @@ margin_left = 177.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -818,7 +806,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
@@ -833,7 +821,7 @@ margin_left = 177.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -856,7 +844,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
@@ -871,7 +859,7 @@ margin_left = 177.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"
@@ -894,7 +882,7 @@ size_flags_horizontal = 3
 text = "[Нет перем.]"
 clip_text = true
 align = 0
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 4 )
 placeholder = "none_var"
 
@@ -909,7 +897,7 @@ margin_left = 177.0
 margin_right = 247.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 10 )
 placeholder_id = "value"

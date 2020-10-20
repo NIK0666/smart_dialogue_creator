@@ -5,9 +5,7 @@ script/source = "extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var res: Dialogue = load(\"res://new_resource.tres\")
-	res.character = \"Вася\"
-	res.branches[0][\"name\"] = 10
+	pass
 
 "
 

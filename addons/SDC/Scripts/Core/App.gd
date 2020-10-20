@@ -14,9 +14,9 @@ onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/ColorRect/InfoScrol
 
 var BranchCell = preload("res://addons/SDC/Components/BranchCell.tscn")
 var PhraseCell = preload("res://addons/SDC/Components/DialPhraseCell.tscn")
-var document_path: String = ""
 var edit_mode: bool = false
 var selected_branch_cell: BranchCell = null
+var own_plugin
 
 func _ready():
 	
@@ -25,31 +25,30 @@ func _ready():
 	AppInstance.app_win = self
 	
 	AppInstance.load_settings()
-	AppInstance.load_config()
 	
-	var last_file_path = AppInstance.settings.get_value("settings", "last_file")
-	var open_recent = AppInstance.load_json(last_file_path)
-	if (open_recent):
-		AppInstance.document = open_recent
-		init_form(last_file_path)
+	var config_path = AppInstance.settings.get_value("settings", "config")
+	var file2Check = File.new()
+	if (file2Check.file_exists(config_path)):
+		AppInstance.config = load(config_path)
 
-func _on_OpenDialog_file_selected(path):
+
+func _on_OpenDialog_file_selected(path): # JSON to RES
 	AppInstance.document = AppInstance.load_json(path)
-	init_form(path)
 	AppInstance.change_setting("last_file", path)
 	AppInstance.change_setting("last_path", $OpenDialog.current_dir + "/")
-
-func _on_CreateDialog_file_selected(path):
-	AppInstance.create_empty_dialog(path)
-	AppInstance.document = AppInstance.load_json(path)
-	init_form(path)
-	AppInstance.change_setting("last_file", path)
-	AppInstance.change_setting("last_path", $CreateDialog.current_dir + "/")
+	
+	AppInstance.resource.character = AppInstance.document["character"]
+	AppInstance.resource.autobranch = AppInstance.document["autobranch"]
+	if (AppInstance.document.has("branches")):
+		AppInstance.resource.branches = AppInstance.document["branches"]
+	if (AppInstance.document.has("variables")):
+		AppInstance.resource.variables = AppInstance.document["variables"]
+	ResourceSaver.save(AppInstance.resource_path, AppInstance.resource)
+	init_form()
 	
 
-func init_form(path: String):
-	document_path = path
-	$MainVBox/BottomPanel/PathEdit.text = document_path
+func init_form():
+	$MainVBox/ToolbarPanel/HBoxContainer/PathEdit.text = AppInstance.resource_path
 	branches_scroll.visible = true
 	AppInstance.select_branch(null)
 	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.set_text("")
@@ -57,12 +56,11 @@ func init_form(path: String):
 	for item in dialogs_list.get_children():
 		dialogs_list.remove_child(item)
 	
-	if (AppInstance.document.get("character")):
-		$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.document["character"]))
-	if (AppInstance.document.get("autobranch")):
-		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.document["autobranch"])
+	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.resource.character))
+	if (AppInstance.resource.get("autobranch")):
+		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.resource["autobranch"])
 	
-	var content: Array = AppInstance.document["branches"]
+	var content: Array = AppInstance.resource["branches"]
 	for ind in range(content.size()):
 		var cell = BranchCell.instance()
 		cell.update_content(content[ind])
@@ -72,31 +70,42 @@ func init_form(path: String):
 	AppInstance.update_branches()
 
 func save_document():
-	var file = File.new()
-	file.open(document_path, File.WRITE)
-	file.store_string(JSON.print(AppInstance.document))
-	file.close()
+	if (AppInstance.resource):
+		var file2Check = File.new()
+		if (file2Check.file_exists(AppInstance.resource_path)):
+			ResourceSaver.save(AppInstance.resource_path, AppInstance.resource)
+		else:
+			print("ERROR: Incorrect resource path!")
+	else:
+		print("ERROR: Resource is not opened!")
 	
 	
 func _on_SaveBtn_pressed():
-	if AppInstance.document.empty():
-		AppInstance.alert("File is not opened!", "ERROR")
-		return
 	save_document()
 
 
-func _on_OpenBtn_pressed():
-	show_filedialog($OpenDialog, "json")
-	
+func open(res: Dialogue, path: String, save_settings: bool = true):
+	AppInstance.resource = res
+	AppInstance.resource_path = path
+	init_form()
+	if (save_settings):
+		AppInstance.change_setting("last_file", path)
 
-func _on_NewBtn_pressed():
-	show_filedialog($CreateDialog, "json")
+func show():
+	.show()
+	if (AppInstance.resource == null):
+		var res_path = AppInstance.settings.get_value("settings", "last_file")
+		if (res_path && res_path != ""):
+			open(load(res_path), res_path, false)
+		if AppInstance.config == null:
+			AppInstance.alert("Config resource is not set!")
 
-func _on_ConfigPanel_new_config_dialog():
-	show_filedialog($CreateConfig, "config")
 
-func _on_ConfigPanel_open_config_dialog():
-	show_filedialog($OpenConfig, "config")
+func set_config(res: DialConfig, path: String):
+	AppInstance.config = res
+	AppInstance.config_path = path
+	AppInstance.change_setting("config", path)
+	AppInstance.update_branches()
 
 func _on_ExportBtn_pressed():
 	show_filedialog($ExportDialog, "loc")
@@ -116,7 +125,7 @@ func _on_ImportDialog_file_selected(path):
 			dict[arr[0]] = arr[1]
 	file.close()
 	
-	for branch in AppInstance.document["branches"]:
+	for branch in AppInstance.resource["branches"]:
 		if (dict.has(branch["text_id"])):
 			branch["text"] = dict[branch["text_id"]]
 		
@@ -128,13 +137,13 @@ func _on_ImportDialog_file_selected(path):
 			elif (ind == 0):
 				phrase["text"] = dict[branch["text_id"]]
 				
-	init_form(document_path)
+#	init_form(document_path)
 	
 
 func _on_ExportDialog_file_selected(path):
 	var file_data: String = "text_id\ttext\n"
 		
-	for branch in AppInstance.document["branches"]:
+	for branch in AppInstance.resource["branches"]:
 		file_data += branch["text_id"] + "\t" + branch["text"] + "\n"
 		var ind:int = -1
 		for phrase in branch["phrases"]:
@@ -149,15 +158,14 @@ func _on_ExportDialog_file_selected(path):
 	file.close()
 
 
-
 func show_filedialog(node: FileDialog, type: String):
-	node.current_path = AppInstance.settings.get_value("settings", "last_path")
+	node.current_path = AppInstance.resource_path
 	node.add_filter("*." + type)
 	node.popup_centered()
 	
 func _on_AddBranchButton_pressed():
 	
-	if AppInstance.document.empty():
+	if AppInstance.resource == null:
 		AppInstance.alert("Dialog is not found! Create or open file.", "ERROR")
 		return
 	
@@ -179,7 +187,7 @@ func _on_AddBranchButton_pressed():
 		"if": [],
 		"change_started": "", 
 		"phrases": []}
-	AppInstance.document["branches"].append(new_dict)
+	AppInstance.resource["branches"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.set_edit_mode(edit_mode)
 	cell.phrase_text.grab_focus()
@@ -191,7 +199,7 @@ func _on_AddPhraseButton_pressed():
 	var new_dict: Dictionary = {
 		"text": "",
 		"text_id": UUID.v4(),
-		"npc": AppInstance.document["character"], 
+		"npc": AppInstance.resource["character"], 
 		"anim": "",
 		"if": {}
 		}
@@ -263,7 +271,7 @@ func update_branch_states():
 
 
 func generate_name():
-	var content: Array = AppInstance.document["branches"]
+	var content: Array = AppInstance.resource["branches"]
 	if (content.size() > 0):
 		var temp_name: String = content[content.size() - 1]["name"]
 		var temp_arr: Array = temp_name.split("_")
@@ -284,19 +292,12 @@ func _on_ConfigBtn_pressed():
 	$Panel/ConfigPanel.show()
 
 func _on_PlayBtn_pressed():
-	if AppInstance.document.empty():
+	if AppInstance.resource == null:
 		AppInstance.alert("File is not opened!", "ERROR")
 		return
 	
 	save_document()
 	$Panel/PlayPanel.show()
-
-func _on_Config_file_selected(path):
-	$Panel/ConfigPanel.clean_data()
-	AppInstance.change_setting("config", path)
-	AppInstance.load_config()
-	$Panel/ConfigPanel.load_data()
-
 
 
 func _on_AddFirst_pressed():
@@ -317,10 +318,10 @@ func _on_AddFirst_pressed():
 
 
 func _on_CharacterBtn_change_value():
-	AppInstance.document["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
+	AppInstance.resource["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
 
 func _on_AutobranchBtn_change_value():
-	AppInstance.document["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
+	AppInstance.resource["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
 
 
 
@@ -332,3 +333,5 @@ func _on_EditBranchesBtn_toggled(button_pressed):
 		cell.set_edit_mode(edit_mode)
 
 
+func _on_OpenBtn2_pressed():
+	show_filedialog($OpenDialog, "json")

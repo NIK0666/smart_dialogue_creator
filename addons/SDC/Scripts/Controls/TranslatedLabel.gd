@@ -1,12 +1,10 @@
 tool
 extends Label
 
-class_name DialTransLabel
-
 export var hint_id: String = ""
 export var text_id: String = ""
 
-func _enter_tree():
+func _ready():
 	if (!hint_id.empty()):
 		hint_tooltip = AppInstance.get_local_text(hint_id)
 	if (!text_id.empty()):

@@ -17,17 +17,19 @@ var colors: Dictionary = {
 
 var app_win: AppWin = null
 var settings:ConfigFile
-var config: Dictionary
+var config: DialConfig
+var config_path: String
 var document: Dictionary
+var resource: Dialogue
+var resource_path: String
 var selected_branch: BranchCell = null
 
-func _ready():
-	if TranslationServer.get_locale().to_lower().begins_with("ru"):
-		trans = load("res://addons/SDC/locale/locale.ru.translation")
-	else:
-		trans = load("res://addons/SDC/locale/locale.en.translation")
-
 func get_local_text(text_id: String):
+	if (!trans):
+		if TranslationServer.get_locale().to_lower().begins_with("ru"):
+			trans = load("res://addons/SDC/locale/locale.ru.translation")
+		else:
+			trans = load("res://addons/SDC/locale/locale.en.translation")
 	return trans.get_message(text_id)
 
 func alert(text: String, title: String='Message') -> void:
@@ -41,7 +43,7 @@ func alert(text: String, title: String='Message') -> void:
 
 func update_branches():
 	exist_branches = []
-	for dict in document["branches"]:
+	for dict in resource["branches"]:
 		exist_branches.append(dict["name"])
 
 func select_branch(node: BranchCell):
@@ -53,7 +55,7 @@ func select_branch(node: BranchCell):
 
 func rename_branch(old_name: String, new_name: String):
 	
-	for branch in document["branches"]:
+	for branch in resource["branches"]:
 		for ind in range(0, branch["show"].size()):
 			if (branch["show"][ind] == old_name):
 				branch["show"][ind] = new_name
@@ -67,10 +69,10 @@ func deselect_branch(node: BranchCell):
 	node.set_state("Default")
 
 func delete_branch(node: BranchCell):
-	document["branches"].erase(node.get_content())
+	resource["branches"].erase(node.get_content())
 	deselect_branch(node)
 	node.get_parent().remove_child(node)
-	if (document["branches"].size() > 0):
+	if (resource["branches"].size() > 0):
 		select_branch(app_win.dialogs_list.get_child(0))
 	else:
 		select_branch(null)
@@ -114,21 +116,5 @@ func load_settings():
 	settings = ConfigFile.new()
 	var err = settings.load("res://settings.cfg")
 	if (settings.get_value("settings", "config") == null):
-		change_setting("config", "res://Default.config")
-		change_setting("last_path", "res://")
+		change_setting("config", "")
 		change_setting("last_file", "")
-		change_setting("locale", TranslationServer.get_locale())
-	if settings.get_value("settings", "locale"):
-		TranslationServer.set_locale(settings.get_value("settings", "locale"))
-
-func load_config():
-	var dict = load_json(settings.get_value("settings", "config"))
-	if (dict == null):
-		var file = File.new()
-		file.open(settings.get_value("settings", "config"), File.WRITE)
-		config = {"characters": [], "variables": [], "hero": ""}
-		var saved_json = JSON.print(config)
-		file.store_string(saved_json)
-		file.close()
-	else:
-		config = dict

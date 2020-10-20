@@ -1,16 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/SDC/Resources/CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/SDC/Scripts/ConfigPanel.gd" type="Script" id=2]
 [ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=3]
-[ext_resource path="res://addons/SDC/Resources/icons/folder-open.svg" type="Texture" id=4]
-[ext_resource path="res://addons/SDC/Resources/icons/file.svg" type="Texture" id=5]
 [ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=6]
 [ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedButton.gd" type="Script" id=7]
-
-
-
-
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedLabel.gd" type="Script" id=8]
 
 [node name="Panel" type="Panel"]
 anchor_left = 0.5
@@ -37,23 +32,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NewConfigBtn" type="Button" parent="Control"]
-margin_right = 44.0
-margin_bottom = 38.0
-hint_tooltip = "new_config"
-custom_fonts/font = ExtResource( 1 )
-icon = ExtResource( 5 )
-
-[node name="OpenBtn" type="Button" parent="Control"]
-margin_left = 48.0
-margin_right = 92.0
-margin_bottom = 38.0
-hint_tooltip = "open_config"
-custom_fonts/font = ExtResource( 1 )
-icon = ExtResource( 4 )
-
 [node name="Control" type="Control" parent="Control"]
-margin_left = 96.0
 margin_right = 1024.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
@@ -92,31 +71,35 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HBoxContainer/CharactersList/Panel"]
 margin_top = 4.0
-margin_right = 73.0
+margin_right = 164.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
-text = "chars_list"
+text = "Список персонажей:"
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+hint_id = ""
+text_id = "chars_list"
 
 [node name="AddBtn" type="Button" parent="HBoxContainer/CharactersList/Panel"]
-margin_left = 77.0
-margin_right = 118.0
+margin_left = 168.0
+margin_right = 254.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "add"
+text = "Добавить"
 script = ExtResource( 7 )
+hint_id = ""
 text_id = "add"
 
 [node name="HeroBtn" type="MenuButton" parent="HBoxContainer/CharactersList/Panel"]
 self_modulate = Color( 1, 1, 1, 0.33 )
-margin_left = 122.0
-margin_right = 222.0
+margin_left = 258.0
+margin_right = 358.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 100, 0 )
 align = 0
-items = [ "", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 3 )
 placeholder = "[Main Hero]"
 
@@ -162,20 +145,22 @@ __meta__ = {
 
 [node name="AddPrivateBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
 margin_left = 68.0
-margin_right = 154.0
+margin_right = 246.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "add_local"
+text = "Добавить локальную"
 script = ExtResource( 7 )
+hint_id = ""
 text_id = "add_local"
 
 [node name="AddPublicBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
-margin_left = 158.0
-margin_right = 253.0
+margin_left = 250.0
+margin_right = 428.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
-text = "add_public"
+text = "Добавить публичную"
 script = ExtResource( 7 )
+hint_id = ""
 text_id = "add_public"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
@@ -192,8 +177,6 @@ margin_right = 534.0
 margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-[connection signal="pressed" from="Control/NewConfigBtn" to="." method="_on_NewConfigBtn_pressed"]
-[connection signal="pressed" from="Control/OpenBtn" to="." method="_on_OpenBtn_pressed"]
 [connection signal="pressed" from="Control/CloseBtn" to="." method="_on_CloseBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/CharactersList/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
 [connection signal="change_value" from="HBoxContainer/CharactersList/Panel/HeroBtn" to="." method="_on_HeroBtn_change_value"]

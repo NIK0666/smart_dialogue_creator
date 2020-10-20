@@ -8,9 +8,6 @@ onready var hero_btn = $HBoxContainer/CharactersList/Panel/HeroBtn
 var CharCell = preload("res://addons/SDC/Components/ConfigPanel/CharacterCell.tscn")
 var VarCell = preload("res://addons/SDC/Components/ConfigPanel/VariableCell.tscn")
 
-signal new_config_dialog
-signal open_config_dialog
-
 func _on_CloseBtn_pressed():
 	get_parent().visible = false
 	self.visible = false
@@ -18,11 +15,7 @@ func _on_CloseBtn_pressed():
 	save_file()
 
 func save_file():
-	# Save config
-	var config_file = File.new()
-	config_file.open(AppInstance.settings.get_value("settings", "config"), File.WRITE)
-	config_file.store_string(JSON.print(AppInstance.config))
-	config_file.close()
+	ResourceSaver.save(AppInstance.config_path, AppInstance.config)
 
 func clean_data():
 	for item in chars_list.get_children():
@@ -39,8 +32,8 @@ func load_data():
 		cell.update_content(item)
 		chars_list.add_child(cell)
 
-	if (AppInstance.document.has("variables")):
-		for item in AppInstance.document["variables"]:
+	if (AppInstance.resource != null):
+		for item in AppInstance.resource["variables"]:
 			var cell = VarCell.instance()
 			cell.update_content(item)
 			cell.set_public(false)
@@ -52,7 +45,6 @@ func load_data():
 		cell.update_content(item)
 		cell.set_public(true)
 		vars_list.add_child(cell)
-	
 	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["hero"]))
 
 func show():
@@ -92,20 +84,10 @@ func _on_AddPrivateVarBtn_pressed():
 		"desc": ""
 		}
 	
-	if (!AppInstance.document.has("variables")):
-		AppInstance.document["variables"] = []
-	AppInstance.document["variables"].append(new_dict)
+	if (AppInstance.resource != null):
+		AppInstance.resource["variables"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.set_public(false)
-
-func _on_NewConfigBtn_pressed():
-	save_file()
-	emit_signal("new_config_dialog")
-
-
-func _on_OpenBtn_pressed():
-	save_file()
-	emit_signal("open_config_dialog")
 
 
 func _on_HeroBtn_change_value():

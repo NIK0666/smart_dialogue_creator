@@ -2,13 +2,13 @@ tool
 extends Panel
 
 var dial_reader: DialogueReader
-var dial_data: Dictionary
 
 var CharacterCell = preload("res://addons/SDC/Components/PlayPanel/CharacterCell.tscn")
 var TextCell = preload("res://addons/SDC/Components/PlayPanel/TextCell.tscn")
 var EventCell = preload("res://addons/SDC/Components/PlayPanel/EventCell.tscn")
 var AnswerButton = preload("res://addons/SDC/Components/PlayPanel/AnswerButton.tscn")
 var scroll_to_bottom: bool = false
+var status_info: Dictionary
 
 onready var history_container: VBoxContainer = $VBoxContainer/HistoryScroll/HistoryVBox
 onready var history_scroll: ScrollContainer = $VBoxContainer/HistoryScroll
@@ -23,7 +23,11 @@ func show():
 	self.visible = true
 	
 	dial_reader = DialogueReader.new()
-	dial_reader.public_config = AppInstance.config
+	var vars_info: Dictionary = {}
+	for dict in AppInstance.config.variables:
+		vars_info[dict["key"]] = dict["value"]
+	
+	dial_reader.set_public_vars_info(vars_info)
 
 	dial_reader.connect("change_phrase", self, "_phrase_changed")
 	dial_reader.connect("change_branches", self, "_change_branches")
@@ -72,14 +76,21 @@ func __next_phrase(id: int):
 func __select_phrase(id: int):
 	dial_reader.select_branch(id)
 
+func get_character_name(id: String) -> String:
+	for ch in AppInstance.config.characters:
+		if ch["id"] == id:
+			return ch["name"]
+	return ""
+
 func _change_speaker_id(speaker_id: String):
 	var cell = CharacterCell.instance()
-	cell.set_name(dial_reader.get_character_name(speaker_id))
+	cell.set_name(get_character_name(speaker_id))
 	history_container.add_child(cell)
 
 func _close_dialog():
 	__clean_data()
 	talk_btn.disabled = false
+	print(status_info)
 
 func _extern_event(event_data: Dictionary):
 	var cell = EventCell.instance()
@@ -90,16 +101,9 @@ func _anim_event(anim_name: String):
 	print(anim_name)
 
 func __play_dialog():
-	var dial_path: String = AppInstance.app_win.document_path
-	var arr: Array = dial_path.split("/")
-	dial_path = ""
-	for ind in range(0, arr.size() - 1):
-		dial_path = dial_path + arr[ind] + "/"
-	var dial_name: String = arr[arr.size() - 1].split(".")[0]
-	
-	dial_reader.set_paths(dial_path, "")
-	dial_data = dial_reader.open_dial_file(dial_name)
-	dial_reader.start_dialog(dial_data)
+	status_info = {}
+	dial_reader.start_dialog(AppInstance.resource, status_info)
+
 
 func _process(delta):
 	if (scroll_to_bottom):
@@ -116,5 +120,5 @@ func _on_CloseBtn_pressed():
 
 
 func _on_TalkBtn_pressed():
-	dial_reader.start_dialog(dial_data)
+	dial_reader.start_dialog(AppInstance.resource, status_info)
 	talk_btn.disabled = true
