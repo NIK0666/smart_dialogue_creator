@@ -8,7 +8,7 @@ var TextCell = preload("res://addons/SDC/Components/PlayPanel/TextCell.tscn")
 var EventCell = preload("res://addons/SDC/Components/PlayPanel/EventCell.tscn")
 var AnswerButton = preload("res://addons/SDC/Components/PlayPanel/AnswerButton.tscn")
 var scroll_to_bottom: bool = false
-var status_info: Dictionary
+var progress_info: Dictionary
 
 onready var history_container: VBoxContainer = $VBoxContainer/HistoryScroll/HistoryVBox
 onready var history_scroll: ScrollContainer = $VBoxContainer/HistoryScroll
@@ -22,12 +22,9 @@ func show():
 	talk_btn.disabled = true
 	self.visible = true
 	
+
 	dial_reader = DialogueReader.new()
-	var vars_info: Dictionary = {}
-	for dict in AppInstance.config.variables:
-		vars_info[dict["key"]] = dict["value"]
-	
-	dial_reader.set_public_vars_info(vars_info)
+	progress_info = dial_reader.make_progress_info(AppInstance.config)
 
 	dial_reader.connect("change_phrase", self, "_phrase_changed")
 	dial_reader.connect("change_branches", self, "_change_branches")
@@ -90,7 +87,7 @@ func _change_speaker_id(speaker_id: String):
 func _close_dialog():
 	__clean_data()
 	talk_btn.disabled = false
-	print(status_info)
+	print(progress_info)
 
 func _extern_event(event_data: Dictionary):
 	var cell = EventCell.instance()
@@ -101,8 +98,7 @@ func _anim_event(anim_name: String):
 	print(anim_name)
 
 func __play_dialog():
-	status_info = {}
-	dial_reader.start_dialog(AppInstance.resource, status_info)
+	dial_reader.start_dialog(AppInstance.resource)
 
 
 func _process(delta):
@@ -120,5 +116,5 @@ func _on_CloseBtn_pressed():
 
 
 func _on_TalkBtn_pressed():
-	dial_reader.start_dialog(AppInstance.resource, status_info)
+	dial_reader.start_dialog(AppInstance.resource)
 	talk_btn.disabled = true

@@ -9,54 +9,45 @@ signal close_dialog()
 signal extern_event(event_data)
 signal anim_event(animation_name)
 
-#var public_config: DialConfig
 var current_dialog: Dialogue
-var status_info: Dictionary
-var public_variables: Dictionary
+var progress_dict: Dictionary
+
+var dial_progress: Dictionary
+var char_vars: Dictionary
+var public_vars: Dictionary
+
 var current_branch: Dictionary = {}
 var current_branch_phrases: Array = []
 var answer_branches: Array = []
 var phrase_index: int = -1
 var current_speaker_id: String = ""
-var dialogs_path: String = "res://dialogs/"
-var configs_path: String = "res://dialogs/"
-
-
-func set_paths(dial_path: String, config_path: String):
-	if dial_path != "":
-		self.dialogs_path = dial_path
-	if config_path != "":
-		self.configs_path = config_path
 
 
 # Необходимо вызвать для запуска диалога. 
 # @dial_data - данные диалога в json
-func start_dialog(dial_data: Dialogue, status_info: Dictionary):
+func start_dialog(dial_data: Dialogue, start_branch: String = ""):
 	if (dial_data == null):
 		print("ERROR: Dialogue resource is not set!")
 		return
 	
 	current_dialog = dial_data
-	self.status_info = status_info
-	if (status_info.empty()):
-		_make_status_info()
-	
-	if (status_info["autobranch"] != ""):
-		var branch: String = status_info["autobranch"]
-		status_info["autobranch"] = ""
-		__change_current_branch(__find_branch(branch))
-		
+	update_info_progress_if_needed(dial_data)
+	print(dial_progress["auto"])
+	if (start_branch != ""):
+		dial_progress["auto"] = ""
+		__change_current_branch(__find_branch(start_branch))
+	elif (dial_progress["auto"] != ""):
+		var autobranch: String = dial_progress["auto"]
+		dial_progress["auto"] = ""
+		__change_current_branch(__find_branch(autobranch))
 	else:
 		answer_branches = __find_visible_branches()
 		var branches_text: Array = []
 		for branch in answer_branches:
 			branches_text.append(branch["text"])
 		emit_signal("change_branches", branches_text)
-
-func set_public_vars_info(public_variables: Dictionary):
-	self.public_variables = public_variables
-
-
+	
+	
 # Необходимо вызывть для переключения на следующую фразу диалога
 # Если следующая фраза последняя, то:
 #	- если стоит галка show_choice то показывается только список веток, указанных в show
@@ -119,9 +110,9 @@ func get_var(key: String):
 
 func set_var(key: String, value):
 	if (__get_local_var(key)):
-		status_info["variables"][key] = value
+		char_vars[key] = value
 	elif (__get_public_var(key)):
-		public_variables[key] = value
+		public_vars[key] = value
 	else:
 		print("ERROR: Variable " + key + " is not found!")
 
@@ -136,20 +127,6 @@ func __check_emit_event(end_branch: bool):
 	elif !is_post && !end_branch:
 		emit_signal("extern_event", current_branch["event"])
 
-# Функция загрузки JSON файла с диска
-# @path - путь к файлу
-func __load_json(path: String):
-	var file = File.new()
-	file.open(path, file.READ)
-	var content = file.get_as_text()
-	file.close()
-	
-	var result_json = JSON.parse(content)
-	if result_json.error == OK:
-		return result_json.result
-	else:
-		return null 
-
 
 # Прочитать выбранную ветку диалога
 # Здесь же изменяются значения переменным, задается видимость связанным веткам
@@ -157,10 +134,10 @@ func __read_branch():
 	phrase_index = -1
 	current_speaker_id = ""
 	if (current_branch["hide_self"]):
-		status_info["hidden_branches"][current_branch["name"]] = true
+		dial_progress["hidden"][current_branch["name"]] = true
 	
 	if (current_branch["change_started"] != ""):
-		status_info["autobranch"] = current_branch["change_started"]
+		dial_progress["auto"] = current_branch["change_started"]
 	
 	__check_emit_event(false)
 	
@@ -171,10 +148,10 @@ func __read_branch():
 		__set_choice_branches()
 	else:
 		for branch_name in current_branch["show"]:
-			status_info["hidden_branches"][branch_name] = false
+			dial_progress["hidden"][branch_name] = false
 	
 	for branch_name in current_branch["hide"]:
-		status_info["hidden_branches"][branch_name] = true
+		dial_progress["hidden"][branch_name] = true
 		
 	__prepare_phrases()
 
@@ -239,7 +216,7 @@ func __find_branch(branch_name: String) -> Dictionary:
 func __find_visible_branches() -> Array:
 	var branches: Array = []
 	for dict in current_dialog["branches"]:
-		if (status_info["hidden_branches"][dict["name"]]):
+		if (dial_progress["hidden"][dict["name"]]):
 			continue
 		if (!__check_conditions(dict["if"], dict["or_cond"])):
 			continue
@@ -274,16 +251,16 @@ func __change_var(var_dict: Dictionary):
 # Получить локальную переменную
 # @key - имя переменной
 func __get_local_var(key: String):
-	if (status_info["variables"].has(key)):
-		return status_info["variables"][key]
+	if (char_vars.has(key)):
+		return char_vars[key]
 	return null
 
 
 # Получить публичную переменную
 # @key - имя переменной
 func __get_public_var(key: String):
-	if (public_variables.has(key)):
-		return public_variables[key]
+	if (public_vars.has(key)):
+		return public_vars[key]
 	return null
 
 
@@ -331,31 +308,67 @@ func __check_conditions(conditions_array: Array, or_cond: bool) -> bool:
 				break
 	return success_conditions
 
-func _make_status_info():
-	var hidden_branches:Dictionary = {}
-	var variables: Dictionary = {}
-	for branch in current_dialog.branches:
-		hidden_branches[branch["name"]] = branch["hidden"]
+
+func get_progress_info():
+	return progress_dict
+
+func set_progress_info(progress_dict: Dictionary):
+	self.progress_dict = progress_dict
+	public_vars = progress_dict["public_vars"]
+
+func make_progress_info(config: DialConfig) -> Dictionary:
+	var new_dict: Dictionary = {"public_vars": {}}
+	for dict in config.variables:
+		new_dict["public_vars"][dict["key"]] = dict["value"]
+	new_dict["dials"] = {}
+	set_progress_info(new_dict)
+	return new_dict
+
+
+# Добавляет информацию о диалоге в прогресс
+func update_info_progress_if_needed(dial_res: Dialogue):
+	var rid_id = dial_res.get_instance_id()
+	if !progress_dict["dials"].has(rid_id):
+		progress_dict["dials"][rid_id] = {"hidden": {}}
+		progress_dict["char_vars"] = {}
 	
-	for variable in current_dialog.variables:
-		variables[variable["key"]] = variable["value"]
+	for branch in dial_res.branches:
+		if !(progress_dict["dials"][rid_id]["hidden"].has(branch["name"])):
+			progress_dict["dials"][rid_id]["hidden"][branch["name"]] = branch["hidden"]
+		if !(progress_dict["dials"][rid_id].has("auto")):
+			print("!!!")
+			progress_dict["dials"][rid_id]["auto"] = dial_res.autobranch
 	
-	status_info["hidden_branches"] = hidden_branches
-	status_info["variables"] = variables
-	status_info["autobranch"] = current_dialog.autobranch
+	dial_progress = progress_dict["dials"][rid_id]
+	
+	if dial_res.character == "" && !dial_res.variables.empty():
+		print("ERROR: Character id is not set and variables exists! Use public variables!")
+		char_vars = {}
+	else:
+		if !progress_dict["char_vars"].has(dial_res.character):
+			progress_dict["char_vars"][dial_res.character] = {}
+		
+		for variable in current_dialog.variables:
+			if !(progress_dict["char_vars"][dial_res.character].has(variable["key"])):
+				progress_dict["char_vars"][dial_res.character][variable["key"]] = variable["value"]
+		
+		char_vars = progress_dict["char_vars"]
 
 
+func clear_dialog_progress(dial_res: Dialogue):
+	if (progress_dict["dials"].has(dial_res.get_rid().get_id())):
+		(progress_dict["dials"] as Dictionary).erase(dial_res.get_rid().get_id())
 
+func clear_all_dialogs_progress():
+	(progress_dict as Dictionary).erase("dials")
 
+func clear_char_vars_progress(char_id: String):
+	if (progress_dict["char_vars"].has(char_id)):
+		progress_dict["char_vars"].erase(char_id)
 
+func clear_all_char_vars_progress():
+	progress_dict["char_vars"] = {}
 
-
-
-
-
-
-
-
-
-
-
+func clear_all_public_vars_progress():
+	progress_dict["public_vars"] = {}
+	public_vars = progress_dict["public_vars"]
