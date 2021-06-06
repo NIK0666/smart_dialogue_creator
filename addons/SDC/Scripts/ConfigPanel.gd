@@ -1,12 +1,15 @@
 tool
 extends Panel
 
-onready var chars_list = $HBoxContainer/CharactersList/ScrollContainer/ChanactersVBox
-onready var vars_list = $HBoxContainer/VariablesList/ScrollContainer/VariablesVBox
-onready var hero_btn = $HBoxContainer/CharactersList/Panel/HeroBtn
+onready var chars_list:VBoxContainer = $TabContainer/chars_list/ScrollContainer/ChanactersVBox
+onready var public_vars_list:VBoxContainer = $TabContainer/public_variables/ScrollContainer/PublicVariablesVBox
+onready var local_vars_list:VBoxContainer = $TabContainer/local_variables/ScrollContainer/LocalVariablesVBox
+onready var custom_parameters_list:VBoxContainer = $TabContainer/custom_parameters/ScrollContainer/CustomParametersVBox
+onready var hero_btn: PopupBtn = $TabContainer/chars_list/Panel/HeroBtn
 
 var CharCell = preload("res://addons/SDC/Components/ConfigPanel/CharacterCell.tscn")
 var VarCell = preload("res://addons/SDC/Components/ConfigPanel/VariableCell.tscn")
+var ParamCell = preload("res://addons/SDC/Components/CustomParams/ParamConfigCell.tscn")
 
 func _on_CloseBtn_pressed():
 	get_parent().visible = false
@@ -21,8 +24,14 @@ func clean_data():
 	for item in chars_list.get_children():
 		chars_list.remove_child(item)
 
-	for item in vars_list.get_children():
-		vars_list.remove_child(item)
+	for item in public_vars_list.get_children():
+		public_vars_list.remove_child(item)
+		
+	for item in local_vars_list.get_children():
+		local_vars_list.remove_child(item)
+	
+	for item in custom_parameters_list.get_children():
+		custom_parameters_list.remove_child(item)
 	
 	hero_btn.update_content({})
 
@@ -37,14 +46,21 @@ func load_data():
 			var cell = VarCell.instance()
 			cell.update_content(item)
 			cell.set_public(false)
-			vars_list.add_child(cell)
+			local_vars_list.add_child(cell)
 
 
 	for item in AppInstance.config["variables"]:
 		var cell = VarCell.instance()
 		cell.update_content(item)
 		cell.set_public(true)
-		vars_list.add_child(cell)
+		public_vars_list.add_child(cell)
+	
+	for parameter in AppInstance.config["custom_parameters"]:
+		var cell = ParamCell.instance()
+		cell.update_content(parameter)
+		custom_parameters_list.add_child(cell)
+	
+	
 	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["hero"]))
 
 func show():
@@ -65,7 +81,7 @@ func _on_AdChardBtn_pressed():
 
 func _on_AddPublicVarBtn_pressed():
 	var cell = VarCell.instance()
-	vars_list.add_child(cell)
+	public_vars_list.add_child(cell)
 	var new_dict: Dictionary = {
 		"key": "",
 		"value": "",
@@ -77,7 +93,7 @@ func _on_AddPublicVarBtn_pressed():
 
 func _on_AddPrivateVarBtn_pressed():
 	var cell = VarCell.instance()
-	vars_list.add_child(cell)
+	local_vars_list.add_child(cell)
 	var new_dict: Dictionary = {
 		"key": "",
 		"value": "",
@@ -95,3 +111,16 @@ func _on_HeroBtn_change_value():
 		AppInstance.config["hero"] = ""
 	else:
 		AppInstance.config["hero"] = hero_btn._content["id"]
+
+
+func _on_AddCustomParameterBtn_pressed():
+	var cell = ParamCell.instance()
+	custom_parameters_list.add_child(cell)
+	var new_dict: Dictionary = {
+		"key": "",
+		"value": "",
+		"desc": ""
+		}
+	AppInstance.config["custom_parameters"].append(new_dict)
+	cell.update_content(new_dict)
+

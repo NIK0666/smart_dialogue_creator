@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://addons/SDC/Scripts/Core/App.gd" type="Script" id=1]
 [ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://addons/SDC/Resources/icons/archive.svg" type="Texture" id=9]
 [ext_resource path="res://addons/SDC/Resources/icons/settings.svg" type="Texture" id=10]
 [ext_resource path="res://addons/SDC/Resources/icons/ellipsis-vertical.svg" type="Texture" id=11]
+[ext_resource path="res://addons/SDC/Components/CustomParams/CustomParamsPanel.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/SDC/Resources/icons/import.svg" type="Texture" id=13]
 [ext_resource path="res://addons/SDC/Resources/icons/plus.svg" type="Texture" id=14]
 [ext_resource path="res://addons/SDC/Resources/icons/play.svg" type="Texture" id=15]
@@ -194,7 +195,7 @@ __meta__ = {
 }
 
 [node name="ToolbarPanel" type="Panel" parent="MainVBox"]
-margin_right = 1432.0
+margin_right = 1912.0
 margin_bottom = 42.0
 rect_min_size = Vector2( 0, 42 )
 size_flags_horizontal = 3
@@ -220,7 +221,6 @@ hint_tooltip = "Добавить новую ветку"
 icon = ExtResource( 14 )
 script = ExtResource( 3 )
 hint_id = "add_new_branch"
-text_id = ""
 
 [node name="SaveBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 48.0
@@ -231,7 +231,6 @@ hint_tooltip = "Сохранить текущий диалог"
 icon = ExtResource( 9 )
 script = ExtResource( 3 )
 hint_id = "save_dialog"
-text_id = ""
 
 [node name="PlayBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 96.0
@@ -242,7 +241,6 @@ hint_tooltip = "Запустить диалог"
 icon = ExtResource( 15 )
 script = ExtResource( 3 )
 hint_id = "play_dialog"
-text_id = ""
 
 [node name="Control2" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 144.0
@@ -258,7 +256,6 @@ hint_tooltip = "Импортировать текст"
 icon = ExtResource( 13 )
 script = ExtResource( 3 )
 hint_id = "import_text"
-text_id = ""
 
 [node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 272.0
@@ -268,7 +265,6 @@ hint_tooltip = "Экспортировать весь текст"
 icon = ExtResource( 16 )
 script = ExtResource( 3 )
 hint_id = "export_text"
-text_id = ""
 
 [node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 320.0
@@ -278,7 +274,6 @@ hint_tooltip = "Конфигурация персонажей и перемен�
 icon = ExtResource( 10 )
 script = ExtResource( 3 )
 hint_id = "config"
-text_id = ""
 
 [node name="EditBranchesBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 368.0
@@ -289,7 +284,6 @@ toggle_mode = true
 icon = ExtResource( 11 )
 script = ExtResource( 3 )
 hint_id = "edit_mode"
-text_id = ""
 
 [node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 416.0
@@ -299,30 +293,29 @@ rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Хозяин диалога]"
 text = "[Хозяин диалога]"
 align = 0
-items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false ]
+items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 28, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 29, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 30, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 31, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 32, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 33, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 34, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 35, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 36, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 37, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 38, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 39, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 40, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 41, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 42, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 43, 0, null, "", false ]
 script = ExtResource( 2 )
 placeholder = "char_dial"
 
 [node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 8 )]
-self_modulate = Color( 1, 1, 1, 1 )
 margin_left = 567.0
 margin_right = 718.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Стартовая ветка]"
 text = "[Стартовая ветка]"
-items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false ]
+items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 28, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 29, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 30, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 31, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 32, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 33, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 34, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 35, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 36, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 37, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 38, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 39, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 40, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 41, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 42, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 43, 0, null, "", false ]
 placeholder = "start_branch"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 722.0
-margin_right = 1111.0
+margin_right = 1591.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 
 [node name="PathEdit" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1115.0
-margin_right = 1315.0
+margin_left = 1595.0
+margin_right = 1795.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 200, 0 )
 editable = false
@@ -343,31 +336,29 @@ hint_tooltip = "Создать новый файл диалога"
 icon = ExtResource( 17 )
 script = ExtResource( 3 )
 hint_id = "new_dialog"
-text_id = ""
 
 [node name="OpenBtn2" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1319.0
-margin_right = 1428.0
+margin_left = 1799.0
+margin_right = 1908.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
 hint_tooltip = "Открыть существующий файл диалога"
 text = "JSON to RES"
 script = ExtResource( 3 )
 hint_id = "open_dialog"
-text_id = ""
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
 margin_top = 46.0
-margin_right = 1432.0
-margin_bottom = 900.0
+margin_right = 1912.0
+margin_bottom = 1080.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BranchesScroll" type="ScrollContainer" parent="MainVBox/MainHBox"]
 visible = false
-margin_right = 714.0
-margin_bottom = 854.0
+margin_right = 954.0
+margin_bottom = 1034.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -376,7 +367,7 @@ __meta__ = {
 }
 
 [node name="BranchesList" type="VBoxContainer" parent="MainVBox/MainHBox/BranchesScroll"]
-margin_right = 714.0
+margin_right = 954.0
 size_flags_horizontal = 3
 custom_constants/separation = 2
 __meta__ = {
@@ -384,8 +375,8 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="MainVBox/MainHBox"]
-margin_right = 1432.0
-margin_bottom = 854.0
+margin_right = 1912.0
+margin_bottom = 1034.0
 rect_min_size = Vector2( 700, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -403,13 +394,13 @@ __meta__ = {
 }
 
 [node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll"]
-margin_right = 1428.0
-margin_bottom = 854.0
+margin_right = 1908.0
+margin_bottom = 1034.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer" instance=ExtResource( 4 )]
-margin_right = 717.0
+margin_right = 1908.0
 script = SubResource( 1 )
 
 [node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel"]
@@ -422,32 +413,36 @@ margin_bottom = -2.0
 rect_min_size = Vector2( 125, 28 )
 text = "Новая фраза"
 script = ExtResource( 3 )
-hint_id = ""
+__meta__ = {
+"_edit_use_anchors_": false
+}
 text_id = "add_phrase"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer"]
 margin_top = 278.0
-margin_right = 717.0
-margin_bottom = 820.0
+margin_right = 1908.0
+margin_bottom = 1034.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="PhrasesVBox" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer"]
-margin_right = 717.0
+margin_right = 1908.0
 size_flags_horizontal = 3
 
 [node name="AddFirst" type="Button" parent="MainVBox/MainHBox/ColorRect"]
 visible = false
 margin_left = 6.0
-margin_top = 260.0
+margin_top = 280.0
 margin_right = 131.0
 margin_bottom = 288.0
 rect_min_size = Vector2( 125, 28 )
-text = "add_first"
+text = "Добавить первую фразу главного героя"
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+text_id = "add_first"
 
 [node name="OpenDialog" type="FileDialog" parent="."]
 anchor_left = 0.5
@@ -458,11 +453,11 @@ margin_left = -427.5
 margin_top = -265.5
 margin_right = 427.5
 margin_bottom = 265.5
-window_title = "Открыть файл"
+window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "/Godot/smart_dialogue_creator"
-current_path = "/Godot/smart_dialogue_creator/"
+current_dir = "/BT/BT_Project"
+current_path = "/BT/BT_Project/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -478,9 +473,9 @@ margin_right = 427.5
 margin_bottom = 265.5
 window_title = "Сохранить файл"
 access = 2
-current_dir = "/Godot/smart_dialogue_creator"
+current_dir = "/BT/BT_Project"
 current_file = "Dialog_new"
-current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+current_path = "/BT/BT_Project/Dialog_new"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -494,11 +489,11 @@ margin_left = -427.5
 margin_top = -265.5
 margin_right = 427.5
 margin_bottom = 265.5
-window_title = "Сохранить файл"
+window_title = "export_localization"
 access = 2
-current_dir = "/Godot/smart_dialogue_creator"
-current_file = "Config_new"
-current_path = "/Godot/smart_dialogue_creator/Config_new"
+current_dir = "/BT/BT_Project"
+current_file = "loc.csv"
+current_path = "/BT/BT_Project/loc.csv"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -512,12 +507,11 @@ margin_left = -427.5
 margin_top = -265.5
 margin_right = 427.5
 margin_bottom = 265.5
-window_title = "Открыть файл"
+window_title = "import_localization"
 mode = 0
 access = 2
-current_dir = "/Godot/smart_dialogue_creator"
-current_file = "Config_new"
-current_path = "/Godot/smart_dialogue_creator/Config_new"
+current_dir = "/BT/BT_Project"
+current_path = "/BT/BT_Project/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -533,15 +527,19 @@ __meta__ = {
 
 [node name="ConfigPanel" parent="Panel" instance=ExtResource( 5 )]
 visible = false
-margin_left = -600.0
-margin_right = 600.0
-rect_min_size = Vector2( 1200, 600 )
+margin_left = -470.0
+margin_right = 470.0
+rect_min_size = Vector2( 940, 600 )
 
 [node name="PlayPanel" parent="Panel" instance=ExtResource( 6 )]
 visible = false
 
 [node name="EventPanel" parent="Panel" instance=ExtResource( 7 )]
 visible = false
+
+[node name="CustomParamsPanel" parent="Panel" instance=ExtResource( 12 )]
+visible = false
+
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_pressed"]

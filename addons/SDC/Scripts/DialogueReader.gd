@@ -7,6 +7,7 @@ signal change_branches(branches_array)
 signal change_speaker_id(speaker_id)
 signal close_dialog()
 signal extern_event(event_data)
+signal custom_parameter_event(param_key, param_value)
 signal anim_event(animation_name)
 
 var current_dialog: Dialogue
@@ -64,6 +65,11 @@ func next_phrase() -> bool:
 		
 		if (phrase_dict["anim"] != ""):
 			emit_signal("anim_event", phrase_dict["anim"])
+		
+		if (phrase_dict["custom_params"]):
+			if (phrase_dict["custom_params"] as Dictionary).keys().size() > 0:
+				for key in phrase_dict["custom_params"].keys():
+					emit_signal("custom_parameter_event", key, phrase_dict["custom_params"][key])
 		
 		emit_signal("change_phrase", phrase_dict["text"])
 		
@@ -336,7 +342,6 @@ func update_info_progress_if_needed(dial_res: Dialogue):
 		if !(progress_dict["dials"][rid_id]["hidden"].has(branch["name"])):
 			progress_dict["dials"][rid_id]["hidden"][branch["name"]] = branch["hidden"]
 		if !(progress_dict["dials"][rid_id].has("auto")):
-			print("!!!")
 			progress_dict["dials"][rid_id]["auto"] = dial_res.autobranch
 	
 	dial_progress = progress_dict["dials"][rid_id]

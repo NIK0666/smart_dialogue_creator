@@ -79,7 +79,7 @@ window/size/test_height=900
 
 [editor_plugins]
 
-enabled=PoolStringArray( "SDC", "godot-plugin-refresher" )
+enabled=PoolStringArray( "res://addons/SDC/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
 
 [gui]
 
@@ -90,7 +90,6 @@ theme/custom_font="res://addons/SDC/Resources/CertaFont.tres"
 translations=PoolStringArray(  )
 locale_filter=[ 1, [ "en", "ru" ] ]
 translation_remaps={
-
 }
 
 [rendering]

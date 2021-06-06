@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/SDC/Resources/CertaFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/SDC/Scripts/ConfigPanel.gd" type="Script" id=2]
 [ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=3]
+[ext_resource path="res://addons/SDC/Resources/dial_editor_theme.tres" type="Theme" id=4]
+[ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedTab.gd" type="Script" id=5]
 [ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=6]
 [ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedButton.gd" type="Script" id=7]
 [ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedLabel.gd" type="Script" id=8]
@@ -12,173 +14,234 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -400.0
+margin_left = -440.0
 margin_top = -300.0
-margin_right = 680.0
+margin_right = 440.0
 margin_bottom = 300.0
-rect_min_size = Vector2( 1080, 600 )
+rect_min_size = Vector2( 880, 600 )
+theme = ExtResource( 4 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="HBoxContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
-margin_left = 4.0
-margin_top = 4.0
-margin_right = -4.0
-rect_min_size = Vector2( 0, 32 )
+anchor_bottom = 1.0
+tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="Control"]
-margin_right = 1024.0
-margin_bottom = 38.0
-size_flags_horizontal = 3
-
-[node name="CloseBtn" type="Button" parent="Control"]
-margin_left = 1028.0
-margin_right = 1072.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 32, 0 )
-hint_tooltip = "Close config"
-icon = ExtResource( 6 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="chars_list" type="Tabs" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 50.0
+margin_top = 37.0
 margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 5 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_tab_name": "Список персонажей:"
 }
+text_id = "chars_list"
 
-[node name="CharactersList" type="ColorRect" parent="HBoxContainer"]
-margin_right = 534.0
-margin_bottom = 550.0
-size_flags_horizontal = 3
-color = Color( 0.0784314, 0.156863, 0.313726, 0.156863 )
-
-[node name="Panel" type="HBoxContainer" parent="HBoxContainer/CharactersList"]
-margin_right = 394.0
-margin_bottom = 28.0
+[node name="Panel" type="HBoxContainer" parent="TabContainer/chars_list"]
+anchor_right = 1.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 0, 28 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HBoxContainer/CharactersList/Panel"]
-margin_top = 4.0
-margin_right = 164.0
-margin_bottom = 23.0
-custom_fonts/font = ExtResource( 1 )
-text = "Список персонажей:"
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-hint_id = ""
-text_id = "chars_list"
-
-[node name="AddBtn" type="Button" parent="HBoxContainer/CharactersList/Panel"]
-margin_left = 168.0
-margin_right = 254.0
+[node name="AddBtn" type="Button" parent="TabContainer/chars_list/Panel"]
+margin_right = 86.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "Добавить"
 script = ExtResource( 7 )
-hint_id = ""
 text_id = "add"
 
-[node name="HeroBtn" type="MenuButton" parent="HBoxContainer/CharactersList/Panel"]
+[node name="Label" type="Label" parent="TabContainer/chars_list/Panel"]
+margin_left = 90.0
+margin_top = 4.0
+margin_right = 215.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 1 )
+text = "Главный герой:"
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+text_id = "main_hero"
+
+[node name="HeroBtn" type="MenuButton" parent="TabContainer/chars_list/Panel"]
 self_modulate = Color( 1, 1, 1, 0.33 )
-margin_left = 258.0
-margin_right = 358.0
+margin_left = 219.0
+margin_right = 319.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 100, 0 )
 align = 0
-items = [ "", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, 6, 0, null, "", false, "", null, 0, false, false, 7, 0, null, "", false, "", null, 0, false, false, 8, 0, null, "", false, "", null, 0, false, false, 9, 0, null, "", false, "", null, 0, false, false, 10, 0, null, "", false, "", null, 0, false, false, 11, 0, null, "", false ]
 script = ExtResource( 3 )
 placeholder = "[Main Hero]"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/CharactersList"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/chars_list"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 32.0
+margin_top = 44.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChanactersVBox" type="VBoxContainer" parent="HBoxContainer/CharactersList/ScrollContainer"]
-margin_right = 534.0
-margin_bottom = 518.0
+[node name="ChanactersVBox" type="VBoxContainer" parent="TabContainer/chars_list/ScrollContainer"]
+margin_right = 872.0
+margin_bottom = 515.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VariablesList" type="ColorRect" parent="HBoxContainer"]
-margin_left = 538.0
-margin_right = 1072.0
-margin_bottom = 550.0
-size_flags_horizontal = 3
-color = Color( 0.0784314, 0.313726, 0.156863, 0.156863 )
-
-[node name="Panel" type="HBoxContainer" parent="HBoxContainer/VariablesList"]
-margin_right = 394.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 28 )
+[node name="public_variables" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 5 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_tab_name": "Глобальные переменные"
 }
+text_id = "public_variables"
 
-[node name="Label" type="Label" parent="HBoxContainer/VariablesList/Panel"]
-margin_top = 4.0
-margin_right = 64.0
-margin_bottom = 23.0
-custom_fonts/font = ExtResource( 1 )
-text = "vars_list"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AddPrivateBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
-margin_left = 68.0
-margin_right = 246.0
-margin_bottom = 28.0
-custom_fonts/font = ExtResource( 1 )
-text = "Добавить локальную"
-script = ExtResource( 7 )
-hint_id = ""
-text_id = "add_local"
-
-[node name="AddPublicBtn" type="Button" parent="HBoxContainer/VariablesList/Panel"]
-margin_left = 250.0
-margin_right = 428.0
+[node name="AddPublicBtn" type="Button" parent="TabContainer/public_variables"]
+margin_right = 178.0
 margin_bottom = 28.0
 custom_fonts/font = ExtResource( 1 )
 text = "Добавить публичную"
 script = ExtResource( 7 )
-hint_id = ""
+__meta__ = {
+"_edit_use_anchors_": false
+}
 text_id = "add_public"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VariablesList"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/public_variables"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 32.0
+margin_top = 44.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VariablesVBox" type="VBoxContainer" parent="HBoxContainer/VariablesList/ScrollContainer"]
-margin_right = 534.0
-margin_bottom = 518.0
+[node name="PublicVariablesVBox" type="VBoxContainer" parent="TabContainer/public_variables/ScrollContainer"]
+margin_right = 872.0
+margin_bottom = 515.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-[connection signal="pressed" from="Control/CloseBtn" to="." method="_on_CloseBtn_pressed"]
-[connection signal="pressed" from="HBoxContainer/CharactersList/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
-[connection signal="change_value" from="HBoxContainer/CharactersList/Panel/HeroBtn" to="." method="_on_HeroBtn_change_value"]
-[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddPrivateBtn" to="." method="_on_AddPrivateVarBtn_pressed"]
-[connection signal="pressed" from="HBoxContainer/VariablesList/Panel/AddPublicBtn" to="." method="_on_AddPublicVarBtn_pressed"]
+
+[node name="local_variables" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_tab_name": "Локальные переменные"
+}
+text_id = "local_variables"
+
+[node name="AddPrivateBtn" type="Button" parent="TabContainer/local_variables"]
+margin_right = 178.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Добавить локальную"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+text_id = "add_local"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/local_variables"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalVariablesVBox" type="VBoxContainer" parent="TabContainer/local_variables/ScrollContainer"]
+margin_right = 872.0
+margin_bottom = 515.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="custom_parameters" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_tab_name": "Дополнительные параметры"
+}
+text_id = "custom_parameters"
+
+[node name="AddCustomParameterBtn" type="Button" parent="TabContainer/custom_parameters"]
+margin_right = 178.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Добавить дополнительный параметр"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+text_id = "add_custom_prameter"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/custom_parameters"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CustomParametersVBox" type="VBoxContainer" parent="TabContainer/custom_parameters/ScrollContainer"]
+margin_right = 872.0
+margin_bottom = 515.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CloseBtn" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -48.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 32, 0 )
+hint_tooltip = "Close config"
+icon = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="TabContainer/chars_list/Panel/AddBtn" to="." method="_on_AdChardBtn_pressed"]
+[connection signal="change_value" from="TabContainer/chars_list/Panel/HeroBtn" to="." method="_on_HeroBtn_change_value"]
+[connection signal="pressed" from="TabContainer/public_variables/AddPublicBtn" to="." method="_on_AddPublicVarBtn_pressed"]
+[connection signal="pressed" from="TabContainer/local_variables/AddPrivateBtn" to="." method="_on_AddPrivateVarBtn_pressed"]
+[connection signal="pressed" from="TabContainer/custom_parameters/AddCustomParameterBtn" to="." method="_on_AddCustomParameterBtn_pressed"]
+[connection signal="pressed" from="CloseBtn" to="." method="_on_CloseBtn_pressed"]

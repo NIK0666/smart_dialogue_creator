@@ -41,7 +41,7 @@ func set_text(value: String):
 		self_modulate.a = 1
 
 func get_text() -> String:
-	if (text == placeholder):
+	if (text == placeholder || text == AppInstance.get_local_text(placeholder)):
 		return ""
 	else:
 		return .get_text()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/SDC/Scripts/Controls/ExpandableTextEdit.gd" type="Script" id=1]
 [ext_resource path="res://addons/SDC/Resources/icons/arrow-top.svg" type="Texture" id=2]
@@ -9,120 +9,21 @@
 [ext_resource path="res://addons/SDC/Resources/icons/trash.svg" type="Texture" id=7]
 [ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedCheckBox.gd" type="Script" id=8]
 [ext_resource path="res://addons/SDC/Scripts/Controls/TranslatedLineEdit.gd" type="Script" id=9]
-
-[sub_resource type="GDScript" id=1]
-script/source = "tool
-extends VBoxContainer
-
-var _content: Dictionary
-
-func _ready():
-	pass # Replace with function body.
-
-func update_content(content: Dictionary):
-	_content = content
-	$HBoxContainer/NPCNameText.update_content(AppInstance.get_character_info(content[\"npc\"]))
-	$HBoxContainer/AnimationText.text = content[\"anim\"]
-	$PhraseText.text = content[\"text\"]
-	
-	$PhraseText.rect_size.x = get_parent().rect_size.x - 12 # Text height change Crutch fix
-	$PhraseText._on_TextEdit_text_changed()
-	
-	if (_content[\"if\"].empty()):
-		$HBoxContainer/Control/VarCondText.set_text(\"\")
-		$HBoxContainer/Control/OpCondText.text = \"==\"
-		$HBoxContainer/Control/ValCondText.text = \"\"
-		
-		$HBoxContainer/Control/ElseCheckBox.text = \"random\"
-		if (content.has(\"random\")):
-			$HBoxContainer/Control/ElseCheckBox.pressed = content[\"random\"]
-		else:
-			$HBoxContainer/Control/ElseCheckBox.pressed = false
-	else:
-		$HBoxContainer/Control/VarCondText.set_text(content[\"if\"][\"key\"])
-		$HBoxContainer/Control/OpCondText.text = content[\"if\"][\"op\"]
-		$HBoxContainer/Control/ValCondText.text = content[\"if\"][\"value\"]
-		$HBoxContainer/Control/ElseCheckBox.pressed = content[\"if\"][\"else\"]
-		$HBoxContainer/Control/ElseCheckBox.text = \"else\"
-
-func _on_NPCNameText_change_value():
-	_content[\"npc\"] = $HBoxContainer/NPCNameText.get_id()
-
-func _on_AnimationText_text_changed(new_text):
-	_content[\"anim\"] = new_text
-
-func _on_CondText_text_changed(new_text):
-	save_cond_info()
-
-func _on_ElseCheckBox_toggled(button_pressed):
-	if (_content[\"if\"].empty()):
-		_content[\"random\"] = button_pressed
-	else:
-		save_cond_info()
-
-func save_cond_info():
-	var is_set: bool = !($HBoxContainer/Control/VarCondText.get_text().empty() && $HBoxContainer/Control/VarCondText.get_text().empty())
-	if (is_set):
-		_content[\"if\"] = {
-			\"key\": $HBoxContainer/Control/VarCondText.get_text(),
-			\"op\": $HBoxContainer/Control/OpCondText.text,
-			\"value\": $HBoxContainer/Control/ValCondText.text,
-			\"else\": $HBoxContainer/Control/ElseCheckBox.pressed
-			}
-		$HBoxContainer/Control/ElseCheckBox.text = \"else\"
-	else:
-		_content[\"if\"] = {}
-		$HBoxContainer/Control/ElseCheckBox.text = \"random\"
-
-func _on_PhraseText_text_changed():
-	_content[\"text\"] = $PhraseText.text
-
-
-func _on_DelBtn_pressed():
-	print(AppInstance.selected_branch)
-	AppInstance.selected_branch.get_content()[\"phrases\"].erase(_content)
-	get_parent().remove_child(self)
-
-
-func _on_DownBtn_pressed():
-	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
-	var ind = get_index()
-	if (branch_content[\"phrases\"].size() > ind + 1):
-		branch_content[\"phrases\"].remove(ind)
-		branch_content[\"phrases\"].insert(ind + 1, _content)
-		var next_cell = AppInstance.app_win.phrases_list.get_child(ind + 1)
-		next_cell.update_content(branch_content[\"phrases\"][ind + 1])
-		update_content(branch_content[\"phrases\"][ind])
-
-func _on_UpBtn_pressed():
-	var branch_content: Dictionary = AppInstance.selected_branch.get_content()
-	var ind = get_index()
-	if (ind > 0):
-		branch_content[\"phrases\"].remove(ind)
-		branch_content[\"phrases\"].insert(ind - 1, _content)
-		var prev_cell = AppInstance.app_win.phrases_list.get_child(ind - 1)
-		prev_cell.update_content(branch_content[\"phrases\"][ind - 1])
-		update_content(branch_content[\"phrases\"][ind])
-
-		
-
-
-
-
-
-
-"
+[ext_resource path="res://addons/SDC/Resources/dial_editor_theme.tres" type="Theme" id=10]
+[ext_resource path="res://addons/SDC/Resources/icons/settings.svg" type="Texture" id=11]
+[ext_resource path="res://addons/SDC/Scripts/DialPhraseCell.gd" type="Script" id=12]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 margin_bottom = 61.0
 size_flags_horizontal = 3
-script = SubResource( 1 )
+theme = ExtResource( 10 )
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 630.0
+margin_right = 689.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 24 )
 
@@ -133,7 +34,7 @@ rect_min_size = Vector2( 120, 0 )
 hint_tooltip = "[Персонаж]"
 text = "[Персонаж]"
 align = 0
-items = [ "char_phrase", null, 0, false, false, 0, 0, null, "", false, "[Персонаж]", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "char_phrase", null, 0, false, false, 0, 0, null, "", false, "[Персонаж]", null, 0, false, false, 1, 0, null, "", false, "[Персонаж]", null, 0, false, false, 2, 0, null, "", false, "[Персонаж]", null, 0, false, false, 3, 0, null, "", false, "[Персонаж]", null, 0, false, false, 4, 0, null, "", false, "[Персонаж]", null, 0, false, false, 5, 0, null, "", false, "[Персонаж]", null, 0, false, false, 6, 0, null, "", false, "[Персонаж]", null, 0, false, false, 7, 0, null, "", false, "[Персонаж]", null, 0, false, false, 8, 0, null, "", false, "[Персонаж]", null, 0, false, false, 9, 0, null, "", false, "[Персонаж]", null, 0, false, false, 10, 0, null, "", false ]
 script = ExtResource( 5 )
 placeholder = "char_phrase"
 
@@ -142,14 +43,14 @@ margin_left = 124.0
 margin_right = 224.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 100, 0 )
-placeholder_text = "anim"
+placeholder_text = "Анимация"
 placeholder_alpha = 0.33
 script = ExtResource( 9 )
 placeholder_id = "anim"
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 228.0
-margin_right = 504.0
+margin_right = 519.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 250, 0 )
 size_flags_horizontal = 3
@@ -161,7 +62,7 @@ rect_min_size = Vector2( 100, 0 )
 hint_tooltip = "[Нет перем.]"
 size_flags_horizontal = 3
 text = "[Нет перем.]"
-items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "none_var", null, 0, false, false, 0, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 1, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 2, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 3, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 4, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 5, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 6, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 7, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 8, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 9, 0, null, "", false, "[Нет перем.]", null, 0, false, false, 10, 0, null, "", false ]
 script = ExtResource( 6 )
 placeholder = "none_var"
 
@@ -176,40 +77,54 @@ margin_left = 143.0
 margin_right = 213.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 50, 0 )
-placeholder_text = "value"
+placeholder_text = "Знач."
 placeholder_alpha = 0.33
 script = ExtResource( 9 )
 placeholder_id = "value"
 
 [node name="ElseCheckBox" type="CheckBox" parent="HBoxContainer/Control"]
 margin_left = 217.0
-margin_right = 276.0
+margin_right = 291.0
 margin_bottom = 29.0
-text = "else"
+text = "иначе"
 script = ExtResource( 8 )
 text_id = "else"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]
-margin_left = 508.0
-margin_right = 508.0
+margin_left = 523.0
+margin_right = 523.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 
 [node name="EditControl" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 512.0
-margin_right = 630.0
+margin_left = 527.0
+margin_right = 689.0
 margin_bottom = 29.0
 
-[node name="UpBtn" type="Button" parent="HBoxContainer/EditControl"]
+[node name="ParamsBtn" type="Button" parent="HBoxContainer/EditControl"]
 margin_right = 30.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 30, 0 )
+icon = ExtResource( 11 )
+expand_icon = true
+
+[node name="Control3" type="Control" parent="HBoxContainer/EditControl"]
+margin_left = 34.0
+margin_right = 40.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 6, 0 )
+
+[node name="UpBtn" type="Button" parent="HBoxContainer/EditControl"]
+margin_left = 44.0
+margin_right = 74.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 30, 0 )
 icon = ExtResource( 2 )
 expand_icon = true
 
 [node name="DownBtn" type="Button" parent="HBoxContainer/EditControl"]
-margin_left = 34.0
-margin_right = 64.0
+margin_left = 78.0
+margin_right = 108.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 30, 0 )
 text = "▲"
@@ -217,40 +132,42 @@ icon = ExtResource( 3 )
 expand_icon = true
 
 [node name="Control2" type="Control" parent="HBoxContainer/EditControl"]
-margin_left = 68.0
-margin_right = 78.0
+margin_left = 112.0
+margin_right = 122.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="DelBtn" type="Button" parent="HBoxContainer/EditControl"]
-margin_left = 82.0
-margin_right = 112.0
+margin_left = 126.0
+margin_right = 156.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 30, 0 )
 icon = ExtResource( 7 )
 expand_icon = true
 
 [node name="Control4" type="Control" parent="HBoxContainer/EditControl"]
-margin_left = 116.0
-margin_right = 118.0
+margin_left = 160.0
+margin_right = 162.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 2, 0 )
 
 [node name="PhraseText" type="TextEdit" parent="."]
 margin_top = 33.0
-margin_right = 630.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 27 )
+margin_right = 689.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 31 )
 size_flags_horizontal = 3
 wrap_enabled = true
 script = ExtResource( 1 )
 min_line = 1
+
 [connection signal="change_value" from="HBoxContainer/NPCNameText" to="." method="_on_NPCNameText_change_value"]
 [connection signal="text_changed" from="HBoxContainer/AnimationText" to="." method="_on_AnimationText_text_changed"]
 [connection signal="change_value" from="HBoxContainer/Control/VarCondText" to="." method="save_cond_info"]
 [connection signal="change_value" from="HBoxContainer/Control/OpCondText" to="." method="save_cond_info"]
 [connection signal="text_changed" from="HBoxContainer/Control/ValCondText" to="." method="_on_CondText_text_changed"]
 [connection signal="toggled" from="HBoxContainer/Control/ElseCheckBox" to="." method="_on_ElseCheckBox_toggled"]
+[connection signal="pressed" from="HBoxContainer/EditControl/ParamsBtn" to="." method="_on_ParamsBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/UpBtn" to="." method="_on_UpBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DownBtn" to="." method="_on_DownBtn_pressed"]
 [connection signal="pressed" from="HBoxContainer/EditControl/DelBtn" to="." method="_on_DelBtn_pressed"]

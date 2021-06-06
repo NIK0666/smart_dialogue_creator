@@ -48,3 +48,8 @@ event_param,Event param,Параметр события
 event_post,Emit post all phrases,Событие после всех фраз ветки
 lang,[Locale],[Язык]
 random,random,рандом
+public_variables,Public variables,Глобальные переменные
+local_variables,Local variables,Локальные переменные
+custom_parameters,Custom parameters,Дополнительные параметры
+main_hero,Main hero:,Главный герой:
+add_custom_prameter,Add custom parameter,Добавить дополнительный параметр

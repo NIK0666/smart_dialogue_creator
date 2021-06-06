@@ -101,7 +101,7 @@ margin_top = -1.54758
 margin_right = 599.226
 margin_bottom = 27.4524
 rect_min_size = Vector2( 600, 0 )
-placeholder_text = "event_name"
+placeholder_text = "Имя события"
 script = ExtResource( 3 )
 placeholder_id = "event_name"
 
@@ -110,7 +110,7 @@ margin_top = 32.0
 margin_right = 600.0
 margin_bottom = 61.0
 rect_min_size = Vector2( 600, 0 )
-placeholder_text = "event_param"
+placeholder_text = "Параметр события"
 script = ExtResource( 3 )
 placeholder_id = "event_param"
 
@@ -118,9 +118,10 @@ placeholder_id = "event_param"
 margin_top = 64.0
 margin_right = 24.0
 margin_bottom = 91.0
-text = "event_post"
+text = "Событие после всех фраз ветки"
 script = ExtResource( 2 )
 text_id = "event_post"
+
 [connection signal="pressed" from="ParamsPanel/CloseBtn" to="." method="_on_CloseBtn_pressed"]
 [connection signal="text_changed" from="ParamsPanel/NameEdit" to="." method="_on_NameEdit_text_changed"]
 [connection signal="text_changed" from="ParamsPanel/ParamEdit" to="." method="_on_ParamEdit_text_changed"]

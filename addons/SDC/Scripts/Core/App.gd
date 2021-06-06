@@ -7,6 +7,7 @@ onready var dialogs_list: VBoxContainer = $MainVBox/MainHBox/BranchesScroll/Bran
 onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var info_panel: Panel = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel
 onready var event_panel: Panel = $Panel/EventPanel
+onready var custom_params_panel: Panel = $Panel/CustomParamsPanel
 onready var info_container: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var branches_scroll: ScrollContainer = $MainVBox/MainHBox/BranchesScroll
 onready var phrases_list: VBoxContainer = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer/PhrasesVBox
@@ -108,10 +109,10 @@ func set_config(res: DialConfig, path: String):
 	AppInstance.update_branches()
 
 func _on_ExportBtn_pressed():
-	show_filedialog($ExportDialog, "loc")
+	show_filedialog($ExportDialog, "csv")
 
 func _on_ImportBtn_pressed():
-	show_filedialog($ImportDialog, "loc")
+	show_filedialog($ImportDialog, "csv")
 
 func _on_ImportDialog_file_selected(path):
 	var file = File.new()
@@ -141,16 +142,17 @@ func _on_ImportDialog_file_selected(path):
 	
 
 func _on_ExportDialog_file_selected(path):
-	var file_data: String = "text_id\ttext\n"
+	var file_data: String = "branch_name\tcharacter_id\ttext_id\toriginal_text\n"
 		
-	for branch in AppInstance.resource["branches"]:
-		file_data += branch["text_id"] + "\t" + branch["text"] + "\n"
+	for branch in AppInstance.resource.branches:
+		if (branch["text"] != ""):
+			file_data += branch["name"] + "\t" + AppInstance.config.hero + "\t" + branch["text_id"] + "\t" + branch["text"] + "\n"
 		var ind:int = -1
 		for phrase in branch["phrases"]:
 			ind += 1
 			if (ind == 0 && String(branch["text"]) == String(phrase["text"])):
 				continue
-			file_data += phrase["text_id"] + "\t" + phrase["text"] + "\n"
+			file_data += branch["name"] + "\t" + phrase["npc"] + "\t" + phrase["text_id"] + "\t" + phrase["text"] + "\n"
 	
 	var file = File.new()
 	file.open(path, File.WRITE)
@@ -162,7 +164,7 @@ func show_filedialog(node: FileDialog, type: String):
 	node.current_path = AppInstance.resource_path
 	node.add_filter("*." + type)
 	node.popup_centered()
-	
+
 func _on_AddBranchButton_pressed():
 	
 	if AppInstance.resource == null:
@@ -301,6 +303,7 @@ func _on_PlayBtn_pressed():
 
 
 func _on_AddFirst_pressed():
+	
 	$MainVBox/MainHBox/ColorRect/AddFirst.visible = false
 	
 	var node_content: Dictionary = AppInstance.selected_branch.get_content()

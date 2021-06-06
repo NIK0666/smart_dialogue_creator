@@ -19,7 +19,7 @@ var app_win: AppWin = null
 var settings:ConfigFile
 var config: DialConfig
 var config_path: String
-var document: Dictionary
+# var document: Dictionary
 var resource: Dialogue
 var resource_path: String
 var selected_branch: BranchCell = null
