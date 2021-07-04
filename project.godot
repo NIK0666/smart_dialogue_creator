@@ -63,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Smart dialogue creator"
-run/main_scene="res://test_scene.tscn"
+run/main_scene="res://addons/SDC/Main.tscn"
 config/icon="res://addons/SDC/icon.png"
 
 [autoload]

@@ -195,7 +195,7 @@ __meta__ = {
 }
 
 [node name="ToolbarPanel" type="Panel" parent="MainVBox"]
-margin_right = 1912.0
+margin_right = 1432.0
 margin_bottom = 42.0
 rect_min_size = Vector2( 0, 42 )
 size_flags_horizontal = 3
@@ -293,7 +293,7 @@ rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Хозяин диалога]"
 text = "[Хозяин диалога]"
 align = 0
-items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 28, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 29, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 30, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 31, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 32, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 33, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 34, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 35, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 36, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 37, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 38, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 39, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 40, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 41, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 42, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 43, 0, null, "", false ]
+items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 28, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 29, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 30, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 31, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 32, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 33, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 34, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 35, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 36, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 37, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 38, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 39, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 40, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 41, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 42, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 43, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 44, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 45, 0, null, "", false ]
 script = ExtResource( 2 )
 placeholder = "char_dial"
 
@@ -304,18 +304,18 @@ margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Стартовая ветка]"
 text = "[Стартовая ветка]"
-items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 28, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 29, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 30, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 31, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 32, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 33, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 34, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 35, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 36, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 37, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 38, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 39, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 40, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 41, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 42, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 43, 0, null, "", false ]
+items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 28, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 29, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 30, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 31, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 32, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 33, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 34, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 35, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 36, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 37, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 38, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 39, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 40, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 41, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 42, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 43, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 44, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 45, 0, null, "", false ]
 placeholder = "start_branch"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 722.0
-margin_right = 1591.0
+margin_right = 998.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 
 [node name="PathEdit" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1595.0
-margin_right = 1795.0
+margin_left = 1002.0
+margin_right = 1202.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 200, 0 )
 editable = false
@@ -338,8 +338,8 @@ script = ExtResource( 3 )
 hint_id = "new_dialog"
 
 [node name="OpenBtn2" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1799.0
-margin_right = 1908.0
+margin_left = 1206.0
+margin_right = 1315.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
 hint_tooltip = "Открыть существующий файл диалога"
@@ -347,10 +347,19 @@ text = "JSON to RES"
 script = ExtResource( 3 )
 hint_id = "open_dialog"
 
+[node name="ResToJSON" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1319.0
+margin_right = 1428.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть существующий файл диалога"
+text = "RES to JSON"
+script = ExtResource( 3 )
+
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
 margin_top = 46.0
-margin_right = 1912.0
-margin_bottom = 1080.0
+margin_right = 1432.0
+margin_bottom = 900.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -375,8 +384,8 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="MainVBox/MainHBox"]
-margin_right = 1912.0
-margin_bottom = 1034.0
+margin_right = 1432.0
+margin_bottom = 854.0
 rect_min_size = Vector2( 700, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -394,13 +403,13 @@ __meta__ = {
 }
 
 [node name="InfoContainer" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll"]
-margin_right = 1908.0
-margin_bottom = 1034.0
+margin_right = 1428.0
+margin_bottom = 854.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer" instance=ExtResource( 4 )]
-margin_right = 1908.0
+margin_right = 1428.0
 script = SubResource( 1 )
 
 [node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel"]
@@ -420,14 +429,14 @@ text_id = "add_phrase"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer"]
 margin_top = 278.0
-margin_right = 1908.0
-margin_bottom = 1034.0
+margin_right = 1428.0
+margin_bottom = 854.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="PhrasesVBox" type="VBoxContainer" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/ScrollContainer"]
-margin_right = 1908.0
+margin_right = 1428.0
 size_flags_horizontal = 3
 
 [node name="AddFirst" type="Button" parent="MainVBox/MainHBox/ColorRect"]
@@ -444,7 +453,7 @@ __meta__ = {
 }
 text_id = "add_first"
 
-[node name="OpenDialog" type="FileDialog" parent="."]
+[node name="JsonToResDialog" type="FileDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -456,8 +465,8 @@ margin_bottom = 265.5
 window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "/BT/BT_Project"
-current_path = "/BT/BT_Project/"
+current_dir = "/Godot/smart_dialogue_creator"
+current_path = "/Godot/smart_dialogue_creator/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -473,9 +482,26 @@ margin_right = 427.5
 margin_bottom = 265.5
 window_title = "Сохранить файл"
 access = 2
-current_dir = "/BT/BT_Project"
+current_dir = "/Godot/smart_dialogue_creator"
 current_file = "Dialog_new"
-current_path = "/BT/BT_Project/Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResToJsonDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -491,9 +517,9 @@ margin_right = 427.5
 margin_bottom = 265.5
 window_title = "export_localization"
 access = 2
-current_dir = "/BT/BT_Project"
+current_dir = "/Godot/smart_dialogue_creator"
 current_file = "loc.csv"
-current_path = "/BT/BT_Project/loc.csv"
+current_path = "/Godot/smart_dialogue_creator/loc.csv"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -507,11 +533,11 @@ margin_left = -427.5
 margin_top = -265.5
 margin_right = 427.5
 margin_bottom = 265.5
-window_title = "import_localization"
+window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "/BT/BT_Project"
-current_path = "/BT/BT_Project/"
+current_dir = "/Godot/smart_dialogue_creator"
+current_path = "/Godot/smart_dialogue_creator/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -551,9 +577,11 @@ visible = false
 [connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn2" to="." method="_on_OpenBtn2_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ResToJSON" to="." method="_on_ResToJSON_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel/AddPhrase" to="." method="_on_AddPhraseButton_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/AddFirst" to="." method="_on_AddFirst_pressed"]
-[connection signal="file_selected" from="OpenDialog" to="." method="_on_OpenDialog_file_selected"]
+[connection signal="file_selected" from="JsonToResDialog" to="." method="_on_OpenDialog_file_selected"]
 [connection signal="file_selected" from="CreateDialog" to="." method="_on_CreateDialog_file_selected"]
+[connection signal="file_selected" from="ResToJsonDialog" to="." method="_on_ResToJsonDialog_file_selected"]
 [connection signal="file_selected" from="ExportDialog" to="." method="_on_ExportDialog_file_selected"]
 [connection signal="file_selected" from="ImportDialog" to="." method="_on_ImportDialog_file_selected"]

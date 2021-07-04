@@ -34,19 +34,33 @@ func _ready():
 
 
 func _on_OpenDialog_file_selected(path): # JSON to RES
-	AppInstance.document = AppInstance.load_json(path)
+	var document:Dictionary = AppInstance.load_json(path)
 	AppInstance.change_setting("last_file", path)
-	AppInstance.change_setting("last_path", $OpenDialog.current_dir + "/")
+	AppInstance.change_setting("last_path", $JsonToResDialog.current_dir + "/")
 	
-	AppInstance.resource.character = AppInstance.document["character"]
-	AppInstance.resource.autobranch = AppInstance.document["autobranch"]
-	if (AppInstance.document.has("branches")):
-		AppInstance.resource.branches = AppInstance.document["branches"]
-	if (AppInstance.document.has("variables")):
-		AppInstance.resource.variables = AppInstance.document["variables"]
+	AppInstance.resource.character = document["character"]
+	AppInstance.resource.autobranch = document["autobranch"]
+	if (document.has("branches")):
+		AppInstance.resource.branches = document["branches"]
+	if (document.has("variables")):
+		AppInstance.resource.variables = document["variables"]
 	ResourceSaver.save(AppInstance.resource_path, AppInstance.resource)
 	init_form()
+
+
+func _on_ResToJsonDialog_file_selected(path): #RES to JSON
+	var document:Dictionary = {
+		"character": AppInstance.resource.character,
+		"autobranch": AppInstance.resource.autobranch,
+		"branches": AppInstance.resource.branches,
+		"variables": AppInstance.resource.variables
+		}
 	
+	var file = File.new()
+	file.open(path, File.WRITE)
+	file.store_string(to_json(document))
+	file.close()
+
 
 func init_form():
 	$MainVBox/ToolbarPanel/HBoxContainer/PathEdit.text = AppInstance.resource_path
@@ -337,4 +351,9 @@ func _on_EditBranchesBtn_toggled(button_pressed):
 
 
 func _on_OpenBtn2_pressed():
-	show_filedialog($OpenDialog, "json")
+	show_filedialog($JsonToResDialog, "json")
+
+
+func _on_ResToJSON_pressed():
+	show_filedialog($ResToJsonDialog, "json")
+
