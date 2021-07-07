@@ -7,7 +7,7 @@ edit_mode,Branches edit mode,Режим редактирования веток
 char_dial,[Character dialogue],[Хозяин диалога]
 start_branch,[Started branch],[Стартовая ветка]
 new_dialog,Create new dialogue file,Создать новый файл диалога
-open_dialog,Open exist dialogue file,Открыть существующий файл диалога
+open_dialog,Open dialogue file,Открыть файл диалога
 save_dialog,Save current dialogue,Сохранить текущий диалог
 play_dialog,Play current dialog,Запустить диалог
 add_phrase,Add phrase,Новая фраза

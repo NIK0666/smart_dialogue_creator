@@ -9,13 +9,13 @@ func _ready():
 
 func update_content(content: Dictionary):
 	_content = content
-	$IdText.text = content["id"]
-	$NameText.text = content["name"]
+	$IdText.text = content["Id"]
+	$NameText.text = content["Name"]
 
 func _on_DelBtn_pressed():
-	AppInstance.config["characters"].erase(_content)
+	AppInstance.config["Characters"].erase(_content)
 	get_parent().remove_child(self)
 
 func _on_text_changed(new_text):
-	_content["id"] = $IdText.text
-	_content["name"] = $NameText.text
+	_content["Id"] = $IdText.text
+	_content["Name"] = $NameText.text

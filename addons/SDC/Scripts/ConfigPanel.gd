@@ -36,32 +36,32 @@ func clean_data():
 	hero_btn.update_content({})
 
 func load_data():
-	for item in AppInstance.config["characters"]:
+	for item in AppInstance.config["Characters"]:
 		var cell = CharCell.instance()
 		cell.update_content(item)
 		chars_list.add_child(cell)
 
 	if (AppInstance.resource != null):
-		for item in AppInstance.resource["variables"]:
+		for item in AppInstance.resource["Variables"]:
 			var cell = VarCell.instance()
 			cell.update_content(item)
 			cell.set_public(false)
 			local_vars_list.add_child(cell)
 
 
-	for item in AppInstance.config["variables"]:
+	for item in AppInstance.config["Variables"]:
 		var cell = VarCell.instance()
 		cell.update_content(item)
 		cell.set_public(true)
 		public_vars_list.add_child(cell)
 	
-	for parameter in AppInstance.config["custom_parameters"]:
+	for parameter in AppInstance.config["Custom_parameters"]:
 		var cell = ParamCell.instance()
 		cell.update_content(parameter)
 		custom_parameters_list.add_child(cell)
 	
 	
-	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["hero"]))
+	hero_btn.update_content(AppInstance.get_character_info(AppInstance.config["Hero"]))
 
 func show():
 	get_parent().visible = true
@@ -72,10 +72,10 @@ func _on_AdChardBtn_pressed():
 	var cell = CharCell.instance()
 	chars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"id": "",
-		"name": ""
+		"Id": "",
+		"Name": ""
 		}
-	AppInstance.config["characters"].append(new_dict)
+	AppInstance.config["Characters"].append(new_dict)
 	cell.update_content(new_dict)
 
 
@@ -83,11 +83,11 @@ func _on_AddPublicVarBtn_pressed():
 	var cell = VarCell.instance()
 	public_vars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"key": "",
-		"value": "",
-		"desc": ""
+		"Key": "",
+		"Value": "",
+		"Desc": ""
 		}
-	AppInstance.config["variables"].append(new_dict)
+	AppInstance.config["Variables"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.set_public(true)
 
@@ -95,32 +95,32 @@ func _on_AddPrivateVarBtn_pressed():
 	var cell = VarCell.instance()
 	local_vars_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"key": "",
-		"value": "",
-		"desc": ""
+		"Key": "",
+		"Value": "",
+		"Desc": ""
 		}
 	
 	if (AppInstance.resource != null):
-		AppInstance.resource["variables"].append(new_dict)
+		AppInstance.resource["Variables"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.set_public(false)
 
 
 func _on_HeroBtn_change_value():
 	if hero_btn._content.empty():
-		AppInstance.config["hero"] = ""
+		AppInstance.config["Hero"] = ""
 	else:
-		AppInstance.config["hero"] = hero_btn._content["id"]
+		AppInstance.config["Hero"] = hero_btn._content["Id"]
 
 
 func _on_AddCustomParameterBtn_pressed():
 	var cell = ParamCell.instance()
 	custom_parameters_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"key": "",
-		"value": "",
-		"desc": ""
+		"Key": "",
+		"Value": "",
+		"Desc": ""
 		}
-	AppInstance.config["custom_parameters"].append(new_dict)
+	AppInstance.config["Custom_parameters"].append(new_dict)
 	cell.update_content(new_dict)
 

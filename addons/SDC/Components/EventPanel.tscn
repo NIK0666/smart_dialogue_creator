@@ -15,18 +15,18 @@ func show_with_content(content: Dictionary):
 	self.visible = true
 	_content = content
 	
-	if (_content.has(\"name\")):
-		$ParamsPanel/NameEdit.text = _content[\"name\"]
+	if (_content.has(\"Name\")):
+		$ParamsPanel/NameEdit.text = _content[\"Name\"]
 	else:
 		$ParamsPanel/NameEdit.text = \"\"
 
-	if (_content.has(\"param\")):
-		$ParamsPanel/ParamEdit.text = _content[\"param\"]
+	if (_content.has(\"Param\")):
+		$ParamsPanel/ParamEdit.text = _content[\"Param\"]
 	else:
 		$ParamsPanel/ParamEdit.text = \"\"
 	
-	if (_content.has(\"post\")):
-		$ParamsPanel/EmitPostCheckBox.pressed = _content[\"post\"]
+	if (_content.has(\"Post\")):
+		$ParamsPanel/EmitPostCheckBox.pressed = _content[\"Post\"]
 	else:
 		$ParamsPanel/EmitPostCheckBox.pressed = false
 
@@ -36,21 +36,21 @@ func _on_CloseBtn_pressed():
 
 
 func _on_NameEdit_text_changed(new_text):
-	_content[\"name\"] = new_text
+	_content[\"Name\"] = new_text
 
 
 func _on_ParamEdit_text_changed(new_text):
 	if (new_text != \"\"):
-		_content[\"param\"] = new_text
-	elif _content.has(\"param\"):
-		_content.erase(\"param\")
+		_content[\"Param\"] = new_text
+	elif _content.has(\"Param\"):
+		_content.erase(\"Param\")
 
 
 func _on_EmitPostCheckBox_toggled(button_pressed):
 	if (button_pressed):
-		_content[\"post\"] = true
-	elif _content.has(\"post\"):
-		_content.erase(\"post\")
+		_content[\"Post\"] = true
+	elif _content.has(\"Post\"):
+		_content.erase(\"Post\")
 "
 
 [node name="EventPanel" type="Panel"]

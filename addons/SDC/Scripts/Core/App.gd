@@ -7,6 +7,7 @@ onready var dialogs_list: VBoxContainer = $MainVBox/MainHBox/BranchesScroll/Bran
 onready var info_scroll: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var info_panel: Panel = $MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel
 onready var event_panel: Panel = $Panel/EventPanel
+onready var file_panel: Panel = $Panel/FilePanel
 onready var custom_params_panel: Panel = $Panel/CustomParamsPanel
 onready var info_container: ScrollContainer = $MainVBox/MainHBox/ColorRect/InfoScroll
 onready var branches_scroll: ScrollContainer = $MainVBox/MainHBox/BranchesScroll
@@ -33,27 +34,27 @@ func _ready():
 		AppInstance.config = load(config_path)
 
 
-func _on_OpenDialog_file_selected(path): # JSON to RES
+func _on_OpenJSON_file_selected(path): # JSON to RES
 	var document:Dictionary = AppInstance.load_json(path)
 	AppInstance.change_setting("last_file", path)
 	AppInstance.change_setting("last_path", $JsonToResDialog.current_dir + "/")
 	
-	AppInstance.resource.character = document["character"]
-	AppInstance.resource.autobranch = document["autobranch"]
-	if (document.has("branches")):
-		AppInstance.resource.branches = document["branches"]
-	if (document.has("variables")):
-		AppInstance.resource.variables = document["variables"]
+	AppInstance.resource.Character = document["Character"]
+	AppInstance.resource.Autobranch = document["Autobranch"]
+	if (document.has("Branches")):
+		AppInstance.resource.Branches = document["Branches"]
+	if (document.has("Variables")):
+		AppInstance.resource.Variables = document["Variables"]
 	ResourceSaver.save(AppInstance.resource_path, AppInstance.resource)
 	init_form()
 
 
 func _on_ResToJsonDialog_file_selected(path): #RES to JSON
 	var document:Dictionary = {
-		"character": AppInstance.resource.character,
-		"autobranch": AppInstance.resource.autobranch,
-		"branches": AppInstance.resource.branches,
-		"variables": AppInstance.resource.variables
+		"Character": AppInstance.resource.Character,
+		"Autobranch": AppInstance.resource.Autobranch,
+		"Branches": AppInstance.resource.Branches,
+		"Variables": AppInstance.resource.Variables
 		}
 	
 	var file = File.new()
@@ -62,7 +63,7 @@ func _on_ResToJsonDialog_file_selected(path): #RES to JSON
 	file.close()
 
 
-func init_form():
+func init_form():	
 	$MainVBox/ToolbarPanel/HBoxContainer/PathEdit.text = AppInstance.resource_path
 	branches_scroll.visible = true
 	AppInstance.select_branch(null)
@@ -71,11 +72,11 @@ func init_form():
 	for item in dialogs_list.get_children():
 		dialogs_list.remove_child(item)
 	
-	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.resource.character))
-	if (AppInstance.resource.get("autobranch")):
-		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.resource["autobranch"])
+	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.update_content(AppInstance.get_character_info(AppInstance.resource.Character))
+	if (AppInstance.resource.get("Autobranch")):
+		$MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.set_text(AppInstance.resource["Autobranch"])
 	
-	var content: Array = AppInstance.resource["branches"]
+	var content: Array = AppInstance.resource["Branches"]
 	for ind in range(content.size()):
 		var cell = BranchCell.instance()
 		cell.update_content(content[ind])
@@ -121,12 +122,55 @@ func set_config(res: DialConfig, path: String):
 	AppInstance.config_path = path
 	AppInstance.change_setting("config", path)
 	AppInstance.update_branches()
+	
+func _on_NewDialogBtn_pressed():
+	show_filedialog($CreateDialog, "tres")
+	close_file_panel()
+
+func _on_CreateDialog_file_selected(path: String):
+	var new_dial: Dialogue = Dialogue.new()
+	ResourceSaver.save(path, new_dial)
+	open(new_dial, path)
+	
+func _on_OpenDialogBtn_pressed():
+	show_filedialog($OpenDialog, "tres")
+	close_file_panel()
+
+func _on_OpenDialog_file_selected(path):
+	AppInstance.resource = load(path)
+	
+	AppInstance.change_setting("last_file", path)
+	AppInstance.change_setting("last_path", $JsonToResDialog.current_dir + "/")
+	
+	init_form()
+func _on_NewConfigBtn_pressed():
+	show_filedialog($CreateConfig, "tres")
+	close_file_panel()
+
+func _on_CreateConfig_file_selected(path: String):
+	var new_config: DialConfig = DialConfig.new()
+	ResourceSaver.save(path, new_config)
+	set_config(new_config, path)
+
+func _on_OpenConfigBtn_pressed():
+	show_filedialog($OpenConfig, "tres")
+	close_file_panel()
+	
+func _on_OpenConfig_file_selected(path: String):
+	set_config(load(path), path)	
+
+
+
+
+
 
 func _on_ExportBtn_pressed():
 	show_filedialog($ExportDialog, "csv")
+	close_file_panel()
 
 func _on_ImportBtn_pressed():
 	show_filedialog($ImportDialog, "csv")
+	close_file_panel()
 
 func _on_ImportDialog_file_selected(path):
 	var file = File.new()
@@ -140,17 +184,17 @@ func _on_ImportDialog_file_selected(path):
 			dict[arr[0]] = arr[1]
 	file.close()
 	
-	for branch in AppInstance.resource["branches"]:
-		if (dict.has(branch["text_id"])):
-			branch["text"] = dict[branch["text_id"]]
+	for branch in AppInstance.resource["Branches"]:
+		if (dict.has(branch["Text_id"])):
+			branch["Text"] = dict[branch["Text_id"]]
 		
 		var ind:int = -1
-		for phrase in branch["phrases"]:
+		for phrase in branch["Phrases"]:
 			ind += 1
-			if (dict.has(phrase["text_id"])):
-				phrase["text"] = dict[phrase["text_id"]]
+			if (dict.has(phrase["Text_id"])):
+				phrase["Text"] = dict[phrase["Text_id"]]
 			elif (ind == 0):
-				phrase["text"] = dict[branch["text_id"]]
+				phrase["Text"] = dict[branch["Text_id"]]
 				
 #	init_form(document_path)
 	
@@ -158,15 +202,15 @@ func _on_ImportDialog_file_selected(path):
 func _on_ExportDialog_file_selected(path):
 	var file_data: String = "branch_name\tcharacter_id\ttext_id\toriginal_text\n"
 		
-	for branch in AppInstance.resource.branches:
-		if (branch["text"] != ""):
-			file_data += branch["name"] + "\t" + AppInstance.config.hero + "\t" + branch["text_id"] + "\t" + branch["text"] + "\n"
+	for branch in AppInstance.resource.Branches:
+		if (branch["Text"] != ""):
+			file_data += branch["Name"] + "\t" + AppInstance.config.hero + "\t" + branch["Text_id"] + "\t" + branch["Text"] + "\n"
 		var ind:int = -1
-		for phrase in branch["phrases"]:
+		for phrase in branch["Phrases"]:
 			ind += 1
-			if (ind == 0 && String(branch["text"]) == String(phrase["text"])):
+			if (ind == 0 && String(branch["Text"]) == String(phrase["Text"])):
 				continue
-			file_data += branch["name"] + "\t" + phrase["npc"] + "\t" + phrase["text_id"] + "\t" + phrase["text"] + "\n"
+			file_data += branch["Name"] + "\t" + phrase["Npc"] + "\t" + phrase["Text_id"] + "\t" + phrase["Text"] + "\n"
 	
 	var file = File.new()
 	file.open(path, File.WRITE)
@@ -188,22 +232,22 @@ func _on_AddBranchButton_pressed():
 	var cell: BranchCell = BranchCell.instance()
 	dialogs_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"name": generate_name(), 
-		"text": "", 
-		"text_id": UUID.v4(),
-		"hidden": false, 
-		"closed": false,
-		"hide_self": true,
-		"choice": false,
-		"or_cond": false,
-		"event": {},
-		"show": [],
-		"hide": [],
-		"vars": [],
-		"if": [],
-		"change_started": "", 
-		"phrases": []}
-	AppInstance.resource["branches"].append(new_dict)
+		"Name": generate_name(), 
+		"Text": "", 
+		"Text_id": UUID.v4(),
+		"Hidden": false, 
+		"Closed": false,
+		"Hide_self": true,
+		"Choice": false,
+		"Or_cond": false,
+		"Event": {},
+		"Show": [],
+		"Hide": [],
+		"Vars": [],
+		"If": [],
+		"Change_started": "", 
+		"Phrases": []}
+	AppInstance.resource["Branches"].append(new_dict)
 	cell.update_content(new_dict)
 	cell.set_edit_mode(edit_mode)
 	cell.phrase_text.grab_focus()
@@ -213,19 +257,21 @@ func _on_AddPhraseButton_pressed():
 	var cell = PhraseCell.instance()
 	phrases_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"text": "",
-		"text_id": UUID.v4(),
-		"npc": AppInstance.resource["character"], 
-		"anim": "",
-		"if": {}
+		"Text": "",
+		"Text_id": UUID.v4(),
+		"Npc": AppInstance.resource["Character"], 
+		"Anim": "",
+		"Custom_params": {},
+		"Random": false,
+		"If": {}
 		}
-	AppInstance.selected_branch.get_content()["phrases"].append(new_dict)
+	AppInstance.selected_branch.get_content()["Phrases"].append(new_dict)
 	cell.update_content(new_dict)
 	$MainVBox/MainHBox/ColorRect/AddFirst.visible = false
 
 func change_selected_branch_text(value: String):
 	var node_content: Dictionary = AppInstance.selected_branch.get_content()
-	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (value != "" && node_content["phrases"].empty())
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (value != "" && node_content["Phrases"].empty())
 
 func change_selected(node: BranchCell):
 	
@@ -244,18 +290,18 @@ func change_selected(node: BranchCell):
 	for item in phrases_list.get_children():
 		phrases_list.remove_child(item)
 	
-	for item in node_content["phrases"]:
+	for item in node_content["Phrases"]:
 		var cell = PhraseCell.instance()
 		phrases_list.add_child(cell)
 		cell.update_content(item)
 	
 	update_branch_states()
 	
-	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (node_content["text"] != "" && node_content["phrases"].empty())
+	$MainVBox/MainHBox/ColorRect/AddFirst.visible = (node_content["Text"] != "" && node_content["Phrases"].empty())
 	
 func get_branch_cell(phrase_id: String) -> BranchCell:
 	for item in dialogs_list.get_children():
-		if (item.get_content()["name"] == phrase_id):
+		if (item.get_content()["Name"] == phrase_id):
 			return item
 	return null
 
@@ -267,29 +313,29 @@ func update_branch_states():
 	
 	var node_content: Dictionary = AppInstance.selected_branch.get_content()
 	
-	for item in node_content["show"]:
+	for item in node_content["Show"]:
 		var cell = get_branch_cell(item)
 		if (cell):
 			cell.set_state("WillShow")
 		else:
-			AppInstance.alert("Cell " + item + " not found on \"SHOW\" param in " + node_content["name"], "ERROR")
+			AppInstance.alert("Cell " + item + " not found on \"SHOW\" param in " + node_content["Name"], "ERROR")
 		
-	for item in node_content["hide"]:
+	for item in node_content["Hide"]:
 		var cell = get_branch_cell(item)
 		if (cell):
 			cell.set_state("WillHidden")
 		else:
-			AppInstance.alert("Cell " + item + " not found on \"HIDE\" param in " + node_content["name"], "ERROR")
+			AppInstance.alert("Cell " + item + " not found on \"HIDE\" param in " + node_content["Name"], "ERROR")
 
-	var cell = get_branch_cell(node_content["name"])
+	var cell = get_branch_cell(node_content["Name"])
 	cell.set_state("Selected")
 
 
 
 func generate_name():
-	var content: Array = AppInstance.resource["branches"]
+	var content: Array = AppInstance.resource["Branches"]
 	if (content.size() > 0):
-		var temp_name: String = content[content.size() - 1]["name"]
+		var temp_name: String = content[content.size() - 1]["Name"]
 		var temp_arr: Array = temp_name.split("_")
 		if (temp_arr.size() > 1 && (temp_arr[temp_arr.size() - 1]).is_valid_integer()):
 			var temp_num: int = (temp_arr[temp_arr.size() - 1]).to_int() + 1
@@ -324,21 +370,23 @@ func _on_AddFirst_pressed():
 	var cell = PhraseCell.instance()
 	phrases_list.add_child(cell)
 	var new_dict: Dictionary = {
-		"text": node_content["text"],
-		"text_id": UUID.v4(),
-		"npc": AppInstance.config["hero"],
-		"anim": "",
-		"if": {}
+		"Text": node_content["Text"],
+		"Text_id": UUID.v4(),
+		"Npc": AppInstance.config["Hero"],
+		"Anim": "",
+		"Custom_params": {},
+		"Random": false,
+		"If": {}
 		}
-	node_content["phrases"].append(new_dict)
+	node_content["Phrases"].append(new_dict)
 	cell.update_content(new_dict)
 
 
 func _on_CharacterBtn_change_value():
-	AppInstance.resource["character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
+	AppInstance.resource["Character"] = $MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.get_id()
 
 func _on_AutobranchBtn_change_value():
-	AppInstance.resource["autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
+	AppInstance.resource["Autobranch"] = $MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn.get_text()
 
 
 
@@ -348,12 +396,36 @@ func _on_EditBranchesBtn_toggled(button_pressed):
 	edit_mode = button_pressed
 	for cell in dialogs_list.get_children():
 		cell.set_edit_mode(edit_mode)
+	close_file_panel()
 
-
-func _on_OpenBtn2_pressed():
+func _on_ImportJSONBtn_pressed():
 	show_filedialog($JsonToResDialog, "json")
+	close_file_panel()
 
 
-func _on_ResToJSON_pressed():
+func _on_ExpoprtJSONBtn_pressed():
 	show_filedialog($ResToJsonDialog, "json")
+
+
+
+func _on_FilePanelCloseBtn_pressed():
+	close_file_panel()
+
+func close_file_panel():
+	file_panel.get_parent().visible = false
+	file_panel.visible = false
+
+func _on_FileBtn_pressed():
+	file_panel.get_parent().visible = true
+	file_panel.visible = true
+
+
+
+
+
+
+
+
+
+
 

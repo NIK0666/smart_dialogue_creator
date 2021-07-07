@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/SDC/Scripts/Core/App.gd" type="Script" id=1]
 [ext_resource path="res://addons/SDC/Scripts/Controls/CharactersBtn.gd" type="Script" id=2]
@@ -18,161 +18,9 @@
 [ext_resource path="res://addons/SDC/Resources/icons/export.svg" type="Texture" id=16]
 [ext_resource path="res://addons/SDC/Resources/icons/file.svg" type="Texture" id=17]
 [ext_resource path="res://addons/SDC/Resources/dial_editor_theme.tres" type="Theme" id=18]
-
-[sub_resource type="GDScript" id=1]
-script/source = "tool
-extends Panel
-
-
-# Declare member variables here. Examples:
-var _content: Dictionary
-# var b = \"text\"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-func update_content(content: Dictionary):
-	_content = content
-	
-	# Upper panel
-	$HBoxContainer/HiddenCheck.pressed = content[\"hidden\"]
-	$HBoxContainer/ClosedCheck.pressed = content[\"closed\"]
-	$HBoxContainer/HideSelfCheck.pressed = content[\"hide_self\"]
-	$VBoxContainer2/Panel4/ChoiceCheckBox.pressed = content[\"choice\"]
-	$VBoxContainer2/Panel3/OrCheckBox.pressed = content[\"or_cond\"]
-	
-	if (!content[\"event\"].empty()):
-		$HBoxContainer/Control/SignalText.text = content[\"event\"][\"name\"]
-		$HBoxContainer/Control/EventOptionsBtn.disabled = (content[\"event\"][\"name\"] == \"\")
-	else:
-		$HBoxContainer/Control/SignalText.text = \"\"
-		$HBoxContainer/Control/EventOptionsBtn.disabled = true
-
-	$VBoxContainer2/Panel2/ChangeStartedBtn.set_text(content[\"change_started\"])
-
-	# Hide branches info
-	var arr_len = content[\"hide\"].size() 
-	for ind in range(0,  6):
-		var item = $VBoxContainer2/Panel/VBoxContainer.get_child(ind)
-		if (arr_len > ind):
-			item.text = content[\"hide\"][ind]
-			item.self_modulate.a = 1
-		else:
-			item.set_text(\"\")
-			item.self_modulate.a = 0.33
-	
-	# Show branches info
-	arr_len = content[\"show\"].size() 
-	for ind in range(0,  6):
-		var item = $VBoxContainer2/Panel4/VBoxContainer.get_child(ind)
-		if (arr_len > ind):
-			item.text = content[\"show\"][ind]
-			item.self_modulate.a = 1
-		else:
-			item.set_text(\"\")
-			item.self_modulate.a = 0.33
-	
-	# Vars info
-	arr_len = content[\"vars\"].size() 
-	for ind in range(0,  5):
-		var item = $VBoxContainer2/Panel2/VBoxContainer2.get_child(ind)
-		if (arr_len > ind):
-			item.get_child(0).set_text(content[\"vars\"][ind][\"key\"])
-			item.get_child(1).text = content[\"vars\"][ind][\"op\"]
-			item.get_child(2).text = content[\"vars\"][ind][\"value\"]
-		else:
-			item.get_child(0).set_text(\"\")
-			item.get_child(1).text = \"=\"
-			item.get_child(2).text = \"\"
-	
-	# If info
-	arr_len = content[\"if\"].size() 
-	for ind in range(0,  5):
-		var item = $VBoxContainer2/Panel3/VBoxContainer2.get_child(ind)
-		if (arr_len > ind):
-			item.get_child(0).set_text(content[\"if\"][ind][\"key\"])
-			item.get_child(1).text = content[\"if\"][ind][\"op\"]
-			item.get_child(2).text = content[\"if\"][ind][\"value\"]
-		else:
-			item.get_child(0).set_text(\"\")
-			item.get_child(1).text = \"==\"
-			item.get_child(2).text = \"\"
-
-func _on_HiddenCheck_toggled(button_pressed):
-	_content[\"hidden\"] = button_pressed
-	AppInstance.app_win.update_branch_states()
-
-
-func _on_ClosedCheck_toggled(button_pressed):
-	_content[\"closed\"] = button_pressed
-	AppInstance.app_win.update_branch_states()
-
-func _on_HideSelfCheck_toggled(button_pressed):
-	_content[\"hide_self\"] = button_pressed
-
-func _on_ChoiceCheckBox_toggled(button_pressed):
-	_content[\"choice\"] = button_pressed
-	
-func _on_OrCheckBox_toggled(button_pressed):
-	_content[\"or_cond\"] = button_pressed
-	
-func _on_SignalText_text_changed(new_text):
-	if (new_text != \"\"):
-		_content[\"event\"][\"name\"] = new_text
-		$HBoxContainer/Control/EventOptionsBtn.disabled = (new_text == \"\")
-	else:
-		_content[\"event\"] = {}
-	
-
-
-func _on_HideBranch_change_value():
-	var arr: Array = []
-	for item in $VBoxContainer2/Panel/VBoxContainer.get_children():
-		if (item.get_text() != \"\"):
-			arr.append(item.text)
-	_content[\"hide\"] = arr
-	AppInstance.app_win.update_branch_states()
-
-
-func _on_ShowBranch_change_value():
-	var arr: Array = []
-	for item in $VBoxContainer2/Panel4/VBoxContainer.get_children():
-		if (item.get_text() != \"\"):
-			arr.append(item.text)
-	_content[\"show\"] = arr
-	AppInstance.app_win.update_branch_states()
-
-
-func _on_Var_text_changed(new_text):
-	save_vars_info()
-
-func save_vars_info():
-	var arr: Array = []
-	var container = $VBoxContainer2/Panel2/VBoxContainer2
-	for item in container.get_children():
-		if (item.get_child(0).get_text() != \"\"):
-			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
-	_content[\"vars\"] = arr
-
-func _on_if_text_changed(new_text):
-	save_if_info()
-
-func save_if_info():
-	var arr: Array = []
-	for item in $VBoxContainer2/Panel3/VBoxContainer2.get_children():
-		if (item.get_child(0).get_text() != \"\"):
-			arr.append({\"key\": item.get_child(0).get_text(), \"op\": item.get_child(1).text, \"value\": item.get_child(2).text})
-	_content[\"if\"] = arr
-
-func _on_ChangeStartedBtn_change_value():
-	_content[\"change_started\"] = $VBoxContainer2/Panel2/ChangeStartedBtn.get_text()
-
-func _on_EventOptionsBtn_pressed():
-	AppInstance.app_win.event_panel.show_with_content(_content[\"event\"])
-"
+[ext_resource path="res://addons/SDC/Resources/icons/chevron-bottom.svg" type="Texture" id=19]
+[ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=20]
+[ext_resource path="res://addons/SDC/Resources/icons/folder-open.svg" type="Texture" id=21]
 
 [node name="Control" type="Panel"]
 anchor_right = 1.0
@@ -248,27 +96,9 @@ margin_right = 220.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 76, 0 )
 
-[node name="ImportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
 margin_left = 224.0
 margin_right = 268.0
-margin_bottom = 38.0
-hint_tooltip = "Импортировать текст"
-icon = ExtResource( 13 )
-script = ExtResource( 3 )
-hint_id = "import_text"
-
-[node name="ExportBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 272.0
-margin_right = 316.0
-margin_bottom = 38.0
-hint_tooltip = "Экспортировать весь текст"
-icon = ExtResource( 16 )
-script = ExtResource( 3 )
-hint_id = "export_text"
-
-[node name="ConfigBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 320.0
-margin_right = 364.0
 margin_bottom = 38.0
 hint_tooltip = "Конфигурация персонажей и переменных"
 icon = ExtResource( 10 )
@@ -276,8 +106,8 @@ script = ExtResource( 3 )
 hint_id = "config"
 
 [node name="EditBranchesBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 368.0
-margin_right = 412.0
+margin_left = 272.0
+margin_right = 316.0
 margin_bottom = 38.0
 hint_tooltip = "Режим редактирования веток"
 toggle_mode = true
@@ -286,36 +116,36 @@ script = ExtResource( 3 )
 hint_id = "edit_mode"
 
 [node name="CharacterBtn" type="MenuButton" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 416.0
-margin_right = 563.0
+margin_left = 320.0
+margin_right = 467.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Хозяин диалога]"
 text = "[Хозяин диалога]"
 align = 0
-items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 28, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 29, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 30, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 31, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 32, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 33, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 34, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 35, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 36, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 37, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 38, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 39, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 40, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 41, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 42, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 43, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 44, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 45, 0, null, "", false ]
+items = [ "char_dial", null, 0, false, false, 0, 0, null, "", false, "char_dial", null, 0, false, false, 1, 0, null, "", false, "char_dial", null, 0, false, false, 2, 0, null, "", false, "char_dial", null, 0, false, false, 3, 0, null, "", false, "char_dial", null, 0, false, false, 4, 0, null, "", false, "char_dial", null, 0, false, false, 5, 0, null, "", false, "char_dial", null, 0, false, false, 6, 0, null, "", false, "char_dial", null, 0, false, false, 7, 0, null, "", false, "char_dial", null, 0, false, false, 8, 0, null, "", false, "char_dial", null, 0, false, false, 9, 0, null, "", false, "char_dial", null, 0, false, false, 10, 0, null, "", false, "char_dial", null, 0, false, false, 11, 0, null, "", false, "char_dial", null, 0, false, false, 12, 0, null, "", false, "char_dial", null, 0, false, false, 13, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 14, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 15, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 16, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 17, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 18, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 19, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 20, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 21, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 22, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 23, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 24, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 25, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 26, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 27, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 28, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 29, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 30, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 31, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 32, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 33, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 34, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 35, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 36, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 37, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 38, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 39, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 40, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 41, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 42, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 43, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 44, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 45, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 46, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 47, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 48, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 49, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 50, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 51, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 52, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 53, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 54, 0, null, "", false, "[Хозяин диалога]", null, 0, false, false, 55, 0, null, "", false ]
 script = ExtResource( 2 )
 placeholder = "char_dial"
 
 [node name="AutobranchBtn" parent="MainVBox/ToolbarPanel/HBoxContainer" instance=ExtResource( 8 )]
-margin_left = 567.0
-margin_right = 718.0
+margin_left = 471.0
+margin_right = 622.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 80, 0 )
 hint_tooltip = "[Стартовая ветка]"
 text = "[Стартовая ветка]"
-items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 28, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 29, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 30, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 31, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 32, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 33, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 34, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 35, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 36, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 37, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 38, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 39, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 40, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 41, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 42, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 43, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 44, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 45, 0, null, "", false ]
+items = [ "start_branch", null, 0, false, false, 0, 0, null, "", false, "start_branch", null, 0, false, false, 1, 0, null, "", false, "start_branch", null, 0, false, false, 2, 0, null, "", false, "start_branch", null, 0, false, false, 3, 0, null, "", false, "start_branch", null, 0, false, false, 4, 0, null, "", false, "start_branch", null, 0, false, false, 5, 0, null, "", false, "start_branch", null, 0, false, false, 6, 0, null, "", false, "start_branch", null, 0, false, false, 7, 0, null, "", false, "start_branch", null, 0, false, false, 8, 0, null, "", false, "start_branch", null, 0, false, false, 9, 0, null, "", false, "start_branch", null, 0, false, false, 10, 0, null, "", false, "start_branch", null, 0, false, false, 11, 0, null, "", false, "start_branch", null, 0, false, false, 12, 0, null, "", false, "start_branch", null, 0, false, false, 13, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 14, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 15, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 16, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 17, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 18, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 19, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 20, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 21, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 22, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 23, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 24, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 25, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 26, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 27, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 28, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 29, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 30, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 31, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 32, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 33, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 34, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 35, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 36, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 37, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 38, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 39, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 40, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 41, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 42, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 43, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 44, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 45, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 46, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 47, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 48, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 49, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 50, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 51, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 52, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 53, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 54, 0, null, "", false, "[Стартовая ветка]", null, 0, false, false, 55, 0, null, "", false ]
 placeholder = "start_branch"
 
 [node name="Control" type="Control" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 722.0
-margin_right = 998.0
+margin_left = 626.0
+margin_right = 1176.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 
 [node name="PathEdit" type="LineEdit" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1002.0
-margin_right = 1202.0
+margin_left = 1180.0
+margin_right = 1380.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 200, 0 )
 editable = false
@@ -326,35 +156,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NewBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-visible = false
-margin_left = 1336.0
-margin_right = 1380.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Создать новый файл диалога"
-icon = ExtResource( 17 )
-script = ExtResource( 3 )
-hint_id = "new_dialog"
-
-[node name="OpenBtn2" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1206.0
-margin_right = 1315.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Открыть существующий файл диалога"
-text = "JSON to RES"
-script = ExtResource( 3 )
-hint_id = "open_dialog"
-
-[node name="ResToJSON" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
-margin_left = 1319.0
+[node name="FileBtn" type="Button" parent="MainVBox/ToolbarPanel/HBoxContainer"]
+margin_left = 1384.0
 margin_right = 1428.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 38, 0 )
-hint_tooltip = "Открыть существующий файл диалога"
-text = "RES to JSON"
-script = ExtResource( 3 )
+hint_tooltip = "Сохранить текущий диалог"
+icon = ExtResource( 19 )
 
 [node name="MainHBox" type="HBoxContainer" parent="MainVBox"]
 margin_top = 46.0
@@ -410,7 +218,6 @@ size_flags_vertical = 3
 
 [node name="Panel" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer" instance=ExtResource( 4 )]
 margin_right = 1428.0
-script = SubResource( 1 )
 
 [node name="AddPhrase" type="Button" parent="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel"]
 anchor_top = 1.0
@@ -481,6 +288,61 @@ margin_top = -265.5
 margin_right = 427.5
 margin_bottom = 265.5
 window_title = "Сохранить файл"
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Open a File"
+mode = 0
+access = 2
+current_dir = "/Godot/smart_dialogue_creator"
+current_file = "Dialog_new"
+current_path = "/Godot/smart_dialogue_creator/Dialog_new"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenConfig" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -427.5
+margin_top = -265.5
+margin_right = 427.5
+margin_bottom = 265.5
+window_title = "Open a File"
+mode = 0
 access = 2
 current_dir = "/Godot/smart_dialogue_creator"
 current_file = "Dialog_new"
@@ -566,22 +428,204 @@ visible = false
 [node name="CustomParamsPanel" parent="Panel" instance=ExtResource( 12 )]
 visible = false
 
+[node name="FilePanel" type="Panel" parent="Panel"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -360.0
+margin_top = 48.0
+margin_right = -8.0
+margin_bottom = 535.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/FilePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel/FilePanel/VBoxContainer"]
+margin_right = 344.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 0, 27 )
+text = "General"
+align = 1
+valign = 2
+
+[node name="NewBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 31.0
+margin_right = 344.0
+margin_bottom = 69.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Создать новый файл диалога"
+text = "Создать новый файл диалога"
+icon = ExtResource( 17 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+hint_id = "new_dialog"
+text_id = "new_dialog"
+
+[node name="OpenBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 73.0
+margin_right = 344.0
+margin_bottom = 111.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть файл диалога"
+text = "Открыть файл диалога"
+icon = ExtResource( 21 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+hint_id = "open_dialog"
+text_id = "open_dialog"
+
+[node name="NewConfigBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 115.0
+margin_right = 344.0
+margin_bottom = 153.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть существующий файл диалога"
+text = "Создать файл конфигурации"
+icon = ExtResource( 17 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+
+[node name="OpenConfigBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 157.0
+margin_right = 344.0
+margin_bottom = 195.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть существующий файл диалога"
+text = "Открыть файл конфигурации"
+icon = ExtResource( 21 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+
+[node name="Label2" type="Label" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 199.0
+margin_right = 344.0
+margin_bottom = 226.0
+rect_min_size = Vector2( 0, 27 )
+text = "Import/Export"
+align = 1
+valign = 2
+
+[node name="ImportJSONBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 230.0
+margin_right = 344.0
+margin_bottom = 268.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть файл диалога"
+text = "Импортировать JSON"
+icon = ExtResource( 13 )
+align = 0
+script = ExtResource( 3 )
+hint_id = "open_dialog"
+
+[node name="EsportJSONBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 272.0
+margin_right = 344.0
+margin_bottom = 310.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть существующий файл диалога"
+text = "Экспортировать в JSON"
+icon = ExtResource( 16 )
+align = 0
+script = ExtResource( 3 )
+
+[node name="EsportCSVBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 314.0
+margin_right = 344.0
+margin_bottom = 352.0
+rect_min_size = Vector2( 38, 0 )
+hint_tooltip = "Открыть существующий файл диалога"
+text = "Экспортировать в CSV"
+icon = ExtResource( 16 )
+align = 0
+script = ExtResource( 3 )
+
+[node name="Label3" type="Label" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 356.0
+margin_right = 344.0
+margin_bottom = 383.0
+rect_min_size = Vector2( 0, 27 )
+text = "Localization"
+align = 1
+valign = 2
+
+[node name="ImportBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 387.0
+margin_right = 344.0
+margin_bottom = 425.0
+hint_tooltip = "Импортировать текст"
+text = "Импортировать текст"
+icon = ExtResource( 13 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+hint_id = "import_text"
+text_id = "import_text"
+
+[node name="ExportBtn" type="Button" parent="Panel/FilePanel/VBoxContainer"]
+margin_top = 429.0
+margin_right = 344.0
+margin_bottom = 467.0
+hint_tooltip = "Экспортировать весь текст"
+text = "Экспортировать весь текст"
+icon = ExtResource( 16 )
+clip_text = true
+align = 0
+script = ExtResource( 3 )
+hint_id = "export_text"
+text_id = "export_text"
+
+[node name="CloseBtn" type="Button" parent="Panel/FilePanel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -42.0
+margin_top = -45.0
+margin_right = 1.0
+margin_bottom = -9.0
+rect_min_size = Vector2( 32, 32 )
+icon = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/AddBranchButton" to="." method="_on_AddBranchButton_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
-[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
 [connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ConfigBtn" to="." method="_on_ConfigBtn_pressed"]
 [connection signal="toggled" from="MainVBox/ToolbarPanel/HBoxContainer/EditBranchesBtn" to="." method="_on_EditBranchesBtn_toggled"]
 [connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn" to="." method="_on_CharacterBtn_change_value"]
 [connection signal="change_value" from="MainVBox/ToolbarPanel/HBoxContainer/AutobranchBtn" to="." method="_on_AutobranchBtn_change_value"]
-[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
-[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/OpenBtn2" to="." method="_on_OpenBtn2_pressed"]
-[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/ResToJSON" to="." method="_on_ResToJSON_pressed"]
+[connection signal="pressed" from="MainVBox/ToolbarPanel/HBoxContainer/FileBtn" to="." method="_on_FileBtn_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/InfoScroll/InfoContainer/Panel/AddPhrase" to="." method="_on_AddPhraseButton_pressed"]
 [connection signal="pressed" from="MainVBox/MainHBox/ColorRect/AddFirst" to="." method="_on_AddFirst_pressed"]
-[connection signal="file_selected" from="JsonToResDialog" to="." method="_on_OpenDialog_file_selected"]
+[connection signal="file_selected" from="JsonToResDialog" to="." method="_on_OpenJSON_file_selected"]
 [connection signal="file_selected" from="CreateDialog" to="." method="_on_CreateDialog_file_selected"]
+[connection signal="file_selected" from="CreateConfig" to="." method="_on_CreateConfig_file_selected"]
+[connection signal="file_selected" from="OpenDialog" to="." method="_on_OpenDialog_file_selected"]
+[connection signal="file_selected" from="OpenConfig" to="." method="_on_OpenConfig_file_selected"]
 [connection signal="file_selected" from="ResToJsonDialog" to="." method="_on_ResToJsonDialog_file_selected"]
 [connection signal="file_selected" from="ExportDialog" to="." method="_on_ExportDialog_file_selected"]
 [connection signal="file_selected" from="ImportDialog" to="." method="_on_ImportDialog_file_selected"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/NewBtn" to="." method="_on_NewDialogBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/OpenBtn" to="." method="_on_OpenDialogBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/NewConfigBtn" to="." method="_on_NewConfigBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/OpenConfigBtn" to="." method="_on_OpenConfigBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/ImportJSONBtn" to="." method="_on_ImportJSONBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/EsportJSONBtn" to="." method="_on_ExpoprtJSONBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/ImportBtn" to="." method="_on_ImportBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/VBoxContainer/ExportBtn" to="." method="_on_ExportBtn_pressed"]
+[connection signal="pressed" from="Panel/FilePanel/CloseBtn" to="." method="_on_FilePanelCloseBtn_pressed"]

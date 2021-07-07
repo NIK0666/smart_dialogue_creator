@@ -7,8 +7,8 @@ var _is_public: bool
 
 func update_content(content: Dictionary):
 	_content = content
-	$NameText.text = content["key"]
-	$DescText.text = content["desc"]
+	$NameText.text = content["Key"]
+	$DescText.text = content["Desc"]
 
 func _on_DelBtn_pressed():
 	AppInstance.config.custom_parameters.erase(_content)
@@ -16,5 +16,5 @@ func _on_DelBtn_pressed():
 
 
 func _on_text_changed(new_text):
-	_content["key"] = $NameText.text
-	_content["desc"] = $DescText.text
+	_content["Key"] = $NameText.text
+	_content["Desc"] = $DescText.text

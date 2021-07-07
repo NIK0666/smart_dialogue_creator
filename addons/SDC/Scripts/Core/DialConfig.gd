@@ -2,7 +2,7 @@ extends Resource
 
 class_name DialConfig
 
-export(String) var hero
-export(Array, Dictionary) var characters
-export(Array, Dictionary) var variables
-export(Array, Dictionary) var custom_parameters
+export(String) var Hero
+export(Array, Dictionary) var Characters
+export(Array, Dictionary) var Variables
+export(Array, Dictionary) var Custom_parameters

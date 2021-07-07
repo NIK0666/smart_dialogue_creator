@@ -8,7 +8,7 @@ margin_bottom = 20.0
 hint_tooltip = "[Нет ветки]"
 text = "[Нет ветки]"
 align = 0
-items = [ "[Нет ветки]", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "[Нет ветки]", null, 0, false, false, 0, 0, null, "", false, "[Нет ветки]", null, 0, false, false, 1, 0, null, "", false ]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

@@ -5,8 +5,12 @@ script/source = "extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
-
+	
+	var app_win_resource = load(\"res://addons/SDC/Main.tscn\")
+	var app_win:AppWin = app_win_resource.instance()
+	add_child(app_win)
+	
+	app_win.show()
 "
 
 [node name="Control" type="Control"]

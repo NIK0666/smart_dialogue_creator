@@ -74,9 +74,9 @@ func __select_phrase(id: int):
 	dial_reader.select_branch(id)
 
 func get_character_name(id: String) -> String:
-	for ch in AppInstance.config.characters:
-		if ch["id"] == id:
-			return ch["name"]
+	for ch in AppInstance.config.Characters:
+		if ch["Id"] == id:
+			return ch["Name"]
 	return ""
 
 func _change_speaker_id(speaker_id: String):

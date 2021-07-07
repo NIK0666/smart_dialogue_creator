@@ -43,8 +43,9 @@ func alert(text: String, title: String='Message') -> void:
 
 func update_branches():
 	exist_branches = []
-	for dict in resource["branches"]:
-		exist_branches.append(dict["name"])
+	if resource != null:
+		for dict in resource["Branches"]:
+			exist_branches.append(dict["Name"])
 
 func select_branch(node: BranchCell):
 	if (selected_branch && selected_branch != node):
@@ -55,24 +56,24 @@ func select_branch(node: BranchCell):
 
 func rename_branch(old_name: String, new_name: String):
 	
-	for branch in resource["branches"]:
-		for ind in range(0, branch["show"].size()):
-			if (branch["show"][ind] == old_name):
-				branch["show"][ind] = new_name
+	for branch in resource["Branches"]:
+		for ind in range(0, branch["Show"].size()):
+			if (branch["Show"][ind] == old_name):
+				branch["Show"][ind] = new_name
 		
-		for ind in range(0, branch["hide"].size()):
-			if (branch["hide"][ind] == old_name):
-				branch["hide"][ind] = new_name
+		for ind in range(0, branch["Hide"].size()):
+			if (branch["Hide"][ind] == old_name):
+				branch["Hide"][ind] = new_name
 
 
 func deselect_branch(node: BranchCell):
 	node.set_state("Default")
 
 func delete_branch(node: BranchCell):
-	resource["branches"].erase(node.get_content())
+	resource["Branches"].erase(node.get_content())
 	deselect_branch(node)
 	node.get_parent().remove_child(node)
-	if (resource["branches"].size() > 0):
+	if (resource["Branches"].size() > 0):
 		select_branch(app_win.dialogs_list.get_child(0))
 	else:
 		select_branch(null)
@@ -90,21 +91,21 @@ func load_json(path: String):
 		return null 
 
 func get_character_info(id: String) -> Dictionary:
-	for item in config["characters"]:
-		if id == item["id"]:
+	for item in config["Characters"]:
+		if id == item["Id"]:
 			return item
 	return {}
 
 func get_character_id(name: String) -> String:
-	for item in config["characters"]:
-		if name == item["name"]:
-			return item["id"]
+	for item in config["Characters"]:
+		if name == item["Name"]:
+			return item["Id"]
 	return ""
 
 func create_empty_dialog(path: String):
 	var file = File.new()
 	file.open(path, File.WRITE)
-	var saved_json = JSON.print({"character": "", "autobranch": "", "branches": []})
+	var saved_json = JSON.print({"Character": "", "Autobranch": "", "Branches": []})
 	file.store_string(saved_json)
 	file.close()
 

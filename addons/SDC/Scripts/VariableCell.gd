@@ -7,22 +7,22 @@ var _is_public: bool
 
 func update_content(content: Dictionary):
 	_content = content
-	$NameText.text = content["key"]
-	$ValueText.text = content["value"]
-	$DescText.text = content["desc"]
+	$NameText.text = content["Key"]
+	$ValueText.text = content["Value"]
+	$DescText.text = content["Desc"]
 
 func _on_DelBtn_pressed():
 	if (_is_public):
-		AppInstance.config["variables"].erase(_content)
+		AppInstance.config["Variables"].erase(_content)
 	else:
-		AppInstance.resource["variables"].erase(_content)
+		AppInstance.resource["Variables"].erase(_content)
 	get_parent().remove_child(self)
 
 
 func _on_text_changed(new_text):
-	_content["key"] = $NameText.text
-	_content["value"] = $ValueText.text
-	_content["desc"] = $DescText.text
+	_content["Key"] = $NameText.text
+	_content["Value"] = $ValueText.text
+	_content["Desc"] = $DescText.text
 
 func set_public(value: bool):
 	_is_public = value
