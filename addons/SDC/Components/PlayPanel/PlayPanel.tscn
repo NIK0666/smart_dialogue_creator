@@ -5,9 +5,6 @@
 [ext_resource path="res://addons/SDC/Resources/icons/close.svg" type="Texture" id=3]
 [ext_resource path="res://addons/SDC/Resources/icons/message.svg" type="Texture" id=4]
 
-
-
-
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0901961, 0.0862745, 0.0862745, 1 )
 
@@ -97,5 +94,6 @@ margin_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="Button" parent="VBoxContainer/AnswersScroll/AnswersVBox" instance=ExtResource( 2 )]
+
 [connection signal="pressed" from="VBoxContainer/Panel/CloseBtn" to="." method="_on_CloseBtn_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel/TalkBtn" to="." method="_on_TalkBtn_pressed"]

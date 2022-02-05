@@ -49,19 +49,6 @@ func _on_OpenJSON_file_selected(path): # JSON to RES
 	init_form()
 
 
-func _on_ResToJsonDialog_file_selected(path): #RES to JSON
-	var document:Dictionary = {
-		"Character": AppInstance.resource.Character,
-		"Autobranch": AppInstance.resource.Autobranch,
-		"Branches": AppInstance.resource.Branches,
-		"Variables": AppInstance.resource.Variables
-		}
-	
-	var file = File.new()
-	file.open(path, File.WRITE)
-	file.store_string(to_json(document))
-	file.close()
-
 
 func init_form():	
 	$MainVBox/ToolbarPanel/HBoxContainer/PathEdit.text = AppInstance.resource_path
@@ -98,12 +85,14 @@ func save_document():
 	
 func _on_SaveBtn_pressed():
 	save_document()
+	ResourceSaver.save(AppInstance.config_path, AppInstance.config)
 
 
 func open(res: Dialogue, path: String, save_settings: bool = true):
 	AppInstance.resource = res
 	AppInstance.resource_path = path
-	init_form()
+	if (AppInstance.resource != null):
+		init_form()
 	if (save_settings):
 		AppInstance.change_setting("last_file", path)
 
@@ -129,7 +118,7 @@ func _on_NewDialogBtn_pressed():
 
 func _on_CreateDialog_file_selected(path: String):
 	var new_dial: Dialogue = Dialogue.new()
-	ResourceSaver.save(path, new_dial)
+	ResourceSaver.save(path, new_dial)	
 	open(new_dial, path)
 	
 func _on_OpenDialogBtn_pressed():
@@ -138,6 +127,7 @@ func _on_OpenDialogBtn_pressed():
 
 func _on_OpenDialog_file_selected(path):
 	AppInstance.resource = load(path)
+	AppInstance.resource_path = path
 	
 	AppInstance.change_setting("last_file", path)
 	AppInstance.change_setting("last_path", $JsonToResDialog.current_dir + "/")
@@ -405,8 +395,43 @@ func _on_ImportJSONBtn_pressed():
 
 func _on_ExpoprtJSONBtn_pressed():
 	show_filedialog($ResToJsonDialog, "json")
+	close_file_panel()
+
+func _on_ResToJsonDialog_file_selected(path): #RES to JSON
+	
+	var res_path_arr: Array = AppInstance.resource_path.split("/");
+	var res_id: String = res_path_arr[res_path_arr.size() - 1].split(".tres")[0];
+	
+	var document:Dictionary = {
+		"Id": res_id,
+		"Character": AppInstance.resource.Character,
+		"Autobranch": AppInstance.resource.Autobranch,
+		"Branches": AppInstance.resource.Branches,
+		"Variables": AppInstance.resource.Variables
+		}
+	
+	var file = File.new()
+	file.open(path, File.WRITE)
+	file.store_string(to_json(document))
+	file.close()
 
 
+func _on_EsportConfigToJSONBtn_pressed():
+	show_filedialog($ResToJsonConfig, "json")
+	close_file_panel()
+
+func _on_ResToJsonConfig_file_selected(path):
+	var document:Dictionary = {
+		"Hero": AppInstance.config.Hero,
+		"Characters": AppInstance.config.Characters,
+		"Variables": AppInstance.config.Variables,
+		"Custom_parameters": AppInstance.config.Custom_parameters
+		}
+	
+	var file = File.new()
+	file.open(path, File.WRITE)
+	file.store_string(to_json(document))
+	file.close()
 
 func _on_FilePanelCloseBtn_pressed():
 	close_file_panel()

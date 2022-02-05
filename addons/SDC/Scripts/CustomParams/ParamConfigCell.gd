@@ -11,7 +11,7 @@ func update_content(content: Dictionary):
 	$DescText.text = content["Desc"]
 
 func _on_DelBtn_pressed():
-	AppInstance.config.custom_parameters.erase(_content)
+	AppInstance.config.Custom_parameters.erase(_content)
 	get_parent().remove_child(self)
 
 

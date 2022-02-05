@@ -36,10 +36,10 @@ __meta__ = {
 [node name="chars_list" type="Tabs" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 37.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 34.0
+margin_right = -5.0
+margin_bottom = -5.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -65,9 +65,8 @@ text_id = "add"
 
 [node name="Label" type="Label" parent="TabContainer/chars_list/Panel"]
 margin_left = 90.0
-margin_top = 4.0
-margin_right = 215.0
-margin_bottom = 23.0
+margin_right = 223.0
+margin_bottom = 27.0
 custom_fonts/font = ExtResource( 1 )
 text = "Главный герой:"
 script = ExtResource( 8 )
@@ -78,12 +77,12 @@ text_id = "main_hero"
 
 [node name="HeroBtn" type="MenuButton" parent="TabContainer/chars_list/Panel"]
 self_modulate = Color( 1, 1, 1, 0.33 )
-margin_left = 219.0
-margin_right = 319.0
+margin_left = 227.0
+margin_right = 327.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 100, 0 )
 align = 0
-items = [ "", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, 6, 0, null, "", false, "", null, 0, false, false, 7, 0, null, "", false, "", null, 0, false, false, 8, 0, null, "", false, "", null, 0, false, false, 9, 0, null, "", false, "", null, 0, false, false, 10, 0, null, "", false, "", null, 0, false, false, 11, 0, null, "", false, "", null, 0, false, false, 12, 0, null, "", false ]
+items = [ "", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, 6, 0, null, "", false, "", null, 0, false, false, 7, 0, null, "", false, "", null, 0, false, false, 8, 0, null, "", false, "", null, 0, false, false, 9, 0, null, "", false, "", null, 0, false, false, 10, 0, null, "", false, "", null, 0, false, false, 11, 0, null, "", false, "", null, 0, false, false, 12, 0, null, "", false, "", null, 0, false, false, 13, 0, null, "", false ]
 script = ExtResource( 3 )
 placeholder = "[Main Hero]"
 
@@ -97,8 +96,8 @@ __meta__ = {
 }
 
 [node name="ChanactersVBox" type="VBoxContainer" parent="TabContainer/chars_list/ScrollContainer"]
-margin_right = 872.0
-margin_bottom = 515.0
+margin_right = 870.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -106,10 +105,10 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 37.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 34.0
+margin_right = -5.0
+margin_bottom = -5.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -138,8 +137,8 @@ __meta__ = {
 }
 
 [node name="PublicVariablesVBox" type="VBoxContainer" parent="TabContainer/public_variables/ScrollContainer"]
-margin_right = 872.0
-margin_bottom = 515.0
+margin_right = 870.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -147,10 +146,10 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 37.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 34.0
+margin_right = -5.0
+margin_bottom = -5.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -179,8 +178,8 @@ __meta__ = {
 }
 
 [node name="LocalVariablesVBox" type="VBoxContainer" parent="TabContainer/local_variables/ScrollContainer"]
-margin_right = 872.0
-margin_bottom = 515.0
+margin_right = 870.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -188,10 +187,10 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 37.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 34.0
+margin_right = -5.0
+margin_bottom = -5.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -220,8 +219,8 @@ __meta__ = {
 }
 
 [node name="CustomParametersVBox" type="VBoxContainer" parent="TabContainer/custom_parameters/ScrollContainer"]
-margin_right = 872.0
-margin_bottom = 515.0
+margin_right = 870.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

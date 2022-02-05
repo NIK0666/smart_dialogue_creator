@@ -77,10 +77,6 @@ window/size/height=900
 window/size/test_width=1440
 window/size/test_height=900
 
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/SDC/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
-
 [gui]
 
 theme/custom_font="res://addons/SDC/Resources/CertaFont.tres"
