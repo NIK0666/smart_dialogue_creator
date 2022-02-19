@@ -166,12 +166,16 @@ func _on_ImportDialog_file_selected(path):
 	var file = File.new()
 	file.open(path, file.READ)
 	
+	
+#	"Panel/FilePanel/VBoxContainer/ImportBtn/ImportColumnLineEdit"
+	var column: int = int($Panel/FilePanel/VBoxContainer/ImportBtn/ImportColumnLineEdit.text)
 	var dict: Dictionary = {}
 	var arr: Array = file.get_csv_line("\t")
-	while arr.size() == 2:
+	
+	arr = file.get_csv_line("\t")
+	while arr.size() > column:
+		dict[arr[2]] = arr[column]
 		arr = file.get_csv_line("\t")
-		if arr.size() == 2:
-			dict[arr[0]] = arr[1]
 	file.close()
 	
 	for branch in AppInstance.resource["Branches"]:
@@ -183,7 +187,7 @@ func _on_ImportDialog_file_selected(path):
 			ind += 1
 			if (dict.has(phrase["Text_id"])):
 				phrase["Text"] = dict[phrase["Text_id"]]
-			elif (ind == 0):
+			elif (ind == 0 && branch["Text"] != ""):
 				phrase["Text"] = dict[branch["Text_id"]]
 				
 #	init_form(document_path)
@@ -194,7 +198,7 @@ func _on_ExportDialog_file_selected(path):
 		
 	for branch in AppInstance.resource.Branches:
 		if (branch["Text"] != ""):
-			file_data += branch["Name"] + "\t" + AppInstance.config.hero + "\t" + branch["Text_id"] + "\t" + branch["Text"] + "\n"
+			file_data += branch["Name"] + "\t" + AppInstance.config["Hero"] + "\t" + branch["Text_id"] + "\t" + branch["Text"] + "\n"
 		var ind:int = -1
 		for phrase in branch["Phrases"]:
 			ind += 1
@@ -422,7 +426,7 @@ func _on_EsportConfigToJSONBtn_pressed():
 
 func _on_ResToJsonConfig_file_selected(path):
 	var document:Dictionary = {
-		"Hero": AppInstance.config.Hero,
+		"Hero": AppInstance.config["Hero"],
 		"Characters": AppInstance.config.Characters,
 		"Variables": AppInstance.config.Variables,
 		"Custom_parameters": AppInstance.config.Custom_parameters
