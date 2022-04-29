@@ -33,6 +33,7 @@ func show():
 	dial_reader.connect("extern_event", self, "_extern_event")
 	dial_reader.connect("anim_event", self, "_anim_event")
 	
+	dial_reader.sel_loc_id(AppInstance.loc_id)
 
 	__play_dialog()
 	

@@ -168,10 +168,12 @@ func _on_ImportDialog_file_selected(path):
 	
 	
 #	"Panel/FilePanel/VBoxContainer/ImportBtn/ImportColumnLineEdit"
-	var column: int = int($Panel/FilePanel/VBoxContainer/ImportBtn/ImportColumnLineEdit.text)
+	var column: int = int($Panel/FilePanel/VBoxContainer/ImportConfigPanel/ImportColumnLineEdit.text)
+	var lang_id: String = $Panel/FilePanel/VBoxContainer/ImportConfigPanel/ImportLangLineEdit.text
+	
 	var dict: Dictionary = {}
 	var arr: Array = file.get_csv_line("\t")
-	
+
 	arr = file.get_csv_line("\t")
 	while arr.size() > column:
 		dict[arr[2]] = arr[column]
@@ -179,18 +181,34 @@ func _on_ImportDialog_file_selected(path):
 	file.close()
 	
 	for branch in AppInstance.resource["Branches"]:
-		if (dict.has(branch["Text_id"])):
-			branch["Text"] = dict[branch["Text_id"]]
-		
-		var ind:int = -1
-		for phrase in branch["Phrases"]:
-			ind += 1
-			if (dict.has(phrase["Text_id"])):
-				phrase["Text"] = dict[phrase["Text_id"]]
-			elif (ind == 0 && branch["Text"] != ""):
-				phrase["Text"] = dict[branch["Text_id"]]
-				
-#	init_form(document_path)
+		if (lang_id == ""):
+			if (dict.has(branch["Text_id"])):
+				branch["Text"] = dict[branch["Text_id"]]
+			
+			var ind:int = -1
+			for phrase in branch["Phrases"]:
+				ind += 1
+				if (dict.has(phrase["Text_id"])):
+					phrase["Text"] = dict[phrase["Text_id"]]
+				elif (ind == 0 && branch["Text"] != ""):
+					phrase["Text"] = dict[branch["Text_id"]]
+		else:
+			if (dict.has(branch["Text_id"])):
+				if (!branch.has("Loc")):
+					branch["Loc"] = {}
+				branch["Loc"][lang_id] = dict[branch["Text_id"]]
+			
+			var ind:int = -1
+			for phrase in branch["Phrases"]:
+				ind += 1
+				if (dict.has(phrase["Text_id"])):
+					if (!phrase.has("Loc")):
+						phrase["Loc"] = {}
+					phrase["Loc"][lang_id] = dict[phrase["Text_id"]]
+				elif (ind == 0 && branch["Text"] != ""):
+					if (!phrase.has("Loc")):
+						phrase["Loc"] = {}
+					phrase["Loc"][lang_id] = dict[branch["Text_id"]]
 	
 
 func _on_ExportDialog_file_selected(path):
@@ -449,12 +467,5 @@ func _on_FileBtn_pressed():
 	file_panel.visible = true
 
 
-
-
-
-
-
-
-
-
-
+func _on_LocLineEdit_text_entered(new_text):
+	AppInstance.loc_id = new_text

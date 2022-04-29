@@ -23,6 +23,8 @@ var answer_branches: Array = []
 var phrase_index: int = -1
 var current_speaker_id: String = ""
 
+var loc_id: String = ""
+var is_use_loc: bool = false
 
 # Необходимо вызвать для запуска диалога. 
 # @dial_data - данные диалога в json
@@ -45,7 +47,7 @@ func start_dialog(dial_data: Dialogue, start_branch: String = ""):
 		answer_branches = __find_visible_branches()
 		var branches_text: Array = []
 		for branch in answer_branches:
-			branches_text.append(branch["Text"])
+			branches_text.append(__get_branch_text(branch))
 		emit_signal("change_branches", branches_text)
 	
 	
@@ -71,7 +73,7 @@ func next_phrase() -> bool:
 				for key in phrase_dict["Custom_params"].keys():
 					emit_signal("custom_parameter_event", key, phrase_dict["Custom_params"][key])
 		
-		emit_signal("change_phrase", phrase_dict["Text"])
+		emit_signal("change_phrase", __get_phrase_text(phrase_dict))
 		
 		if (current_branch_phrases.size() - 1 == phrase_index):
 			if (!current_branch["Choice"]):
@@ -82,7 +84,7 @@ func next_phrase() -> bool:
 				return true
 			var branches_text: Array = []
 			for branch in answer_branches:
-				branches_text.append(branch["Text"])
+				branches_text.append(__get_branch_text(branch))
 			__check_emit_event(true)
 			emit_signal("change_branches", branches_text)
 			return false
@@ -121,6 +123,11 @@ func set_var(key: String, value):
 		public_vars[key] = value
 	else:
 		print("ERROR: Variable " + key + " is not found!")
+
+
+func sel_loc_id(new_loc_id: String):
+	loc_id = new_loc_id
+	is_use_loc = !(new_loc_id == "")
 
 
 func __check_emit_event(end_branch: bool):
@@ -319,6 +326,23 @@ func __check_conditions(conditions_array: Array, or_cond: bool) -> bool:
 				break
 	return success_conditions
 
+
+func __get_branch_text(_branch: Dictionary) -> String:
+	if (is_use_loc):
+		if (_branch.has("Loc")):
+			var out = _branch["Loc"].get(loc_id)
+			if out:
+				return out
+	return _branch["Text"]
+
+
+func __get_phrase_text(_phrase: Dictionary) -> String:
+	if (is_use_loc):
+		if (_phrase.has("Loc")):
+			var out = _phrase["Loc"].get(loc_id)
+			if out:
+				return out
+	return _phrase["Text"]
 
 func get_progress_info():
 	return progress_dict

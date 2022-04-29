@@ -23,6 +23,7 @@ var config_path: String
 var resource: Dialogue
 var resource_path: String
 var selected_branch: BranchCell = null
+var loc_id: String = ""
 
 func get_local_text(text_id: String):
 	if (!trans):
