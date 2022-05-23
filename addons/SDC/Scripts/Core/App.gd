@@ -32,6 +32,7 @@ func _ready():
 	var file2Check = File.new()
 	if (file2Check.file_exists(config_path)):
 		AppInstance.config = load(config_path)
+		AppInstance.config_path = config_path
 
 
 func _on_OpenJSON_file_selected(path): # JSON to RES
@@ -52,6 +53,7 @@ func _on_OpenJSON_file_selected(path): # JSON to RES
 
 func init_form():	
 	$MainVBox/ToolbarPanel/HBoxContainer/PathEdit.text = AppInstance.resource_path
+	
 	branches_scroll.visible = true
 	AppInstance.select_branch(null)
 	$MainVBox/ToolbarPanel/HBoxContainer/CharacterBtn.set_text("")
@@ -230,9 +232,13 @@ func _on_ExportDialog_file_selected(path):
 	file.close()
 
 
-func show_filedialog(node: FileDialog, type: String):
-	node.current_path = AppInstance.resource_path
-	node.add_filter("*." + type)
+func show_filedialog(node: FileDialog, type: String, custom_path: String = ""):
+	if (custom_path == ""):
+		node.current_path = AppInstance.resource_path.get_basename()
+	else:
+		node.current_path = custom_path + "/" + AppInstance.resource_path.get_file().get_basename()
+	if (node.filters.size() == 0):
+		node.add_filter("*." + type)
 	node.popup_centered()
 
 func _on_AddBranchButton_pressed():
@@ -411,15 +417,15 @@ func _on_EditBranchesBtn_toggled(button_pressed):
 	close_file_panel()
 
 func _on_ImportJSONBtn_pressed():
-	show_filedialog($JsonToResDialog, "json")
+	show_filedialog($JsonToResDialog, "json", AppInstance.export_dial_path)
 	close_file_panel()
 
 
 func _on_ExpoprtJSONBtn_pressed():
-	show_filedialog($ResToJsonDialog, "json")
+	show_filedialog($ResToJsonDialog, "json", AppInstance.export_dial_path)
 	close_file_panel()
 
-func _on_ResToJsonDialog_file_selected(path): #RES to JSON
+func _on_ResToJsonDialog_file_selected(path: String): #RES to JSON
 	
 	var res_path_arr: Array = AppInstance.resource_path.split("/");
 	var res_id: String = res_path_arr[res_path_arr.size() - 1].split(".tres")[0];
@@ -436,6 +442,8 @@ func _on_ResToJsonDialog_file_selected(path): #RES to JSON
 	file.open(path, File.WRITE)
 	file.store_string(to_json(document))
 	file.close()
+	
+	AppInstance.export_dial_path = path.get_base_dir()
 
 
 func _on_EsportConfigToJSONBtn_pressed():

@@ -22,6 +22,7 @@ var config_path: String
 # var document: Dictionary
 var resource: Dialogue
 var resource_path: String
+var export_dial_path: String
 var selected_branch: BranchCell = null
 var loc_id: String = ""
 
